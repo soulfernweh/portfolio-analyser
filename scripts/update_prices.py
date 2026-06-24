@@ -175,6 +175,33 @@ NIFTY500_TICKERS = [
 # Remove duplicates from Nifty list
 NIFTY500_TICKERS = list(dict.fromkeys(NIFTY500_TICKERS))
 
+# ─── Additional Indian Stocks, ETFs, and commonly traded instruments ─────────
+# These cover ETFs, smaller-cap stocks, and instruments commonly found in
+# Indian broker trade books but not in the Nifty 500 list.
+INDIA_EXTRAS = [
+    # Popular ETFs
+    "GOLDBEES", "NIFTYBEES", "JUNIORBEES", "LIQUIDBEES", "SILVERBEES",
+    "BANKBEES", "SILVERETF", "MOM30IETF", "MID150BEES", "AUTOIETF",
+    "HDFCSML250", "CONSUMBEES", "HDFCMOMENT", "UTINEXT50", "SILVERBETA",
+    "NEXT50BETA", "PSUBNKBEES", "ITBEES", "SETFNIF50", "ICICIB22",
+    "CPSEETF", "NETFNIF100", "HDFCNIFETF", "KOTAKNIFTY", "AXISNIFTY",
+    "ABSLNN50ET", "LOWVOLIETF", "EBBETF0425", "EBBETF0431", "EBBETF0423",
+    # Popular mid/small-cap stocks not in Nifty 500
+    "ZOMATO", "BHEL", "NCC", "OIL", "KALYANKJIL", "KALYANJEWE",
+    "LLOYDSME", "BIKAJI", "M&MFIN", "DENORA", "RRKABEL", "HATSUN",
+    "NATCOPHARM", "ZENSARTECH", "MAZDOCK", "CYIENTDLM", "LTFOODS",
+    "SPIC", "JPPOWER", "ANDHRAPET", "RBLBANK", "HDFC",
+    "NSLNISP", "AIIL", "OFSPL060123",
+    # Other commonly held
+    "IRFC", "RVNL", "RAILTEL", "TIINDIA", "SUZLON", "NHPC", "SJVN",
+    "IDEA", "YESBANK", "IBREALEST", "RPOWER", "GTLINFRA",
+    "PVR", "INOXLEISUR", "LICI", "PAYTM", "NYKAA", "POLICYBZR",
+    "DELHIVERY", "CARTRADE", "EASEMYTRIP", "IRCTC", "IXIGO",
+    "TATACHEM", "DEEPAKNTR", "FLUOROCHEM", "CLEAN", "SRF",
+    "PIIND", "UPL", "COROMANDEL", "CHAMBALFERT", "GNFC",
+    "STARHEALTH", "MAXHEALTH", "FORTIS", "LALPATHLAB", "METROPOLIS",
+    "HAL", "BEL", "BDL", "COCHINSHIP", "GRSE", "MAZAGON",
+]
 
 def get_output_path() -> Path:
     """Determine where to write prices.json."""
@@ -195,6 +222,11 @@ def build_ticker_map() -> dict:
     # Nifty 500 (India — yfinance needs .NS suffix for NSE)
     for t in NIFTY500_TICKERS:
         tickers[t] = t + ".NS"
+
+    # Additional Indian stocks and ETFs
+    for t in INDIA_EXTRAS:
+        if t not in tickers:
+            tickers[t] = t + ".NS"
 
     # Extra tickers from environment (comma-separated)
     extra = os.environ.get("EXTRA_TICKERS", "")

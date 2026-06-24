@@ -365,44 +365,65 @@
   }
 
   function attemptFetch(symbol) {
-    var url = "https://query1.finance.yahoo.com/v8/finance/chart/" +
+    // Try direct Yahoo Finance first, then CORS proxy fallbacks
+    var baseUrl = "https://query1.finance.yahoo.com/v8/finance/chart/" +
       encodeURIComponent(symbol) + "?interval=1d&range=5d";
 
-    return fetch(url)
-      .then(function (r) {
-        if (!r.ok) return null;
-        return r.json();
-      })
-      .then(function (data) {
-        if (!data || !data.chart || !data.chart.result || !data.chart.result[0]) return null;
-        var result = data.chart.result[0];
-        var meta = result.meta || {};
-        var closes = result.indicators && result.indicators.quote &&
-          result.indicators.quote[0] && result.indicators.quote[0].close;
-        if (!closes || !closes.length) return null;
+    // List of CORS proxy options (try in order)
+    var urls = [
+      baseUrl,
+      "https://api.allorigins.win/raw?url=" + encodeURIComponent(baseUrl),
+      "https://corsproxy.io/?" + encodeURIComponent(baseUrl)
+    ];
 
-        // Get last valid close
-        var lastClose = null;
-        for (var i = closes.length - 1; i >= 0; i--) {
-          if (closes[i] != null && !isNaN(closes[i])) { lastClose = closes[i]; break; }
-        }
-        if (lastClose == null) return null;
+    function tryNext(idx) {
+      if (idx >= urls.length) return Promise.resolve(null);
+      return fetch(urls[idx])
+        .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          var parsed = parseYahooResponse(data, symbol);
+          if (parsed) return parsed;
+          throw new Error("no data");
+        })
+        .catch(function () {
+          return tryNext(idx + 1);
+        });
+    }
 
-        var currency = (meta.currency || "").toUpperCase();
-        if (currency === "INR" || symbol.endsWith(".NS") || symbol.endsWith(".BO")) {
-          currency = "INR";
-        } else {
-          currency = "USD";
-        }
+    return tryNext(0);
+  }
 
-        return {
-          price: round(lastClose, 2),
-          currency: currency,
-          asOf: new Date().toISOString().split("T")[0],
-          source: "on-demand"
-        };
-      })
-      .catch(function () { return null; });
+  function parseYahooResponse(data, symbol) {
+    if (!data || !data.chart || !data.chart.result || !data.chart.result[0]) return null;
+    var result = data.chart.result[0];
+    var meta = result.meta || {};
+    var closes = result.indicators && result.indicators.quote &&
+      result.indicators.quote[0] && result.indicators.quote[0].close;
+    if (!closes || !closes.length) return null;
+
+    // Get last valid close
+    var lastClose = null;
+    for (var i = closes.length - 1; i >= 0; i--) {
+      if (closes[i] != null && !isNaN(closes[i])) { lastClose = closes[i]; break; }
+    }
+    if (lastClose == null) return null;
+
+    var currency = (meta.currency || "").toUpperCase();
+    if (currency === "INR" || symbol.endsWith(".NS") || symbol.endsWith(".BO")) {
+      currency = "INR";
+    } else if (currency === "USD" || (!symbol.includes("."))) {
+      currency = currency || "USD";
+    }
+
+    return {
+      price: round(lastClose, 2),
+      currency: currency || "USD",
+      asOf: new Date().toISOString().split("T")[0],
+      source: "on-demand"
+    };
   }
 
   var PriceService = {

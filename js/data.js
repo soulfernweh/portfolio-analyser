@@ -334,6 +334,77 @@
     return priceLoadPromise;
   }
 
+  // ---- On-demand price fetch via Yahoo Finance chart API ---------------------
+  // Yahoo's v8 chart endpoint is publicly accessible and generally allows
+  // cross-origin requests for basic chart data. We fetch 5-day data to get
+  // the last close price.
+  function fetchYahooPrice(ticker) {
+    // Determine yfinance symbol: Indian stocks need .NS suffix
+    var sym = ticker;
+    // Heuristic: if ticker is all alpha (no dots), length > 2, and not a known
+    // US-style ticker (single letter, or matches common US patterns), assume Indian
+    if (!/\./.test(ticker) && ticker.length >= 3) {
+      // Check if it's likely Indian by seeing if it has no known US characteristics
+      var likelyUS = /^[A-Z]{1,4}$/.test(ticker) && ticker.length <= 4;
+      // If we already have it in livePrices with INR, it's Indian
+      var existingCurrency = livePrices && livePrices[ticker] && livePrices[ticker].currency;
+      if (existingCurrency === "INR" || (!likelyUS && ticker.length > 4)) {
+        sym = ticker + ".NS";
+      }
+    }
+
+    // Try both with and without .NS for ambiguous tickers
+    return attemptFetch(sym).then(function (result) {
+      if (result) return result;
+      // If .NS was added, try without it (maybe it's US)
+      if (sym !== ticker) return attemptFetch(ticker);
+      // If no suffix, try with .NS (maybe it's Indian)
+      if (!sym.includes(".")) return attemptFetch(ticker + ".NS");
+      return null;
+    });
+  }
+
+  function attemptFetch(symbol) {
+    var url = "https://query1.finance.yahoo.com/v8/finance/chart/" +
+      encodeURIComponent(symbol) + "?interval=1d&range=5d";
+
+    return fetch(url)
+      .then(function (r) {
+        if (!r.ok) return null;
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data || !data.chart || !data.chart.result || !data.chart.result[0]) return null;
+        var result = data.chart.result[0];
+        var meta = result.meta || {};
+        var closes = result.indicators && result.indicators.quote &&
+          result.indicators.quote[0] && result.indicators.quote[0].close;
+        if (!closes || !closes.length) return null;
+
+        // Get last valid close
+        var lastClose = null;
+        for (var i = closes.length - 1; i >= 0; i--) {
+          if (closes[i] != null && !isNaN(closes[i])) { lastClose = closes[i]; break; }
+        }
+        if (lastClose == null) return null;
+
+        var currency = (meta.currency || "").toUpperCase();
+        if (currency === "INR" || symbol.endsWith(".NS") || symbol.endsWith(".BO")) {
+          currency = "INR";
+        } else {
+          currency = "USD";
+        }
+
+        return {
+          price: round(lastClose, 2),
+          currency: currency,
+          asOf: new Date().toISOString().split("T")[0],
+          source: "on-demand"
+        };
+      })
+      .catch(function () { return null; });
+  }
+
   var PriceService = {
     /**
      * Returns { price, currency, asOf, delayed, source } or null.
@@ -370,6 +441,43 @@
 
       // 3) Unknown ticker
       return null;
+    },
+
+    /**
+     * Fetch prices on-demand for tickers not in prices.json or bundled data.
+     * Uses Yahoo Finance v8 chart API (public, works cross-origin in most cases).
+     * Returns a promise resolving to { fetched: {TICKER: {price,currency,asOf}}, failed: [TICKER,...] }
+     */
+    fetchOnDemand: function (tickers) {
+      if (!tickers || !tickers.length) return Promise.resolve({ fetched: {}, failed: [] });
+      if (typeof fetch === "undefined") return Promise.resolve({ fetched: {}, failed: tickers.slice() });
+
+      var unique = [];
+      var seen = {};
+      tickers.forEach(function (t) {
+        var u = String(t).toUpperCase();
+        if (!seen[u]) { seen[u] = true; unique.push(u); }
+      });
+
+      // For each ticker, try Yahoo Finance chart API
+      var promises = unique.map(function (ticker) {
+        return fetchYahooPrice(ticker);
+      });
+
+      return Promise.all(promises).then(function (results) {
+        var fetched = {}, failed = [];
+        results.forEach(function (r, i) {
+          if (r) {
+            fetched[unique[i]] = r;
+            // Store in livePrices so subsequent getQuote() calls return it
+            if (!livePrices) livePrices = {};
+            livePrices[unique[i]] = r;
+          } else {
+            failed.push(unique[i]);
+          }
+        });
+        return { fetched: fetched, failed: failed };
+      });
     },
 
     /**

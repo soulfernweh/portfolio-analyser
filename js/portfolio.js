@@ -705,12 +705,73 @@
         renderUpload(container, '<div class="alert alert-error">' + esc(analysis.error) + '</div>' + warnHtml);
         return;
       }
-      global.PortfolioStore.analysis = analysis;
-      global.PortfolioStore.fileName = fileName || "portfolio.csv";
-      if (global.UI) global.UI.refreshNav();
-      renderDashboard(container, analysis);
-      var liveNote = SD.PriceService.isLive ? " (live prices loaded)" : " (using bundled prices)";
-      if (global.UI) global.UI.toast("Portfolio analyzed: " + analysis.holdings.length + " holdings" + liveNote, "ok");
+
+      // Check for holdings with no price data (noQuote = true means using cost basis)
+      var unknownTickers = analysis.holdings
+        .filter(function (h) { return h.noQuote; })
+        .map(function (h) { return h.symbol; });
+
+      if (unknownTickers.length > 0 && SD.PriceService.fetchOnDemand) {
+        // Show loading state with the initial analysis
+        global.PortfolioStore.analysis = analysis;
+        global.PortfolioStore.fileName = fileName || "portfolio.csv";
+        renderDashboard(container, analysis);
+
+        // Show fetching notification
+        var banner = document.createElement("div");
+        banner.className = "alert alert-info";
+        banner.id = "fetch-banner";
+        banner.innerHTML = '<strong>⏳ Fetching live prices</strong> for ' + unknownTickers.length +
+          ' stock(s) not in our database: ' + esc(unknownTickers.join(", ")) +
+          '<br><span class="muted">This may take a few seconds...</span>';
+        container.insertBefore(banner, container.firstChild.nextSibling);
+
+        // Fetch on-demand prices
+        SD.PriceService.fetchOnDemand(unknownTickers).then(function (result) {
+          var fetchedCount = Object.keys(result.fetched).length;
+          var failedList = result.failed;
+
+          // Remove the loading banner
+          var existingBanner = container.querySelector("#fetch-banner");
+          if (existingBanner) existingBanner.remove();
+
+          if (fetchedCount > 0) {
+            // Re-analyze with the newly fetched prices
+            var newAnalysis = analyze(rows);
+            if (!newAnalysis.error) {
+              analysis = newAnalysis;
+              global.PortfolioStore.analysis = analysis;
+              renderDashboard(container, analysis);
+              if (global.UI) global.UI.toast("Fetched live prices for " + fetchedCount + " additional stock(s)", "ok");
+            }
+          }
+
+          if (failedList.length > 0) {
+            // Show which stocks couldn't be priced
+            var failBanner = document.createElement("div");
+            failBanner.className = "alert alert-warn";
+            failBanner.innerHTML = '<strong>' + failedList.length + ' stock(s) could not be priced:</strong> ' +
+              esc(failedList.join(", ")) +
+              '<br><span class="muted">These are shown at cost basis (Avg Price = Cur Price). ' +
+              'The gain/loss for these will be 0. To get accurate prices, add them to the ' +
+              '<code class="inline">EXTRA_TICKERS</code> env var in the GitHub Action and re-run.</span>';
+            var dashHead = container.querySelector(".row-between");
+            if (dashHead && dashHead.nextSibling) {
+              container.insertBefore(failBanner, dashHead.nextSibling);
+            } else {
+              container.insertBefore(failBanner, container.firstChild);
+            }
+          }
+        });
+      } else {
+        // All prices available — render directly
+        global.PortfolioStore.analysis = analysis;
+        global.PortfolioStore.fileName = fileName || "portfolio.csv";
+        if (global.UI) global.UI.refreshNav();
+        renderDashboard(container, analysis);
+        var liveNote = SD.PriceService.isLive ? " (live prices loaded)" : " (using bundled prices)";
+        if (global.UI) global.UI.toast("Portfolio analyzed: " + analysis.holdings.length + " holdings" + liveNote, "ok");
+      }
     });
   }
 

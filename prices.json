@@ -1,150 +1,20 @@
 {
-  "updatedAt": "2026-06-24T14:31:46+00:00",
+  "updatedAt": "2026-06-24T14:35:23+00:00",
   "source": "yfinance",
   "totalTickers": 79,
   "prices": {
+    "QCOM": {
+      "price": 197.63,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
     "SUNPHARMA": {
       "price": 1874.4,
       "currency": "INR",
       "asOf": "2026-06-24"
     },
-    "ONGC": {
-      "price": 240.0,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "META": {
-      "price": 562.89,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "TECHM": {
-      "price": 1461.6,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "ADANIENT": {
-      "price": 3069.7,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "HINDALCO": {
-      "price": 976.6,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "AAPL": {
-      "price": 295.46,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "TATASTEEL": {
-      "price": 190.16,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "AMZN": {
-      "price": 238.65,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "C": {
-      "price": 144.42,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "F": {
-      "price": 13.96,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "HD": {
-      "price": 337.5,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "BAJAJ-AUTO": {
-      "price": 9750.0,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "WIPRO": {
-      "price": 174.48,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "V": {
-      "price": 330.52,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "BA": {
-      "price": 220.77,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "PYPL": {
-      "price": 42.86,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "JPM": {
-      "price": 331.88,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "HSY": {
-      "price": 181.71,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "VZ": {
-      "price": 45.85,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "KO": {
-      "price": 81.04,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "ICICIBANK": {
-      "price": 1373.6,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "NVDA": {
-      "price": 200.38,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "PEP": {
-      "price": 142.84,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "GOOGL": {
-      "price": 350.83,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "KOTAKBANK": {
-      "price": 405.95,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "MRNA": {
-      "price": 61.64,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "JSWSTEEL": {
-      "price": 1231.2,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "MSFT": {
-      "price": 374.42,
+    "DIS": {
+      "price": 104.0,
       "currency": "USD",
       "asOf": "2026-06-24"
     },
@@ -153,198 +23,18 @@
       "currency": "INR",
       "asOf": "2026-06-24"
     },
-    "ASIANPAINT": {
-      "price": 2667.5,
+    "ADANIENT": {
+      "price": 3069.7,
       "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "ITC": {
-      "price": 290.35,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "DG": {
-      "price": 118.13,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "ULTRACEMCO": {
-      "price": 11430.0,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "SBUX": {
-      "price": 102.76,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "NTPC": {
-      "price": 357.05,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "QCOM": {
-      "price": 197.27,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "TSLA": {
-      "price": 382.6,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "PG": {
-      "price": 151.89,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "TCS": {
-      "price": 2109.0,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "TGT": {
-      "price": 138.54,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "DIS": {
-      "price": 104.07,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "HDFCBANK": {
-      "price": 793.2,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "EICHERMOT": {
-      "price": 7572.0,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "INFY": {
-      "price": 1056.6,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "AMD": {
-      "price": 522.43,
-      "currency": "USD",
       "asOf": "2026-06-24"
     },
     "ADBE": {
-      "price": 199.11,
+      "price": 198.79,
       "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "NKE": {
-      "price": 41.93,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "INDUSINDBK": {
-      "price": 927.6,
-      "currency": "INR",
       "asOf": "2026-06-24"
     },
     "TITAN": {
       "price": 4323.8,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "WMT": {
-      "price": 119.25,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "MMM": {
-      "price": 166.11,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "POWERGRID": {
-      "price": 290.9,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "LT": {
-      "price": 4181.7,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "EL": {
-      "price": 83.75,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "HEROMOTOCO": {
-      "price": 4897.2,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "INTC": {
-      "price": 134.09,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "MA": {
-      "price": 492.4,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "GRASIM": {
-      "price": 3127.9,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "DOW": {
-      "price": 29.12,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "CVS": {
-      "price": 100.07,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "PFE": {
-      "price": 24.67,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "MARUTI": {
-      "price": 13248.0,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "JNJ": {
-      "price": 241.13,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "RELIANCE": {
-      "price": 1313.6,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "BHARTIARTL": {
-      "price": 1877.3,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "CRM": {
-      "price": 154.52,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "ADANIPORTS": {
-      "price": 1813.3,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "AXISBANK": {
-      "price": 1384.5,
       "currency": "INR",
       "asOf": "2026-06-24"
     },
@@ -353,33 +43,8 @@
       "currency": "INR",
       "asOf": "2026-06-24"
     },
-    "HINDUNILVR": {
-      "price": 2157.8,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "CIPLA": {
-      "price": 1437.9,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "NFLX": {
-      "price": 72.43,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "UNH": {
-      "price": 400.83,
-      "currency": "USD",
-      "asOf": "2026-06-24"
-    },
-    "DRREDDY": {
-      "price": 1328.4,
-      "currency": "INR",
-      "asOf": "2026-06-24"
-    },
-    "DIVISLAB": {
-      "price": 6753.5,
+    "WIPRO": {
+      "price": 174.48,
       "currency": "INR",
       "asOf": "2026-06-24"
     },
@@ -388,14 +53,349 @@
       "currency": "INR",
       "asOf": "2026-06-24"
     },
+    "HEROMOTOCO": {
+      "price": 4897.2,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "TGT": {
+      "price": 138.2,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "V": {
+      "price": 330.12,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "JPM": {
+      "price": 331.87,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "JNJ": {
+      "price": 240.61,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "CVS": {
+      "price": 100.06,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "MMM": {
+      "price": 165.97,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "HINDUNILVR": {
+      "price": 2157.8,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "TECHM": {
+      "price": 1461.6,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "LT": {
+      "price": 4181.7,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "NFLX": {
+      "price": 72.34,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "ULTRACEMCO": {
+      "price": 11430.0,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "VZ": {
+      "price": 45.71,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "TATASTEEL": {
+      "price": 190.16,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "DG": {
+      "price": 117.96,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
     "BAJFINANCE": {
       "price": 990.95,
       "currency": "INR",
       "asOf": "2026-06-24"
     },
+    "F": {
+      "price": 13.94,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "JSWSTEEL": {
+      "price": 1231.2,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "DIVISLAB": {
+      "price": 6753.5,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "AAPL": {
+      "price": 295.49,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "BHARTIARTL": {
+      "price": 1877.3,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "META": {
+      "price": 561.87,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "KO": {
+      "price": 80.92,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "EL": {
+      "price": 83.6,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "AXISBANK": {
+      "price": 1384.5,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "KOTAKBANK": {
+      "price": 405.95,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "CIPLA": {
+      "price": 1437.9,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "UNH": {
+      "price": 401.89,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "PYPL": {
+      "price": 42.75,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "MRNA": {
+      "price": 61.68,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "DRREDDY": {
+      "price": 1328.4,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "EICHERMOT": {
+      "price": 7572.0,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "INTC": {
+      "price": 134.79,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "HSY": {
+      "price": 180.99,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "C": {
+      "price": 144.71,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "NTPC": {
+      "price": 357.05,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "MA": {
+      "price": 491.64,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "WMT": {
+      "price": 119.21,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "ASIANPAINT": {
+      "price": 2667.5,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "SBUX": {
+      "price": 102.86,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "INDUSINDBK": {
+      "price": 927.6,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "ICICIBANK": {
+      "price": 1373.6,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "PG": {
+      "price": 151.58,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
     "HCLTECH": {
       "price": 1113.9,
       "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "BAJAJ-AUTO": {
+      "price": 9750.0,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "TCS": {
+      "price": 2109.0,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "HDFCBANK": {
+      "price": 793.2,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "BA": {
+      "price": 220.11,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "HINDALCO": {
+      "price": 976.6,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "NKE": {
+      "price": 41.73,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "MARUTI": {
+      "price": 13248.0,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "HD": {
+      "price": 336.93,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "NVDA": {
+      "price": 200.38,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "ITC": {
+      "price": 290.35,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "CRM": {
+      "price": 154.05,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "TSLA": {
+      "price": 381.63,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "AMD": {
+      "price": 522.95,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "ADANIPORTS": {
+      "price": 1813.3,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "PEP": {
+      "price": 142.48,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "GRASIM": {
+      "price": 3127.9,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "PFE": {
+      "price": 24.61,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "ONGC": {
+      "price": 240.0,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "INFY": {
+      "price": 1056.6,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "GOOGL": {
+      "price": 350.2,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "RELIANCE": {
+      "price": 1313.6,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "DOW": {
+      "price": 29.12,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "AMZN": {
+      "price": 238.46,
+      "currency": "USD",
+      "asOf": "2026-06-24"
+    },
+    "POWERGRID": {
+      "price": 290.9,
+      "currency": "INR",
+      "asOf": "2026-06-24"
+    },
+    "MSFT": {
+      "price": 373.57,
+      "currency": "USD",
       "asOf": "2026-06-24"
     }
   }

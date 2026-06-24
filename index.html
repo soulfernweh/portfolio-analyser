@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investment Research &amp; Portfolio Analysis Platform</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="app-header no-print">
+    <div class="brand" data-route="home" role="button" tabindex="0">
+      <span class="brand-mark">IR</span>
+      <span class="brand-text">
+        <strong>Investment Research</strong>
+        <small>&amp; Portfolio Analysis Platform</small>
+      </span>
+    </div>
+    <nav class="main-nav" id="main-nav">
+      <a href="#/home" data-nav="home">Home</a>
+      <a href="#/portfolio" data-nav="portfolio">Portfolio Analysis</a>
+      <a href="#/discovery" data-nav="discovery">Stock Discovery</a>
+      <a href="#/watchlist" data-nav="watchlist">Watchlist <span class="badge" id="nav-watch-count">0</span></a>
+      <a href="#/research" data-nav="research">Research <span class="badge" id="nav-research-count">0</span></a>
+    </nav>
+  </header>
+
+  <div class="disclaimer-bar no-print">
+    <strong>SEBI Disclaimer:</strong> Educational purposes only — not SEBI-registered investment advice. Consult a registered advisor.
+  </div>
+
+  <main id="app" class="app-main">
+    <!-- Views are rendered here by the router -->
+  </main>
+
+  <footer class="app-footer no-print">
+    <p>
+      <strong>Disclaimer:</strong> This tool is for educational and informational purposes only and does not constitute
+      investment advice. Prices shown are from a bundled reference dataset and may be delayed or out of date. Always do your
+      own research and consult a SEBI-registered (or equivalent) advisor before investing.
+    </p>
+    <p class="footer-meta">Locally hosted &bull; No data leaves your machine &bull; Zero external dependencies</p>
+  </footer>
+
+  <!-- Modal host for stock detail cards -->
+  <div id="modal-host" class="modal-host hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <button class="modal-close" data-modal-close aria-label="Close">&times;</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Toast host -->
+  <div id="toast-host" class="toast-host" aria-live="polite"></div>
+
+  <!-- Scripts: order matters (no module system, plain globals) -->
+  <script src="js/data.js"></script>
+  <script src="js/finance.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/tracking.js"></script>
+  <script src="js/report.js"></script>
+  <script src="js/discovery.js"></script>
+  <script src="js/portfolio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

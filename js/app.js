@@ -219,6 +219,16 @@
 
     global.addEventListener("hashchange", route);
     route();
+
+    // After prices.json loads (async), re-render the current page so live
+    // prices appear without the user needing to navigate away and back.
+    if (SD.PriceService && SD.PriceService.refreshAll) {
+      SD.PriceService.refreshAll().then(function (loaded) {
+        if (loaded) {
+          route(); // re-render current view with live prices
+        }
+      });
+    }
   }
 
   if (document.readyState === "loading") {

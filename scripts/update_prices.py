@@ -49,7 +49,7 @@ except ImportError:
 
 
 # ─── S&P 500 Constituents ────────────────────────────────────────────────────
-# Sourced from Wikipedia's S&P 500 list. yfinance tickers are used directly.
+# Full S&P 500 list. yfinance tickers are used directly.
 SP500_TICKERS = [
     "AAPL", "ABBV", "ABT", "ACN", "ADBE", "ADI", "ADM", "ADP", "ADSK", "AEE",
     "AEP", "AES", "AFL", "AIG", "AIZ", "AJG", "AKAM", "ALB", "ALGN", "ALK",

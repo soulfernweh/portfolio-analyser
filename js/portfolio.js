@@ -16,15 +16,23 @@
   // Shared store other modules read from.
   global.PortfolioStore = global.PortfolioStore || { analysis: null, fileName: null };
 
-  var REQUIRED = ["Symbol", "Name", "Quantity", "Avg Price", "Market", "Date"];
+  // Only Symbol, Quantity, Price and Date are truly required.
+  // Name is optional (falls back to ticker). Market is optional (defaults to India).
+  // Trade Type is optional — if present, BUY/SELL trades are aggregated into net holdings.
+  var REQUIRED = ["Symbol", "Quantity", "Avg Price", "Date"];
+  var OPTIONAL = ["Name", "Market", "Trade Type", "ISIN"];
   var ALIASES = {
     Symbol: ["symbol", "ticker", "tradingsymbol", "trading symbol", "instrument", "scrip", "scrip code"],
-    Name: ["name", "company", "company name", "stock", "security", "security name"],
+    Name: ["name", "company", "company name", "stock", "security", "security name", "isin"],
     Quantity: ["quantity", "qty", "qty.", "shares", "units", "holding qty", "net qty"],
     "Avg Price": ["avg price", "average price", "avg. price", "avgprice", "avg cost", "average cost",
-                   "buy price", "buy avg", "buy average", "cost", "price", "avg buy price"],
+                   "buy price", "buy avg", "buy average", "cost", "price", "avg buy price",
+                   "trade price", "execution price"],
     Market: ["market", "exchange", "segment", "exch"],
-    Date: ["date", "buy date", "purchase date", "trade date", "date added", "order date", "txn date"]
+    Date: ["date", "buy date", "purchase date", "trade date", "date added", "order date", "txn date",
+            "order execution time"],
+    "Trade Type": ["trade type", "type", "transaction type", "txn type", "side", "buy/sell",
+                    "buy / sell", "action", "order type"]
   };
 
   function esc(s) {
@@ -60,13 +68,26 @@
   function mapColumns(headerRow) {
     var norm = headerRow.map(function (h) { return String(h).trim().toLowerCase(); });
     var map = {}, missing = [];
+    // Map required columns
     REQUIRED.forEach(function (req) {
       var idx = -1;
       var aliases = ALIASES[req];
+      if (aliases) {
+        for (var a = 0; a < aliases.length && idx === -1; a++) {
+          idx = norm.indexOf(aliases[a]);
+        }
+      }
+      if (idx === -1) missing.push(req); else map[req] = idx;
+    });
+    // Map optional columns (Name, Market, Trade Type, ISIN) — no error if missing
+    OPTIONAL.forEach(function (opt) {
+      var aliases = ALIASES[opt];
+      if (!aliases) return;
+      var idx = -1;
       for (var a = 0; a < aliases.length && idx === -1; a++) {
         idx = norm.indexOf(aliases[a]);
       }
-      if (idx === -1) missing.push(req); else map[req] = idx;
+      if (idx !== -1) map[opt] = idx;
     });
     return { map: map, missing: missing };
   }
@@ -112,22 +133,93 @@
       return { error: "File is empty. Please upload a valid trading history file." };
     }
 
-    var holdings = [], warnings = [];
+    // Detect if this is a trade-log (has Trade Type column with BUY/SELL entries).
+    var hasTradeType = map["Trade Type"] != null;
+    var hasNameCol = map["Name"] != null;
+    var hasMarketCol = map["Market"] != null;
+
+    var trades = [], warnings = [];
     dataRows.forEach(function (r, i) {
       var rowNo = i + 2; // 1-based, +1 for header
       var symbol = String(r[map.Symbol] || "").trim().toUpperCase();
-      var name = String(r[map.Name] || "").trim();
+      // Strip any suffix like -EQ, -BE (NSE series suffixes)
+      symbol = symbol.replace(/[-](EQ|BE|BL|BZ|SM|ST|GS)$/i, "");
+
+      var name = hasNameCol ? String(r[map.Name] || "").trim() : "";
       var qty = toNumber(r[map.Quantity]);
-      var avg = toNumber(r[map["Avg Price"]]);
-      var market = normalizeMarket(r[map.Market]);
+      var price = toNumber(r[map["Avg Price"]]);
+      var market = hasMarketCol ? normalizeMarket(r[map.Market]) : "India";
       var dateStr = String(r[map.Date] || "").trim();
       var date = F.parseDate(dateStr);
 
+      // Determine trade type (BUY or SELL)
+      var tradeType = "BUY";
+      if (hasTradeType) {
+        var tt = String(r[map["Trade Type"]] || "").trim().toLowerCase();
+        if (/sell|s|short/.test(tt)) tradeType = "SELL";
+        else if (/buy|b|long/.test(tt)) tradeType = "BUY";
+      }
+
       if (!symbol) { warnings.push("Row " + rowNo + ": missing Symbol — skipped."); return; }
-      if (!(qty > 0)) { warnings.push("Row " + rowNo + " (" + symbol + "): invalid Quantity — skipped."); return; }
-      if (!(avg > 0)) { warnings.push("Row " + rowNo + " (" + symbol + "): invalid Avg Price — skipped."); return; }
+      if (isNaN(qty) || qty <= 0) { warnings.push("Row " + rowNo + " (" + symbol + "): invalid Quantity — skipped."); return; }
+      if (isNaN(price) || price <= 0) { warnings.push("Row " + rowNo + " (" + symbol + "): invalid Price — skipped."); return; }
       if (!date) { warnings.push("Row " + rowNo + " (" + symbol + "): unrecognized Date '" + esc(dateStr) + "' — using today."); date = new Date(); }
 
+      trades.push({
+        symbol: symbol, name: name, qty: qty, price: price,
+        market: market, date: date, tradeType: tradeType
+      });
+    });
+
+    if (!trades.length) {
+      return { error: "No valid trades/holdings found. Check that Quantity and Price columns are numeric.", warnings: warnings };
+    }
+
+    // Aggregate trades into net holdings.
+    // If it's a trade log with BUY/SELL, compute weighted average buy price and net quantity.
+    // If it's a simple holdings file (no Trade Type column), each row is already a holding.
+    var holdingsMap = {}; // symbol -> { qty, totalCost, earliestDate, name, market, trades[] }
+    trades.forEach(function (t) {
+      if (!holdingsMap[t.symbol]) {
+        holdingsMap[t.symbol] = {
+          symbol: t.symbol, name: t.name, market: t.market,
+          qty: 0, totalCost: 0, earliestDate: t.date,
+          trades: []
+        };
+      }
+      var h = holdingsMap[t.symbol];
+      if (t.name && !h.name) h.name = t.name;
+      if (t.date < h.earliestDate) h.earliestDate = t.date;
+      h.trades.push(t);
+
+      if (!hasTradeType || t.tradeType === "BUY") {
+        // BUY: add to position
+        h.totalCost += t.qty * t.price;
+        h.qty += t.qty;
+      } else {
+        // SELL: reduce position (FIFO-ish — just reduce qty, keep avg cost intact)
+        h.qty -= t.qty;
+        // Adjust cost proportionally
+        if (h.qty > 0 && (h.qty + t.qty) > 0) {
+          h.totalCost = h.totalCost * (h.qty / (h.qty + t.qty));
+        } else if (h.qty <= 0) {
+          h.totalCost = 0;
+        }
+      }
+    });
+
+    // Convert aggregated positions to holdings array (only keep positive positions).
+    var holdings = [];
+    Object.keys(holdingsMap).forEach(function (sym) {
+      var h = holdingsMap[sym];
+      if (h.qty <= 0) {
+        if (h.qty < 0) warnings.push(sym + ": net position is negative (more sells than buys) — skipped.");
+        return; // fully sold or short — skip
+      }
+
+      var avgPrice = h.totalCost / h.qty;
+      var symbol = h.symbol;
+      var market = h.market;
       var currency = currencyForMarket(market);
       var ref = SD.getByTicker(symbol);
       var quote = SD.PriceService.getQuote(symbol);
@@ -135,25 +227,26 @@
       if (quote) {
         currentPrice = quote.price; delayed = quote.delayed; currency = quote.currency || currency;
       } else {
-        currentPrice = avg; delayed = true; noQuote = true; // last-known fallback = cost basis
+        currentPrice = avgPrice; delayed = true; noQuote = true;
       }
       var sector = ref ? ref.sector : "Other";
+      var name = h.name || (ref ? ref.name : symbol);
 
-      var invested = qty * avg;
-      var currentValue = qty * currentPrice;
+      var invested = h.qty * avgPrice;
+      var currentValue = h.qty * currentPrice;
       holdings.push({
-        symbol: symbol, name: name || (ref ? ref.name : symbol), market: market, sector: sector,
-        currency: currency, qty: qty, avgPrice: avg, currentPrice: currentPrice,
+        symbol: symbol, name: name, market: market, sector: sector,
+        currency: currency, qty: h.qty, avgPrice: avgPrice, currentPrice: currentPrice,
         invested: invested, currentValue: currentValue,
         gain: currentValue - invested,
         gainPct: invested > 0 ? (currentValue - invested) / invested : 0,
-        date: date, delayed: delayed, noQuote: noQuote,
+        date: h.earliestDate, delayed: delayed, noQuote: noQuote,
         asOf: quote ? quote.asOf : null
       });
     });
 
     if (!holdings.length) {
-      return { error: "No valid holdings found. Check that Quantity and Avg Price are numeric.", warnings: warnings };
+      return { error: "No net positive holdings found. All positions may have been sold.", warnings: warnings };
     }
 
     // Base currency = most common holding currency (avoids odd conversions for
@@ -306,15 +399,17 @@
       '<div class="dropzone" id="dropzone">' +
         '<div style="font-size:34px">📂</div>' +
         '<p><strong>Drop your CSV here</strong> or click to browse</p>' +
-        '<p class="muted">Required columns: ' + REQUIRED.join(", ") + '</p>' +
+        '<p class="muted">Required columns: Symbol, Quantity, Price, Date<br>Optional: Name, Market/Exchange, Trade Type (BUY/SELL)</p>' +
         '<input type="file" id="file-input" accept=".csv,text/csv" style="display:none">' +
       '</div>' +
       '<div class="grid grid-2 section-gap">' +
-        '<div class="card"><h3>Expected CSV format</h3>' +
-          '<p class="muted">Header names are flexible (Zerodha-style aliases supported). Example:</p>' +
-          '<div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Name</th><th>Quantity</th><th>Avg Price</th><th>Market</th><th>Date</th></tr></thead>' +
-          '<tbody><tr><td>INFY</td><td>Infosys</td><td>50</td><td>1320</td><td>NSE</td><td>2023-02-10</td></tr>' +
-          '<tr><td>AAPL</td><td>Apple</td><td>10</td><td>150</td><td>NASDAQ</td><td>2022-11-05</td></tr></tbody></table></div></div>' +
+        '<div class="card"><h3>Supported CSV formats</h3>' +
+          '<p class="muted">Works with trade books, contract notes, and holdings exports. Zerodha, Groww, and broker-style aliases supported.</p>' +
+          '<div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Trade Date</th><th>Exchange</th><th>Trade Type</th><th>Quantity</th><th>Price</th></tr></thead>' +
+          '<tbody><tr><td>INFY</td><td>2023-02-10</td><td>NSE</td><td>buy</td><td>50</td><td>1320</td></tr>' +
+          '<tr><td>INFY</td><td>2024-01-15</td><td>NSE</td><td>buy</td><td>30</td><td>1480</td></tr>' +
+          '<tr><td>AAPL</td><td>2022-11-05</td><td>NASDAQ</td><td>buy</td><td>10</td><td>150</td></tr></tbody></table></div>' +
+          '<p class="muted" style="margin-top:8px">BUY/SELL trades are automatically aggregated into net holdings with weighted average prices.</p></div>' +
         '<div class="card"><h3>No file handy?</h3><p>Load a bundled sample portfolio (mix of US + India holdings) to see the full dashboard.</p>' +
           '<div class="btn-row"><button class="btn btn-primary" id="load-sample">Load sample portfolio</button></div></div>' +
       '</div>';

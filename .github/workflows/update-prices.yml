@@ -29,7 +29,7 @@ permissions:
 jobs:
   update-prices:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
@@ -43,11 +43,14 @@ jobs:
       - name: Install dependencies
         run: pip install yfinance pandas
 
-      - name: Fetch latest prices
+      - name: Fetch latest prices (Nifty 500 + S&P 500)
         env:
           EXTRA_TICKERS: ${{ github.event.inputs.extra_tickers || '' }}
           OUTPUT_PATH: ./prices.json
         run: python scripts/update_prices.py
+
+      - name: Verify prices.json is valid
+        run: python -c "import json; d=json.load(open('prices.json')); print(f'Tickers: {d[\"totalTickers\"]}')"
 
       - name: Check if prices changed
         id: check_changes
@@ -62,6 +65,6 @@ jobs:
           git add prices.json
           git commit -m "chore: update stock prices [$(date -u +%Y-%m-%d)]
 
-          Automated daily price refresh via yfinance.
+          Nifty 500 + S&P 500 daily price refresh via yfinance.
           Triggered by: ${{ github.event_name }}"
           git push

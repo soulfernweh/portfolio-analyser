@@ -1,0 +1,60 @@
+name: Update Stock Prices
+
+on:
+  # Run daily at two times to catch both Indian and US market close:
+  #   - 11:05 UTC = 4:35 PM IST (after Indian market close at 3:30 PM IST)
+  #   - 21:05 UTC = 5:05 PM EST / 4:05 PM CST (after US market close at 4 PM ET)
+  schedule:
+    - cron: '5 11 * * 1-5'   # Mon-Fri, 11:05 UTC (India close)
+    - cron: '5 21 * * 1-5'   # Mon-Fri, 21:05 UTC (US close)
+
+  # Allow manual trigger from GitHub UI (Actions tab → Run workflow)
+  workflow_dispatch:
+    inputs:
+      extra_tickers:
+        description: 'Additional tickers to fetch (comma-separated, e.g. ZOMATO.NS,SPOT)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install yfinance pandas
+
+      - name: Fetch latest prices
+        env:
+          EXTRA_TICKERS: ${{ github.event.inputs.extra_tickers || '' }}
+          OUTPUT_PATH: ./prices.json
+        run: python scripts/update_prices.py
+
+      - name: Check if prices changed
+        id: check_changes
+        run: |
+          git diff --quiet prices.json 2>/dev/null && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push updated prices
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add prices.json
+          git commit -m "chore: update stock prices [$(date -u +%Y-%m-%d)]
+
+          Automated daily price refresh via yfinance.
+          Triggered by: ${{ github.event_name }}"
+          git push

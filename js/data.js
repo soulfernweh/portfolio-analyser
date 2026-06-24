@@ -288,21 +288,116 @@
   }
 
   // ==========================================================================
-  // PriceService — the single choke point for all price reads.
-  // Replace getQuote/refreshAll with a real fetch() to go live.
+  // PriceService — loads prices.json (auto-updated by GitHub Actions) on
+  // startup. Falls back to bundled snapshot prices in data.js if the file
+  // isn't available (e.g. offline, file:// protocol, or first deploy).
   // ==========================================================================
+  var livePrices = null;   // { TICKER: { price, currency, high52w?, asOf } }
+  var liveMeta = null;     // { updatedAt, source, totalTickers }
+  var priceLoadPromise = null;
+
+  function loadPrices() {
+    if (priceLoadPromise) return priceLoadPromise;
+    priceLoadPromise = new Promise(function (resolve) {
+      // Try to fetch prices.json relative to the page (works on GitHub Pages + local server)
+      if (typeof fetch === "undefined") { resolve(false); return; }
+      fetch("prices.json?" + Date.now())  // cache-bust
+        .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          if (data && data.prices && typeof data.prices === "object") {
+            livePrices = {};
+            Object.keys(data.prices).forEach(function (ticker) {
+              livePrices[ticker.toUpperCase()] = data.prices[ticker];
+            });
+            liveMeta = {
+              updatedAt: data.updatedAt || null,
+              source: data.source || "unknown",
+              totalTickers: data.totalTickers || Object.keys(livePrices).length
+            };
+            PriceService.isLive = true;
+            console.log("[PriceService] Loaded " + liveMeta.totalTickers +
+              " live prices (updated " + (liveMeta.updatedAt || "unknown") + ")");
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch(function () {
+          // prices.json not available — use bundled fallback silently
+          console.log("[PriceService] prices.json not available — using bundled snapshot");
+          resolve(false);
+        });
+    });
+    return priceLoadPromise;
+  }
+
   var PriceService = {
-    // Returns { price, asOf, delayed } or null if the ticker is unknown.
+    /**
+     * Returns { price, currency, asOf, delayed, source } or null.
+     * Priority: live prices.json > bundled dataset snapshot.
+     * For tickers NOT in either source, returns null (portfolio.js uses cost basis).
+     */
     getQuote: function (ticker) {
       if (!ticker) return null;
-      var s = BY_TICKER[String(ticker).toUpperCase()];
-      if (!s) return null;
-      return { price: s.lastPrice, currency: s.currency, asOf: s.asOf, delayed: true };
+      var t = String(ticker).toUpperCase();
+
+      // 1) Live prices from prices.json (daily-updated via GitHub Actions)
+      if (livePrices && livePrices[t]) {
+        var lp = livePrices[t];
+        return {
+          price: lp.price,
+          currency: lp.currency || "INR",
+          asOf: lp.asOf || (liveMeta && liveMeta.updatedAt ? liveMeta.updatedAt.split("T")[0] : null),
+          delayed: false,
+          source: "live"
+        };
+      }
+
+      // 2) Bundled dataset snapshot (41 discovery stocks)
+      var s = BY_TICKER[t];
+      if (s) {
+        return {
+          price: s.lastPrice,
+          currency: s.currency,
+          asOf: s.asOf,
+          delayed: true,
+          source: "bundled"
+        };
+      }
+
+      // 3) Unknown ticker
+      return null;
     },
-    // Hook for a future live refresh. Currently a no-op resolved promise.
-    refreshAll: function () { return Promise.resolve(false); },
-    isLive: false
+
+    /**
+     * Get 52-week high for a ticker (from live data or bundled).
+     */
+    getHigh52w: function (ticker) {
+      if (!ticker) return null;
+      var t = String(ticker).toUpperCase();
+      if (livePrices && livePrices[t] && livePrices[t].high52w) return livePrices[t].high52w;
+      var s = BY_TICKER[t];
+      return s ? s.high52w : null;
+    },
+
+    /**
+     * Load/refresh prices from prices.json. Returns a promise that resolves
+     * to true if live prices were loaded, false otherwise.
+     */
+    refreshAll: function () { return loadPrices(); },
+
+    /** True if prices.json was successfully loaded. */
+    isLive: false,
+
+    /** Metadata about the loaded prices (updatedAt, source, totalTickers). */
+    getMeta: function () { return liveMeta; }
   };
+
+  // Auto-load prices on script init (non-blocking).
+  loadPrices();
 
   global.StockData = {
     RULEBOOK: RULEBOOK,

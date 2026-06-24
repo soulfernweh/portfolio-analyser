@@ -20,20 +20,299 @@
   // Name is optional (falls back to ticker). Market is optional (defaults to India).
   // Trade Type is optional — if present, BUY/SELL trades are aggregated into net holdings.
   var REQUIRED = ["Symbol", "Quantity", "Avg Price", "Date"];
-  var OPTIONAL = ["Name", "Market", "Trade Type", "ISIN"];
-  var ALIASES = {
-    Symbol: ["symbol", "ticker", "tradingsymbol", "trading symbol", "instrument", "scrip", "scrip code"],
-    Name: ["name", "company", "company name", "stock", "security", "security name", "isin"],
-    Quantity: ["quantity", "qty", "qty.", "shares", "units", "holding qty", "net qty"],
-    "Avg Price": ["avg price", "average price", "avg. price", "avgprice", "avg cost", "average cost",
-                   "buy price", "buy avg", "buy average", "cost", "price", "avg buy price",
-                   "trade price", "execution price"],
-    Market: ["market", "exchange", "segment", "exch"],
-    Date: ["date", "buy date", "purchase date", "trade date", "date added", "order date", "txn date",
-            "order execution time"],
-    "Trade Type": ["trade type", "type", "transaction type", "txn type", "side", "buy/sell",
-                    "buy / sell", "action", "order type"]
+  var OPTIONAL = ["Name", "Market", "Trade Type"];
+
+  // ---- SMART COLUMN DETECTION -----------------------------------------------
+  // Two-pass approach:
+  //   Pass 1: Fuzzy keyword scoring on header names (substring/token matching)
+  //   Pass 2: Content-based inference (look at actual cell values to determine type)
+  // This handles arbitrary column names from any broker without being fixated on
+  // exact header strings.
+
+  // Keywords that signal each field. Tokens are matched as substrings and word overlaps.
+  var FIELD_KEYWORDS = {
+    Symbol: {
+      strong: ["symbol", "ticker", "tradingsymbol", "scrip", "scripcode", "instrument"],
+      weak: ["stock", "security", "isin", "code", "script"]
+    },
+    Name: {
+      strong: ["company name", "company", "security name", "stock name", "scrip name"],
+      weak: ["name", "description", "security", "title"]
+    },
+    Quantity: {
+      strong: ["quantity", "qty", "shares", "units", "net qty", "holding qty", "trade qty", "filled qty"],
+      weak: ["vol", "lots", "amount", "no of shares", "number"]
+    },
+    "Avg Price": {
+      strong: ["avg price", "average price", "buy price", "buy avg", "trade price",
+               "execution price", "cost price", "avg cost", "average cost", "deal price",
+               "net rate", "executed price", "fill price", "executed avg"],
+      weak: ["price", "rate", "cost", "value", "avg", "ltp", "close", "last"]
+    },
+    Market: {
+      strong: ["exchange", "market", "exch"],
+      weak: ["segment", "board", "platform"]
+    },
+    Date: {
+      strong: ["trade date", "buy date", "purchase date", "order date", "txn date",
+               "transaction date", "execution date", "deal date", "settlement date",
+               "fill date", "created date"],
+      weak: ["date", "time", "timestamp", "datetime", "execution time", "executed at",
+              "created at", "traded on", "order execution"]
+    },
+    "Trade Type": {
+      strong: ["trade type", "transaction type", "txn type", "buy/sell", "buy / sell",
+               "order side", "trade side"],
+      weak: ["type", "side", "action", "direction", "bs"]
+    }
   };
+
+  // Score how well a header matches a field's keywords (fuzzy, not exact).
+  function scoreHeader(header, fieldName) {
+    var h = header.toLowerCase().replace(/[_\-\.]+/g, " ").replace(/\s+/g, " ").trim();
+    var kw = FIELD_KEYWORDS[fieldName];
+    if (!kw) return 0;
+    var score = 0;
+
+    // Exact match with a strong keyword = highest score
+    var i, j;
+    for (i = 0; i < kw.strong.length; i++) {
+      if (h === kw.strong[i]) return 100;
+      // Header contains the keyword as a substring
+      if (h.indexOf(kw.strong[i]) !== -1) score = Math.max(score, 80);
+      // Token overlap: split keyword into words, see how many appear in the header
+      var tokens = kw.strong[i].split(/\s+/);
+      var hTokens = h.split(/\s+/);
+      var overlap = 0;
+      for (j = 0; j < tokens.length; j++) {
+        for (var k = 0; k < hTokens.length; k++) {
+          // Only allow substring matching for tokens >= 3 chars to avoid false positives
+          var ht = hTokens[k], kt = tokens[j];
+          if (ht === kt) { overlap++; break; }
+          if (ht.length >= 3 && kt.length >= 3 && (ht.indexOf(kt) !== -1 || kt.indexOf(ht) !== -1)) {
+            overlap++; break;
+          }
+        }
+      }
+      if (overlap > 0) score = Math.max(score, 35 + overlap * 20);
+    }
+    for (i = 0; i < kw.weak.length; i++) {
+      if (h === kw.weak[i]) score = Math.max(score, 60);
+      if (h.indexOf(kw.weak[i]) !== -1) score = Math.max(score, 30);
+    }
+    return score;
+  }
+
+  // Content-based inference: sample data rows and score how likely a column is each type.
+  var CONTENT_PATTERNS = {
+    Symbol: function (vals) {
+      var matches = vals.filter(function (v) {
+        v = String(v).trim();
+        // Tickers: all-caps, 1-20 chars, start with a letter, may have numbers/&/./- 
+        // Must NOT look like a number, date, or buy/sell keyword
+        return /^[A-Z][A-Z0-9&\.\-]{0,19}$/.test(v) && v.length >= 2 && v.length <= 20 &&
+               !/^\d+$/.test(v) && !/^(BUY|SELL|B|S)$/.test(v);
+      });
+      return matches.length / Math.max(vals.length, 1);
+    },
+    Name: function (vals) {
+      var matches = vals.filter(function (v) {
+        v = String(v).trim();
+        return v.length > 3 && /[a-zA-Z]/.test(v) && !/^\d+[\.,]?\d*$/.test(v) &&
+               (/\s/.test(v) || v.length > 10);
+      });
+      return matches.length / Math.max(vals.length, 1);
+    },
+    Quantity: function (vals) {
+      // Quantity: positive integers (whole numbers), typically smaller than prices
+      var matches = vals.filter(function (v) {
+        var n = String(v).trim().replace(/[,\s]/g, "");
+        if (!/^\d+$/.test(n)) return false;
+        var num = Number(n);
+        return num > 0 && num === Math.round(num) && num < 100000;
+      });
+      return matches.length / Math.max(vals.length, 1);
+    },
+    "Avg Price": function (vals) {
+      // Price: positive numbers, can have decimals, typically larger values
+      var matches = vals.filter(function (v) {
+        var n = String(v).trim().replace(/[,\s\u20B9$]/g, "");
+        if (!/^\d+\.?\d*$/.test(n)) return false;
+        return Number(n) > 0;
+      });
+      // Slight boost if values have decimals (more price-like)
+      var hasDecimals = vals.filter(function (v) {
+        return /\.\d/.test(String(v).trim());
+      }).length;
+      var base = matches.length / Math.max(vals.length, 1);
+      return hasDecimals > 0 ? base + 0.05 : base;
+    },
+    Market: function (vals) {
+      var matches = vals.filter(function (v) {
+        v = String(v).trim().toLowerCase();
+        return /^(nse|bse|nyse|nasdaq|amex|nfo|cds|mcx|india|us|eq|cm|fo)$/.test(v);
+      });
+      return matches.length / Math.max(vals.length, 1);
+    },
+    Date: function (vals) {
+      var matches = vals.filter(function (v) {
+        v = String(v).trim();
+        return /\d{4}[-\/]\d{1,2}[-\/]\d{1,2}/.test(v) ||
+               /\d{1,2}[-\/]\d{1,2}[-\/]\d{4}/.test(v) ||
+               /\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4}/.test(v);
+      });
+      return matches.length / Math.max(vals.length, 1);
+    },
+    "Trade Type": function (vals) {
+      var matches = vals.filter(function (v) {
+        v = String(v).trim().toLowerCase();
+        return /^(buy|sell|b|s|long|short)$/.test(v);
+      });
+      return matches.length / Math.max(vals.length, 1);
+    }
+  };
+
+  function mapColumns(headerRow, dataRows) {
+    var norm = headerRow.map(function (h) { return String(h).trim(); });
+    var allFields = REQUIRED.concat(OPTIONAL);
+    var map = {};
+    var used = {}; // track which column indices are already claimed
+
+    // Pass 1: Score every header against every field using fuzzy keyword matching.
+    var headerScores = {};
+    allFields.forEach(function (field) {
+      headerScores[field] = [];
+      norm.forEach(function (h, idx) {
+        var s = scoreHeader(h, field);
+        if (s > 0) headerScores[field].push({ idx: idx, score: s });
+      });
+      headerScores[field].sort(function (a, b) { return b.score - a.score; });
+    });
+
+    // Pass 2: Sample up to 10 data rows for content-based inference.
+    var sampleSize = Math.min(dataRows ? dataRows.length : 0, 10);
+    var samples = {};
+    if (sampleSize > 0) {
+      for (var col = 0; col < norm.length; col++) {
+        samples[col] = [];
+        for (var row = 0; row < sampleSize; row++) {
+          var cell = dataRows[row] && dataRows[row][col] != null ? dataRows[row][col] : "";
+          samples[col].push(cell);
+        }
+      }
+    }
+
+    // Assign columns greedily: highest confidence first.
+    // Priority ordering for tie-breaking when header scores are equal:
+    // Date > Symbol > Quantity > Avg Price > Market > Trade Type > Name
+    var PRIORITY = { "Date": 7, "Symbol": 6, "Quantity": 5, "Avg Price": 4, "Market": 3, "Trade Type": 2, "Name": 1 };
+    var fieldsByConfidence = allFields.slice().sort(function (a, b) {
+      var bestA = headerScores[a].length ? headerScores[a][0].score : 0;
+      var bestB = headerScores[b].length ? headerScores[b][0].score : 0;
+      if (bestA !== bestB) return bestB - bestA;
+      return (PRIORITY[b] || 0) - (PRIORITY[a] || 0);
+    });
+
+    fieldsByConfidence.forEach(function (field) {
+      var candidates = headerScores[field].filter(function (c) { return !used[c.idx]; });
+
+      if (candidates.length > 0 && candidates[0].score >= 30) {
+        // If there's a near-tie, use content inference as tiebreaker.
+        if (candidates.length > 1 && candidates[0].score - candidates[1].score < 20 &&
+            CONTENT_PATTERNS[field] && sampleSize > 0) {
+          candidates.forEach(function (c) {
+            c.contentScore = CONTENT_PATTERNS[field](samples[c.idx] || []);
+          });
+          candidates.sort(function (a, b) {
+            var diff = b.score - a.score;
+            if (Math.abs(diff) < 15) return b.contentScore - a.contentScore;
+            return diff;
+          });
+        }
+        map[field] = candidates[0].idx;
+        used[candidates[0].idx] = true;
+        return;
+      }
+
+      // Pass 2 fallback: pure content-based detection for unmapped fields.
+      if (CONTENT_PATTERNS[field] && sampleSize > 0) {
+        var bestIdx = -1, bestScore = 0.4; // threshold: at least 40% of samples must match
+        for (var ci = 0; ci < norm.length; ci++) {
+          if (used[ci]) continue;
+          var cs = CONTENT_PATTERNS[field](samples[ci] || []);
+          if (cs > bestScore) { bestScore = cs; bestIdx = ci; }
+        }
+        if (bestIdx !== -1) {
+          map[field] = bestIdx;
+          used[bestIdx] = true;
+        }
+      }
+    });
+
+    // Special disambiguation: if Quantity and Avg Price both need content inference
+    // on purely numeric columns, use median value heuristic (higher median = Price).
+    if (map["Avg Price"] != null && map["Quantity"] == null && sampleSize > 0) {
+      // Avg Price was assigned; look for a remaining integer column for Quantity
+      var priceIdx = map["Avg Price"];
+      var priceMedian = medianNumeric(samples[priceIdx] || []);
+      var bestQtyIdx = -1, bestQtyScore = 0;
+      for (var qi = 0; qi < norm.length; qi++) {
+        if (used[qi]) continue;
+        var qs = CONTENT_PATTERNS["Quantity"](samples[qi] || []);
+        if (qs >= 0.4) {
+          var qMed = medianNumeric(samples[qi] || []);
+          // If this column has smaller median than Price, it's likely Quantity
+          if (qMed < priceMedian || bestQtyIdx === -1) {
+            bestQtyIdx = qi; bestQtyScore = qs;
+          }
+        }
+      }
+      if (bestQtyIdx !== -1) {
+        // Check if we should swap: if the "Quantity" column has larger median than "Price" column,
+        // swap their assignments
+        var qMed2 = medianNumeric(samples[bestQtyIdx] || []);
+        if (qMed2 > priceMedian && priceMedian > 0) {
+          // Swap: current Price assignment is actually Quantity
+          map["Quantity"] = priceIdx;
+          map["Avg Price"] = bestQtyIdx;
+          used[bestQtyIdx] = true;
+        } else {
+          map["Quantity"] = bestQtyIdx;
+          used[bestQtyIdx] = true;
+        }
+      }
+    }
+    // Reverse check: if Quantity assigned but not Price
+    if (map["Quantity"] != null && map["Avg Price"] == null && sampleSize > 0) {
+      var qtyIdx = map["Quantity"];
+      var qtyMed = medianNumeric(samples[qtyIdx] || []);
+      var bestPriceIdx = -1;
+      for (var pi = 0; pi < norm.length; pi++) {
+        if (used[pi]) continue;
+        var ps = CONTENT_PATTERNS["Avg Price"](samples[pi] || []);
+        if (ps >= 0.4) {
+          var pMed = medianNumeric(samples[pi] || []);
+          if (pMed > qtyMed || bestPriceIdx === -1) { bestPriceIdx = pi; }
+        }
+      }
+      if (bestPriceIdx !== -1) {
+        map["Avg Price"] = bestPriceIdx;
+        used[bestPriceIdx] = true;
+      }
+    }
+
+    var missing = REQUIRED.filter(function (req) { return map[req] == null; });
+    return { map: map, missing: missing };
+  }
+
+  function medianNumeric(vals) {
+    var nums = vals.map(function (v) {
+      return Number(String(v).trim().replace(/[,\s\u20B9$]/g, ""));
+    }).filter(function (n) { return !isNaN(n) && n > 0; }).sort(function (a, b) { return a - b; });
+    if (!nums.length) return 0;
+    var mid = Math.floor(nums.length / 2);
+    return nums.length % 2 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+  }
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -63,33 +342,6 @@
     return rows.filter(function (r) {
       return r.some(function (c) { return String(c).trim() !== ""; });
     });
-  }
-
-  function mapColumns(headerRow) {
-    var norm = headerRow.map(function (h) { return String(h).trim().toLowerCase(); });
-    var map = {}, missing = [];
-    // Map required columns
-    REQUIRED.forEach(function (req) {
-      var idx = -1;
-      var aliases = ALIASES[req];
-      if (aliases) {
-        for (var a = 0; a < aliases.length && idx === -1; a++) {
-          idx = norm.indexOf(aliases[a]);
-        }
-      }
-      if (idx === -1) missing.push(req); else map[req] = idx;
-    });
-    // Map optional columns (Name, Market, Trade Type, ISIN) — no error if missing
-    OPTIONAL.forEach(function (opt) {
-      var aliases = ALIASES[opt];
-      if (!aliases) return;
-      var idx = -1;
-      for (var a = 0; a < aliases.length && idx === -1; a++) {
-        idx = norm.indexOf(aliases[a]);
-      }
-      if (idx !== -1) map[opt] = idx;
-    });
-    return { map: map, missing: missing };
   }
 
   function normalizeMarket(raw) {
@@ -122,13 +374,13 @@
       return { error: "File is empty. Please upload a valid trading history file." };
     }
     var header = rows[0];
-    var mc = mapColumns(header);
+    var dataRows = rows.slice(1);
+    var mc = mapColumns(header, dataRows);
     if (mc.missing.length) {
       return { error: "Invalid file format. Required columns: " + REQUIRED.join(", ") +
         " (missing: " + mc.missing.join(", ") + ")." };
     }
     var map = mc.map;
-    var dataRows = rows.slice(1);
     if (!dataRows.length) {
       return { error: "File is empty. Please upload a valid trading history file." };
     }

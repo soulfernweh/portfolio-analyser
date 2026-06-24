@@ -26,6 +26,11 @@ on:
 permissions:
   contents: write
 
+# Prevent concurrent runs from cancelling each other (especially Pages deploys)
+concurrency:
+  group: update-prices
+  cancel-in-progress: false
+
 jobs:
   update-prices:
     runs-on: ubuntu-latest

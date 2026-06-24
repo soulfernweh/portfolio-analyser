@@ -750,11 +750,16 @@
             // Show which stocks couldn't be priced
             var failBanner = document.createElement("div");
             failBanner.className = "alert alert-warn";
-            failBanner.innerHTML = '<strong>' + failedList.length + ' stock(s) could not be priced:</strong> ' +
+            failBanner.innerHTML = '<strong>' + failedList.length + ' stock(s) could not be priced live:</strong> ' +
               esc(failedList.join(", ")) +
-              '<br><span class="muted">These are shown at cost basis (Avg Price = Cur Price). ' +
-              'The gain/loss for these will be 0. To get accurate prices, add them to the ' +
-              '<code class="inline">EXTRA_TICKERS</code> env var in the GitHub Action and re-run.</span>';
+              '<br><span class="muted">These are shown at cost basis (Avg Price = Cur Price), so gain/loss shows as 0%.</span>' +
+              '<br><br><strong>To fix:</strong> Run the price updater with these tickers added — ' +
+              '<a href="https://github.com/soulfernweh/portfolio-analyser/actions/workflows/update-prices.yml" target="_blank">' +
+              'Go to Actions → Update Stock Prices → Run workflow</a> and paste this into "extra_tickers":<br>' +
+              '<code class="inline" style="word-break:break-all;display:block;margin-top:6px;padding:8px">' +
+              esc(failedList.map(function(t) { return t + ".NS"; }).join(",")) + '</code>' +
+              '<br><span class="muted">After the workflow runs (~3 min), refresh this page and re-upload. ' +
+              'The prices will be pre-loaded.</span>';
             var dashHead = container.querySelector(".row-between");
             if (dashHead && dashHead.nextSibling) {
               container.insertBefore(failBanner, dashHead.nextSibling);

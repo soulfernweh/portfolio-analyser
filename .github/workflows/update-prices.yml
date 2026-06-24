@@ -50,7 +50,7 @@ jobs:
         run: python scripts/update_prices.py
 
       - name: Verify prices.json is valid
-        run: python -c "import json; d=json.load(open('prices.json')); print(f'Tickers: {d[\"totalTickers\"]}')"
+        run: python -c "import json; d=json.load(open('prices.json')); print('Tickers:', d.get('totalTickers', 0))"
 
       - name: Check if prices changed
         id: check_changes

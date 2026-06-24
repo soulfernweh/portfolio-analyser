@@ -397,7 +397,27 @@
   };
 
   // Auto-load prices on script init (non-blocking).
-  loadPrices();
+  // After loading, patch the bundled STOCKS array with live prices so Discovery
+  // and all other views display current data.
+  loadPrices().then(function (loaded) {
+    if (!loaded || !livePrices) return;
+    STOCKS.forEach(function (s) {
+      var lp = livePrices[s.ticker.toUpperCase()];
+      if (!lp) return;
+      s.lastPrice = lp.price;
+      s.asOf = lp.asOf || s.asOf;
+      if (lp.high52w) s.high52w = lp.high52w;
+      // Recompute discount and score
+      var discountPct = s.high52w > 0 ? ((s.high52w - s.lastPrice) / s.high52w) * 100 : 0;
+      s.discountPct = round(discountPct, 1);
+      s.crit.discount = discountPct >= 20;
+      var score = 0;
+      RULEBOOK.forEach(function (r) { if (s.crit[r.key]) score++; });
+      s.score = score;
+      s.tier = tierForScore(score);
+      s.tierClass = tierClass(s.tier);
+    });
+  });
 
   global.StockData = {
     RULEBOOK: RULEBOOK,

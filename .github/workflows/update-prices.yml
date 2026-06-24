@@ -8,6 +8,13 @@ on:
     - cron: '5 11 * * 1-5'   # Mon-Fri, 11:05 UTC (India close)
     - cron: '5 21 * * 1-5'   # Mon-Fri, 21:05 UTC (US close)
 
+  # Trigger on push to main (so GitHub recognizes the workflow immediately)
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/update_prices.py'
+      - '.github/workflows/update-prices.yml'
+
   # Allow manual trigger from GitHub UI (Actions tab → Run workflow)
   workflow_dispatch:
     inputs:

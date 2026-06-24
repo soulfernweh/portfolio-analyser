@@ -694,19 +694,24 @@
   }
 
   function ingest(text, fileName, container) {
-    var rows = parseCSV(text);
-    var analysis = analyze(rows);
-    if (analysis.error) {
-      var warnHtml = (analysis.warnings && analysis.warnings.length)
-        ? '<div class="alert alert-warn">' + analysis.warnings.map(esc).join("<br>") + '</div>' : "";
-      renderUpload(container, '<div class="alert alert-error">' + esc(analysis.error) + '</div>' + warnHtml);
-      return;
-    }
-    global.PortfolioStore.analysis = analysis;
-    global.PortfolioStore.fileName = fileName || "portfolio.csv";
-    if (global.UI) global.UI.refreshNav();
-    renderDashboard(container, analysis);
-    if (global.UI) global.UI.toast("Portfolio analyzed: " + analysis.holdings.length + " holdings", "ok");
+    // Wait for prices.json to load before analyzing (ensures XIRR uses fresh prices).
+    var priceReady = SD.PriceService.refreshAll ? SD.PriceService.refreshAll() : Promise.resolve(false);
+    priceReady.then(function () {
+      var rows = parseCSV(text);
+      var analysis = analyze(rows);
+      if (analysis.error) {
+        var warnHtml = (analysis.warnings && analysis.warnings.length)
+          ? '<div class="alert alert-warn">' + analysis.warnings.map(esc).join("<br>") + '</div>' : "";
+        renderUpload(container, '<div class="alert alert-error">' + esc(analysis.error) + '</div>' + warnHtml);
+        return;
+      }
+      global.PortfolioStore.analysis = analysis;
+      global.PortfolioStore.fileName = fileName || "portfolio.csv";
+      if (global.UI) global.UI.refreshNav();
+      renderDashboard(container, analysis);
+      var liveNote = SD.PriceService.isLive ? " (live prices loaded)" : " (using bundled prices)";
+      if (global.UI) global.UI.toast("Portfolio analyzed: " + analysis.holdings.length + " holdings" + liveNote, "ok");
+    });
   }
 
   function loadSample(container) {

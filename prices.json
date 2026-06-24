@@ -1,563 +1,17 @@
 {
-  "updatedAt": "2026-06-24T15:22:39+00:00",
+  "updatedAt": "2026-06-24T16:06:33+00:00",
   "source": "yfinance",
-  "totalTickers": 751,
+  "totalTickers": 798,
   "indices": [
     "NIFTY500",
     "SP500"
   ],
   "prices": {
-    "GL": {
-      "price": 176.02,
+    "CSCO": {
+      "price": 120.68,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 176.3
-    },
-    "COFORGE": {
-      "price": 1497.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1984.96
-    },
-    "GRANULES": {
-      "price": 770.85,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 804.3
-    },
-    "IR": {
-      "price": 79.14,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 100.91
-    },
-    "PNBHOUSING": {
-      "price": 1046.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1130.24
-    },
-    "LVS": {
-      "price": 48.58,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 69.68
-    },
-    "FDS": {
-      "price": 223.88,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 445.8
-    },
-    "AMBER": {
-      "price": 7843.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 8974.0
-    },
-    "WIPRO": {
-      "price": 174.48,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 266.23
-    },
-    "ADANIENT": {
-      "price": 3069.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3091.7
-    },
-    "CSX": {
-      "price": 46.69,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 48.03
-    },
-    "CHALET": {
-      "price": 826.75,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1080.8
-    },
-    "MA": {
-      "price": 497.7,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 599.05
-    },
-    "VRSK": {
-      "price": 179.91,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 311.97
-    },
-    "GPPL": {
-      "price": 156.26,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 200.09
-    },
-    "EXIDEIND": {
-      "price": 399.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 431.0
-    },
-    "EXR": {
-      "price": 146.07,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 151.76
-    },
-    "ABBOTINDIA": {
-      "price": 25595.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 36491.76
-    },
-    "IT": {
-      "price": 131.81,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 409.76
-    },
-    "GODREJPROP": {
-      "price": 1820.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2450.9
-    },
-    "APA": {
-      "price": 33.04,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 45.36
-    },
-    "RTX": {
-      "price": 185.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 213.61
-    },
-    "NFLX": {
-      "price": 72.53,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 134.12
-    },
-    "TSN": {
-      "price": 58.16,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 68.9
-    },
-    "BHARTIARTL": {
-      "price": 1877.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2174.5
-    },
-    "GE": {
-      "price": 367.71,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 368.63
-    },
-    "RELAXO": {
-      "price": 368.95,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 526.0
-    },
-    "AES": {
-      "price": 14.69,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 17.44
-    },
-    "SO": {
-      "price": 94.78,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 98.76
-    },
-    "UNH": {
-      "price": 404.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 413.62
-    },
-    "XOM": {
-      "price": 136.02,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 175.22
-    },
-    "POWERGRID": {
-      "price": 290.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 324.95
-    },
-    "AWK": {
-      "price": 127.96,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 144.9
-    },
-    "MKC": {
-      "price": 48.62,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 75.94
-    },
-    "STT": {
-      "price": 170.71,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 175.46
-    },
-    "NWSA": {
-      "price": 25.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 31.48
-    },
-    "SBAC": {
-      "price": 186.97,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 237.56
-    },
-    "TMO": {
-      "price": 488.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 642.71
-    },
-    "BATAINDIA": {
-      "price": 715.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1282.5
-    },
-    "PKG": {
-      "price": 238.68,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 246.42
-    },
-    "PPG": {
-      "price": 122.0,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 131.81
-    },
-    "UAL": {
-      "price": 129.05,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 129.85
-    },
-    "NAVINFLUOR": {
-      "price": 7698.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 7714.5
-    },
-    "VEDL": {
-      "price": 282.55,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 795.0
-    },
-    "ADI": {
-      "price": 411.8,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 445.91
-    },
-    "CI": {
-      "price": 279.15,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 331.55
-    },
-    "RSG": {
-      "price": 214.21,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 248.44
-    },
-    "CDW": {
-      "price": 132.32,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 180.42
-    },
-    "PFC": {
-      "price": 437.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 486.5
-    },
-    "SUMICHEM": {
-      "price": 446.05,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 665.0
-    },
-    "WRB": {
-      "price": 70.27,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 76.93
-    },
-    "DD": {
-      "price": 139.94,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 156.73
-    },
-    "BANKBARODA": {
-      "price": 279.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 315.3
-    },
-    "MAA": {
-      "price": 134.99,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 148.66
-    },
-    "KMI": {
-      "price": 32.49,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 34.81
-    },
-    "NVR": {
-      "price": 6827.0,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 8618.28
-    },
-    "MPHASIS": {
-      "price": 2261.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3037.2
-    },
-    "METROPOLIS": {
-      "price": 553.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 598.82
-    },
-    "VMC": {
-      "price": 308.64,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 329.81
-    },
-    "HONAUT": {
-      "price": 39015.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 41450.0
-    },
-    "ABT": {
-      "price": 91.8,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 136.28
-    },
-    "LEN": {
-      "price": 94.03,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 142.24
-    },
-    "IFF": {
-      "price": 76.74,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 83.51
-    },
-    "PH": {
-      "price": 969.11,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1032.63
-    },
-    "ISRG": {
-      "price": 406.73,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 603.88
-    },
-    "ADM": {
-      "price": 72.61,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 85.37
-    },
-    "PNR": {
-      "price": 75.71,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 113.06
-    },
-    "DAL": {
-      "price": 90.22,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 90.5
-    },
-    "BA": {
-      "price": 220.91,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 254.35
-    },
-    "LLY": {
-      "price": 1106.66,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1182.73
-    },
-    "TATACHEM": {
-      "price": 728.35,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1011.1
-    },
-    "MARICO": {
-      "price": 819.45,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 848.8
-    },
-    "SRF": {
-      "price": 2765.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3314.53
-    },
-    "M&M": {
-      "price": 3064.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3839.9
-    },
-    "COF": {
-      "price": 203.12,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 257.54
-    },
-    "SRE": {
-      "price": 91.81,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 101.04
-    },
-    "CNP": {
-      "price": 43.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 44.23
-    },
-    "PRESTIGE": {
-      "price": 1541.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1811.91
-    },
-    "NKE": {
-      "price": 41.97,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 78.03
-    },
-    "MOS": {
-      "price": 21.47,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 36.94
-    },
-    "BIO": {
-      "price": 281.52,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 343.12
-    },
-    "AMGN": {
-      "price": 352.08,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 388.36
-    },
-    "AKAM": {
-      "price": 120.62,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 165.45
-    },
-    "GM": {
-      "price": 79.79,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 87.22
-    },
-    "BAJAJHLDNG": {
-      "price": 10583.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 14690.34
-    },
-    "BBWI": {
-      "price": 21.55,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 32.66
-    },
-    "STE": {
-      "price": 207.49,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 267.96
-    },
-    "GLOBUSSPR": {
-      "price": 869.45,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1300.11
-    },
-    "THERMAX": {
-      "price": 4757.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 5075.0
-    },
-    "RAYMOND": {
-      "price": 606.25,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 783.9
-    },
-    "DVN": {
-      "price": 42.29,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 52.34
-    },
-    "ADANIENSOL": {
-      "price": 1495.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1614.8
+      "high52w": 130.37
     },
     "GLENMARK": {
       "price": 2180.6,
@@ -565,1637 +19,17 @@
       "asOf": "2026-06-24",
       "high52w": 2474.0
     },
-    "NTAP": {
-      "price": 156.74,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 192.83
-    },
-    "DXC": {
-      "price": 8.55,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 16.45
-    },
-    "AXISBANK": {
-      "price": 1384.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1418.3
-    },
-    "ORCL": {
-      "price": 160.2,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 343.01
-    },
-    "RELIANCE": {
-      "price": 1313.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1604.38
-    },
-    "ETSY": {
-      "price": 79.62,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 79.69
-    },
-    "GRSE": {
-      "price": 2782.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3499.42
-    },
-    "GILLETTE": {
-      "price": 7793.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 11214.86
-    },
-    "ZBH": {
-      "price": 89.87,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 107.45
-    },
-    "CAG": {
-      "price": 13.61,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 19.92
-    },
-    "MDT": {
-      "price": 81.13,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 104.7
-    },
-    "MTB": {
-      "price": 233.82,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 235.7
-    },
-    "ATO": {
-      "price": 172.45,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 191.43
-    },
-    "ASHOKLEY": {
-      "price": 154.91,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 211.81
-    },
-    "DIXON": {
-      "price": 12086.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 18471.0
-    },
-    "MHK": {
-      "price": 118.39,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 143.13
-    },
-    "PNW": {
-      "price": 104.82,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 105.5
-    },
-    "TORNTPOWER": {
-      "price": 1444.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1817.8
-    },
-    "CLEAN": {
-      "price": 788.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1512.97
-    },
-    "NESTLEIND": {
-      "price": 1382.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1498.1
-    },
-    "MS": {
-      "price": 221.99,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 230.47
-    },
-    "HAPPSTMNDS": {
-      "price": 346.15,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 653.68
-    },
-    "DEEPAKNTR": {
-      "price": 1645.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2003.71
-    },
-    "MPC": {
-      "price": 245.18,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 272.46
-    },
-    "TATACONSUM": {
-      "price": 1098.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1271.94
-    },
-    "BXP": {
-      "price": 64.29,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 76.75
-    },
-    "SHW": {
-      "price": 335.47,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 376.95
-    },
-    "WEC": {
-      "price": 114.89,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 118.6
-    },
-    "TRV": {
-      "price": 321.67,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 321.83
-    },
-    "TDG": {
-      "price": 1325.29,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1519.36
-    },
-    "SBICARD": {
-      "price": 607.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1011.46
-    },
-    "XYL": {
-      "price": 113.52,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 152.72
-    },
-    "AOS": {
-      "price": 60.93,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 81.41
-    },
-    "AAVAS": {
-      "price": 1482.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2152.9
-    },
-    "BAJAJFINSV": {
-      "price": 1780.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2195.0
-    },
-    "LUV": {
-      "price": 50.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 54.63
-    },
-    "AME": {
-      "price": 239.1,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 242.82
-    },
-    "BR": {
-      "price": 140.68,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 266.43
-    },
-    "HON": {
-      "price": 228.38,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 246.82
-    },
-    "MPWR": {
-      "price": 1423.97,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1714.09
-    },
-    "SBUX": {
-      "price": 103.13,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 108.25
-    },
-    "PAGEIND": {
-      "price": 40885.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 49879.64
-    },
-    "BKR": {
-      "price": 56.03,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 70.18
-    },
-    "GS": {
-      "price": 1081.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1125.0
-    },
-    "J": {
-      "price": 122.8,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 167.07
-    },
-    "LKQ": {
-      "price": 26.35,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 38.17
-    },
-    "VRTX": {
-      "price": 476.42,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 507.92
-    },
-    "MCO": {
-      "price": 455.57,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 544.4
-    },
-    "CHOLAFIN": {
-      "price": 1792.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1830.13
-    },
-    "SAPPHIRE": {
-      "price": 185.84,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 368.0
-    },
-    "ZYDUSLIFE": {
-      "price": 1099.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1126.0
-    },
-    "TECH": {
-      "price": 59.72,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 71.93
-    },
-    "DHR": {
-      "price": 188.75,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 242.28
-    },
-    "EQT": {
-      "price": 52.08,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 68.05
-    },
-    "WHR": {
-      "price": 38.56,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 108.05
-    },
-    "KAYNES": {
-      "price": 3203.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 7705.0
-    },
-    "HINDALCO": {
-      "price": 976.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1176.0
-    },
     "POLYCAB": {
       "price": 9692.5,
       "currency": "INR",
       "asOf": "2026-06-24",
       "high52w": 10126.0
     },
-    "SOBHA": {
-      "price": 1428.1,
+    "NEXT50BETA": {
+      "price": 77.77,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 1732.5
-    },
-    "APD": {
-      "price": 277.58,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 307.96
-    },
-    "BDX": {
-      "price": 147.7,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 184.86
-    },
-    "C": {
-      "price": 144.33,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 147.96
-    },
-    "OTIS": {
-      "price": 73.14,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 99.4
-    },
-    "SYK": {
-      "price": 317.27,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 401.86
-    },
-    "NATIONALUM": {
-      "price": 348.55,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 444.5
-    },
-    "EOG": {
-      "price": 134.08,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 150.7
-    },
-    "AFL": {
-      "price": 117.96,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 119.21
-    },
-    "MRK": {
-      "price": 120.02,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 123.33
-    },
-    "DEVYANI": {
-      "price": 115.33,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 191.0
-    },
-    "PTC": {
-      "price": 114.58,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 219.69
-    },
-    "SKFINDIA": {
-      "price": 1658.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 5074.0
-    },
-    "ROK": {
-      "price": 461.83,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 479.59
-    },
-    "EBAY": {
-      "price": 111.75,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 118.98
-    },
-    "TGT": {
-      "price": 138.86,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 139.0
-    },
-    "EXC": {
-      "price": 46.63,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 50.18
-    },
-    "BSE": {
-      "price": 3886.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4446.8
-    },
-    "EASEMYTRIP": {
-      "price": 7.54,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 11.11
-    },
-    "CHRW": {
-      "price": 180.24,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 201.96
-    },
-    "SBIN": {
-      "price": 1034.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1212.84
-    },
-    "MSFT": {
-      "price": 375.17,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 551.05
-    },
-    "AWL": {
-      "price": 183.09,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 284.51
-    },
-    "ALK": {
-      "price": 52.42,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 65.88
-    },
-    "WAB": {
-      "price": 274.49,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 278.98
-    },
-    "CIPLA": {
-      "price": 1437.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1657.45
-    },
-    "ENPH": {
-      "price": 48.99,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 73.74
-    },
-    "POOL": {
-      "price": 204.32,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 337.46
-    },
-    "MANYAVAR": {
-      "price": 411.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 839.05
-    },
-    "MCD": {
-      "price": 274.88,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 337.56
-    },
-    "TRMB": {
-      "price": 50.69,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 87.5
-    },
-    "EICHERMOT": {
-      "price": 7572.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 8230.0
-    },
-    "LUPIN": {
-      "price": 2367.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2494.0
-    },
-    "DATAPATTNS": {
-      "price": 4620.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4955.9
-    },
-    "OXY": {
-      "price": 50.99,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 67.14
-    },
-    "PNC": {
-      "price": 239.72,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 242.08
-    },
-    "MAR": {
-      "price": 385.68,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 410.98
-    },
-    "SIEMENS": {
-      "price": 3561.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3937.3
-    },
-    "BHARATFORG": {
-      "price": 2122.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2167.5
-    },
-    "FRT": {
-      "price": 124.5,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 126.41
-    },
-    "TYL": {
-      "price": 291.04,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 621.34
-    },
-    "BMY": {
-      "price": 55.43,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 62.25
-    },
-    "INFY": {
-      "price": 1056.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1691.4
-    },
-    "CAT": {
-      "price": 997.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1023.29
-    },
-    "LNC": {
-      "price": 37.33,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 45.74
-    },
-    "IP": {
-      "price": 38.08,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 53.57
-    },
-    "VTR": {
-      "price": 86.5,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 91.06
-    },
-    "KEYS": {
-      "price": 356.07,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 374.96
-    },
-    "LHX": {
-      "price": 293.76,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 376.39
-    },
-    "SWK": {
-      "price": 89.2,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 91.37
-    },
-    "ICICIPRULI": {
-      "price": 496.35,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 704.36
-    },
-    "STARHEALTH": {
-      "price": 574.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 597.4
-    },
-    "HPE": {
-      "price": 49.54,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 64.06
-    },
-    "JKCEMENT": {
-      "price": 5513.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 7565.5
-    },
-    "CBRE": {
-      "price": 133.64,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 174.27
-    },
-    "WHIRLPOOL": {
-      "price": 803.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1468.14
-    },
-    "EMAMILTD": {
-      "price": 403.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 621.89
-    },
-    "CPB": {
-      "price": 22.17,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 32.67
-    },
-    "BAC": {
-      "price": 57.72,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 58.33
-    },
-    "RMD": {
-      "price": 196.41,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 291.57
-    },
-    "GRINDWELL": {
-      "price": 2128.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2177.0
-    },
-    "AEE": {
-      "price": 112.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 114.78
-    },
-    "HDFCBANK": {
-      "price": 793.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1003.9
-    },
-    "METROBRAND": {
-      "price": 1039.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1336.57
-    },
-    "PLD": {
-      "price": 141.1,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 149.1
-    },
-    "ORLY": {
-      "price": 88.62,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 108.72
-    },
-    "CONCOR": {
-      "price": 473.95,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 620.02
-    },
-    "WTW": {
-      "price": 261.87,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 350.65
-    },
-    "PSA": {
-      "price": 318.02,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 328.74
-    },
-    "JKHY": {
-      "price": 129.18,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 191.83
-    },
-    "IGPL": {
-      "price": 444.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 509.33
-    },
-    "KHC": {
-      "price": 22.85,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 27.35
-    },
-    "MU": {
-      "price": 1037.85,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1213.56
-    },
-    "TMUS": {
-      "price": 183.61,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 256.72
-    },
-    "BAJFINANCE": {
-      "price": 990.95,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1102.5
-    },
-    "VGUARD": {
-      "price": 313.55,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 408.17
-    },
-    "IIFL": {
-      "price": 525.15,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 670.04
-    },
-    "SYF": {
-      "price": 77.23,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 88.05
-    },
-    "SBILIFE": {
-      "price": 1767.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2129.04
-    },
-    "TORNTPHARM": {
-      "price": 4504.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4703.55
-    },
-    "MLM": {
-      "price": 625.44,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 709.08
-    },
-    "LDOS": {
-      "price": 105.81,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 204.08
-    },
-    "INDIAMART": {
-      "price": 1974.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2720.44
-    },
-    "MCHP": {
-      "price": 93.08,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 105.38
-    },
-    "YATRA": {
-      "price": 109.85,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 202.0
-    },
-    "ARVIND": {
-      "price": 556.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 561.5
-    },
-    "JCI": {
-      "price": 143.99,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 148.97
-    },
-    "ADANIPOWER": {
-      "price": 229.76,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 254.2
-    },
-    "TATACOMM": {
-      "price": 2028.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2110.0
-    },
-    "MAPMYINDIA": {
-      "price": 861.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1998.0
-    },
-    "APOLLOHOSP": {
-      "price": 8573.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 8624.0
-    },
-    "CNC": {
-      "price": 62.55,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 66.55
-    },
-    "IQV": {
-      "price": 184.1,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 247.05
-    },
-    "CEG": {
-      "price": 272.47,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 411.04
-    },
-    "HFCL": {
-      "price": 204.77,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 220.09
-    },
-    "IRM": {
-      "price": 131.29,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 134.68
-    },
-    "CFG": {
-      "price": 69.85,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 69.85
-    },
-    "EQR": {
-      "price": 65.93,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 69.03
-    },
-    "KEY": {
-      "price": 23.32,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 23.33
-    },
-    "AAPL": {
-      "price": 297.44,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 317.4
-    },
-    "CPRT": {
-      "price": 30.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 50.11
-    },
-    "CANFINHOME": {
-      "price": 884.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 971.5
-    },
-    "POWERMECH": {
-      "price": 2792.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3413.61
-    },
-    "ADSK": {
-      "price": 195.5,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 329.09
-    },
-    "TATASTEEL": {
-      "price": 190.16,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 219.87
-    },
-    "ANGELONE": {
-      "price": 340.65,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 360.45
-    },
-    "LODHA": {
-      "price": 937.85,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1504.84
-    },
-    "OBEROIRLTY": {
-      "price": 1753.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1995.18
-    },
-    "HDFCAMC": {
-      "price": 2625.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2903.74
-    },
-    "CTVA": {
-      "price": 80.79,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 85.43
-    },
-    "GALAXYSURF": {
-      "price": 2004.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2745.97
-    },
-    "KR": {
-      "price": 58.41,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 76.18
-    },
-    "INCY": {
-      "price": 108.41,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 112.29
-    },
-    "TCS": {
-      "price": 2109.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3357.78
-    },
-    "TXT": {
-      "price": 87.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 101.53
-    },
-    "JSWENERGY": {
-      "price": 574.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 615.26
-    },
-    "ZBRA": {
-      "price": 249.01,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 352.66
-    },
-    "SJVN": {
-      "price": 72.91,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 100.4
-    },
-    "COROMANDEL": {
-      "price": 1983.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2708.22
-    },
-    "RF": {
-      "price": 29.64,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 30.93
-    },
-    "ED": {
-      "price": 109.31,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 115.26
-    },
-    "WBD": {
-      "price": 27.21,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 30.0
-    },
-    "GNFC": {
-      "price": 558.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 616.0
-    },
-    "CPT": {
-      "price": 111.21,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 116.59
-    },
-    "JUBLFOOD": {
-      "price": 424.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 717.7
-    },
-    "GILD": {
-      "price": 125.49,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 155.38
-    },
-    "COO": {
-      "price": 68.82,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 89.83
-    },
-    "RVNL": {
-      "price": 239.94,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 402.13
-    },
-    "MFSL": {
-      "price": 1662.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1892.5
-    },
-    "FCX": {
-      "price": 62.05,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 72.28
-    },
-    "TRENT": {
-      "price": 3247.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 6251.76
-    },
-    "SUNDARMFIN": {
-      "price": 4600.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 5642.0
-    },
-    "CMI": {
-      "price": 703.28,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 737.76
-    },
-    "ULTA": {
-      "price": 476.61,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 714.97
-    },
-    "CMCSA": {
-      "price": 22.77,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 32.92
-    },
-    "LXCHEM": {
-      "price": 159.95,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 241.0
-    },
-    "AMD": {
-      "price": 517.28,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 562.99
-    },
-    "LMT": {
-      "price": 493.85,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 683.9
-    },
-    "NMDC": {
-      "price": 85.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 97.49
-    },
-    "TDY": {
-      "price": 617.4,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 693.38
-    },
-    "KLAC": {
-      "price": 240.6,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 269.9
-    },
-    "AMT": {
-      "price": 175.98,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 225.61
-    },
-    "ONGC": {
-      "price": 240.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 307.5
-    },
-    "TFC": {
-      "price": 50.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 55.06
-    },
-    "GOOGL": {
-      "price": 350.9,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 408.37
-    },
-    "ACN": {
-      "price": 128.45,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 303.66
-    },
-    "EXPE": {
-      "price": 269.89,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 302.5
-    },
-    "NIACL": {
-      "price": 188.51,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 218.0
-    },
-    "WFC": {
-      "price": 84.07,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 96.73
-    },
-    "ZTS": {
-      "price": 78.56,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 159.3
-    },
-    "ECL": {
-      "price": 279.3,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 307.61
-    },
-    "TSLA": {
-      "price": 383.57,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 498.83
-    },
-    "DOV": {
-      "price": 226.44,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 236.42
-    },
-    "MNST": {
-      "price": 95.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 95.51
-    },
-    "CARTRADE": {
-      "price": 2603.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3290.5
-    },
-    "WMB": {
-      "price": 75.36,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 79.49
-    },
-    "TITAN": {
-      "price": 4323.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4605.0
-    },
-    "SENCO": {
-      "price": 329.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 403.94
-    },
-    "NOW": {
-      "price": 95.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 211.48
-    },
-    "GUJGASLTD": {
-      "price": 352.85,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 502.01
-    },
-    "MET": {
-      "price": 85.64,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 89.62
-    },
-    "HD": {
-      "price": 340.77,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 418.06
-    },
-    "SUNPHARMA": {
-      "price": 1874.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1916.6
-    },
-    "IEX": {
-      "price": 225.18,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 228.26
-    },
-    "JBHT": {
-      "price": 270.7,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 293.54
-    },
-    "HUM": {
-      "price": 356.8,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 380.86
-    },
-    "ETN": {
-      "price": 409.48,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 436.74
-    },
-    "BOSCHLTD": {
-      "price": 40365.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 41945.0
-    },
-    "WAT": {
-      "price": 372.39,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 414.15
-    },
-    "PNB": {
-      "price": 107.71,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 131.33
-    },
-    "DLF": {
-      "price": 618.15,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 862.39
-    },
-    "AMZN": {
-      "price": 241.93,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 278.56
-    },
-    "ZION": {
-      "price": 68.45,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 69.08
-    },
-    "REG": {
-      "price": 79.57,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 80.9
-    },
-    "IPCALAB": {
-      "price": 1621.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1678.3
-    },
-    "KOTAKBANK": {
-      "price": 405.95,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 453.2
-    },
-    "CTAS": {
-      "price": 171.65,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 224.62
-    },
-    "INOXWIND": {
-      "price": 90.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 181.0
-    },
-    "MCK": {
-      "price": 772.15,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 997.07
-    },
-    "IXIGO": {
-      "price": 184.94,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 339.15
-    },
-    "DIVISLAB": {
-      "price": 6753.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 7039.45
-    },
-    "CAH": {
-      "price": 232.62,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 233.56
-    },
-    "FINEORG": {
-      "price": 5270.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 5482.78
-    },
-    "RALLIS": {
-      "price": 230.32,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 381.02
-    },
-    "LATENTVIEW": {
-      "price": 296.65,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 517.5
-    },
-    "IVZ": {
-      "price": 25.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 29.82
-    },
-    "GICRE": {
-      "price": 363.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 417.95
-    },
-    "PAYX": {
-      "price": 96.3,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 146.54
-    },
-    "TSCO": {
-      "price": 30.26,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 62.68
-    },
-    "GOKEX": {
-      "price": 859.35,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 975.0
-    },
-    "EXPD": {
-      "price": 160.9,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 168.52
-    },
-    "LTTS": {
-      "price": 3322.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4673.3
-    },
-    "HINDUNILVR": {
-      "price": 2157.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2701.08
-    },
-    "TRIDENT": {
-      "price": 26.78,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 32.98
-    },
-    "BRO": {
-      "price": 61.78,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 110.12
-    },
-    "MKTX": {
-      "price": 116.33,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 220.97
-    },
-    "SNA": {
-      "price": 394.49,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 398.16
-    },
-    "PETRONET": {
-      "price": 287.85,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 322.68
-    },
-    "GLAXO": {
-      "price": 2366.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3413.12
-    },
-    "FTNT": {
-      "price": 146.67,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 150.07
-    },
-    "CTSH": {
-      "price": 42.73,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 85.98
-    },
-    "GRMN": {
-      "price": 249.13,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 272.11
-    },
-    "LYV": {
-      "price": 171.32,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 176.0
-    },
-    "NETWORK18": {
-      "price": 33.17,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 65.29
-    },
-    "RL": {
-      "price": 415.43,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 421.6
-    },
-    "CANBK": {
-      "price": 130.15,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 157.69
-    },
-    "HWM": {
-      "price": 277.29,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 290.63
-    },
-    "DHI": {
-      "price": 169.02,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 182.9
-    },
-    "DOW": {
-      "price": 29.11,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 42.31
-    },
-    "DE": {
-      "price": 609.93,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 672.22
-    },
-    "DGX": {
-      "price": 202.32,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 212.57
-    },
-    "RADICO": {
-      "price": 3757.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3806.2
-    },
-    "CESC": {
-      "price": 169.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 204.5
-    },
-    "IDXX": {
-      "price": 555.97,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 769.98
+      "high52w": 79.79
     },
     "SOLARINDS": {
       "price": 17864.0,
@@ -2203,809 +37,23 @@
       "asOf": "2026-06-24",
       "high52w": 18874.0
     },
-    "ULTRACEMCO": {
-      "price": 11430.0,
+    "EQT": {
+      "price": 51.56,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 68.05
+    },
+    "DXCM": {
+      "price": 69.7,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 89.98
+    },
+    "NIACL": {
+      "price": 188.51,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 13110.0
-    },
-    "BKNG": {
-      "price": 184.2,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 231.62
-    },
-    "ADANIPORTS": {
-      "price": 1813.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1850.0
-    },
-    "RAINBOW": {
-      "price": 1434.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1645.7
-    },
-    "ADANIGREEN": {
-      "price": 1525.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1557.0
-    },
-    "LIN": {
-      "price": 520.77,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 525.87
-    },
-    "COP": {
-      "price": 106.71,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 134.87
-    },
-    "IREDA": {
-      "price": 127.52,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 173.68
-    },
-    "VOLTAS": {
-      "price": 1310.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1577.54
-    },
-    "MO": {
-      "price": 71.74,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 73.46
-    },
-    "AVB": {
-      "price": 182.51,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 200.91
-    },
-    "SONACOMS": {
-      "price": 621.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 626.35
-    },
-    "OGN": {
-      "price": 13.47,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 13.49
-    },
-    "WM": {
-      "price": 223.88,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 246.08
-    },
-    "ROP": {
-      "price": 333.86,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 571.35
-    },
-    "PFE": {
-      "price": 24.38,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 28.28
-    },
-    "FISV": {
-      "price": 48.77,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 177.36
-    },
-    "AMAT": {
-      "price": 585.76,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 641.18
-    },
-    "GAIL": {
-      "price": 174.93,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 188.46
-    },
-    "SHREECEM": {
-      "price": 26070.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 32335.05
-    },
-    "ALLE": {
-      "price": 135.03,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 181.67
-    },
-    "MANKIND": {
-      "price": 2483.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2715.43
-    },
-    "HRL": {
-      "price": 25.43,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 30.34
-    },
-    "LW": {
-      "price": 45.96,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 65.54
-    },
-    "NVDA": {
-      "price": 200.93,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 236.26
-    },
-    "HDFCLIFE": {
-      "price": 591.75,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 817.84
-    },
-    "XRAY": {
-      "price": 10.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 16.63
-    },
-    "ALKEM": {
-      "price": 5428.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 5886.05
-    },
-    "IGL": {
-      "price": 167.94,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 223.11
-    },
-    "GIS": {
-      "price": 35.24,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 51.27
-    },
-    "EFX": {
-      "price": 158.51,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 273.02
-    },
-    "ALGN": {
-      "price": 172.44,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 208.31
-    },
-    "SPG": {
-      "price": 218.87,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 219.87
-    },
-    "LUMN": {
-      "price": 7.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 11.95
-    },
-    "O": {
-      "price": 61.87,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 66.84
-    },
-    "FEDERALBNK": {
-      "price": 325.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 327.0
-    },
-    "PFIZER": {
-      "price": 4507.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 5873.5
-    },
-    "AEP": {
-      "price": 133.67,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 138.43
-    },
-    "NAUKRI": {
-      "price": 1009.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1527.35
-    },
-    "BANDHANBNK": {
-      "price": 211.76,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 218.13
-    },
-    "UNP": {
-      "price": 262.92,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 278.25
-    },
-    "GSFC": {
-      "price": 163.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 215.43
-    },
-    "FTV": {
-      "price": 60.71,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 63.34
-    },
-    "PRINCEPIPE": {
-      "price": 292.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 375.63
-    },
-    "HOMEFIRST": {
-      "price": 1163.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1511.93
-    },
-    "SWKS": {
-      "price": 72.22,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 88.05
-    },
-    "GWW": {
-      "price": 1343.86,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1377.08
-    },
-    "TER": {
-      "price": 426.06,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 459.19
-    },
-    "LYB": {
-      "price": 55.65,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 83.07
-    },
-    "STLTECH": {
-      "price": 584.15,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 679.9
-    },
-    "DPZ": {
-      "price": 292.82,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 486.62
-    },
-    "ASIANPAINT": {
-      "price": 2667.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2960.02
-    },
-    "PGR": {
-      "price": 219.77,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 251.6
-    },
-    "AXP": {
-      "price": 343.9,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 385.41
-    },
-    "PRU": {
-      "price": 106.94,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 116.57
-    },
-    "LRCX": {
-      "price": 368.83,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 409.75
-    },
-    "AFFLE": {
-      "price": 1455.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2185.9
-    },
-    "3MINDIA": {
-      "price": 33535.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 38030.0
-    },
-    "DLR": {
-      "price": 193.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 206.76
-    },
-    "PEP": {
-      "price": 143.5,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 168.19
-    },
-    "POLICYBZR": {
-      "price": 1636.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1974.0
-    },
-    "PHOENIXLTD": {
-      "price": 1912.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1993.0
-    },
-    "EA": {
-      "price": 204.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 204.75
-    },
-    "PWR": {
-      "price": 705.0,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 788.75
-    },
-    "IDFCFIRSTB": {
-      "price": 79.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 87.0
-    },
-    "CUMMINSIND": {
-      "price": 5555.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 6100.0
-    },
-    "BPCL": {
-      "price": 315.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 390.9
-    },
-    "DHANUKA": {
-      "price": 1062.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1975.0
-    },
-    "RJF": {
-      "price": 156.1,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 175.89
-    },
-    "DIS": {
-      "price": 104.07,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 123.85
-    },
-    "MSI": {
-      "price": 397.17,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 487.49
-    },
-    "NUE": {
-      "price": 240.89,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 270.9
-    },
-    "APTV": {
-      "price": 61.76,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 88.93
-    },
-    "SBNY": {
-      "price": 0.45,
-      "currency": "USD",
-      "asOf": "2026-06-23",
-      "high52w": 1.5
-    },
-    "NEE": {
-      "price": 86.85,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 98.03
-    },
-    "PFG": {
-      "price": 107.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 112.45
-    },
-    "ILMN": {
-      "price": 175.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 177.76
-    },
-    "LNT": {
-      "price": 74.78,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 75.23
-    },
-    "VFC": {
-      "price": 17.39,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 22.15
-    },
-    "PSX": {
-      "price": 168.44,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 189.24
-    },
-    "JPM": {
-      "price": 333.58,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 338.09
-    },
-    "BDL": {
-      "price": 1383.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2005.55
-    },
-    "CBOE": {
-      "price": 262.48,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 370.4
-    },
-    "TRGP": {
-      "price": 263.73,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 280.0
-    },
-    "PIIND": {
-      "price": 2746.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4312.31
-    },
-    "D": {
-      "price": 68.82,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 69.28
-    },
-    "ADP": {
-      "price": 220.7,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 307.44
-    },
-    "FIS": {
-      "price": 39.0,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 80.15
-    },
-    "MGM": {
-      "price": 47.51,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 51.59
-    },
-    "DUK": {
-      "price": 125.14,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 133.34
-    },
-    "STZ": {
-      "price": 145.01,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 173.43
-    },
-    "NYKAA": {
-      "price": 306.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 309.75
-    },
-    "ALL": {
-      "price": 235.77,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 235.96
-    },
-    "BAJAJ-AUTO": {
-      "price": 9750.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 10683.65
-    },
-    "INDUSTOWER": {
-      "price": 398.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 481.5
-    },
-    "BIIB": {
-      "price": 200.19,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 205.97
-    },
-    "DTE": {
-      "price": 149.93,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 152.51
-    },
-    "DABUR": {
-      "price": 424.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 573.97
-    },
-    "GODREJCP": {
-      "price": 1020.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1291.23
-    },
-    "BALKRISIND": {
-      "price": 2223.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2787.61
-    },
-    "VNO": {
-      "price": 37.68,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 42.43
-    },
-    "NXPI": {
-      "price": 297.65,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 339.95
-    },
-    "LT": {
-      "price": 4181.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4397.05
-    },
-    "SUPREMEIND": {
-      "price": 3560.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4651.44
-    },
-    "IBM": {
-      "price": 263.48,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 332.46
-    },
-    "MASTEK": {
-      "price": 1600.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2788.97
-    },
-    "ANET": {
-      "price": 164.66,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 179.8
-    },
-    "DLTR": {
-      "price": 118.38,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 142.4
-    },
-    "TPR": {
-      "price": 151.57,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 161.08
-    },
-    "JSWSTEEL": {
-      "price": 1231.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1328.0
-    },
-    "SPGI": {
-      "price": 404.79,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 574.23
-    },
-    "EPAM": {
-      "price": 77.66,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 222.53
-    },
-    "CL": {
-      "price": 92.74,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 98.72
-    },
-    "CAMS": {
-      "price": 797.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 860.94
-    },
-    "INDUSINDBK": {
-      "price": 927.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 968.85
-    },
-    "NOCIL": {
-      "price": 183.34,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 204.5
-    },
-    "F": {
-      "price": 13.93,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 17.78
-    },
-    "RCL": {
-      "price": 327.5,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 360.34
-    },
-    "ITC": {
-      "price": 290.35,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 407.14
-    },
-    "QRVO": {
-      "price": 98.37,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 109.49
-    },
-    "LOW": {
-      "price": 222.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 291.66
-    },
-    "COST": {
-      "price": 964.18,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1096.5
-    },
-    "HCLTECH": {
-      "price": 1113.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1746.66
-    },
-    "ON": {
-      "price": 115.0,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 134.92
-    },
-    "ZEEL": {
-      "price": 115.48,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 148.58
-    },
-    "HEIDELBERG": {
-      "price": 154.45,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 217.63
-    },
-    "SLB": {
-      "price": 46.26,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 58.51
-    },
-    "ES": {
-      "price": 71.04,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 74.72
-    },
-    "NWS": {
-      "price": 28.9,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 35.34
-    },
-    "DMART": {
-      "price": 4336.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4949.5
-    },
-    "AMCR": {
-      "price": 41.73,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 49.46
-    },
-    "EVRG": {
-      "price": 85.25,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 85.63
-    },
-    "TFX": {
-      "price": 126.93,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 139.31
-    },
-    "OKE": {
-      "price": 86.66,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 96.07
+      "high52w": 218.0
     },
     "IOC": {
       "price": 146.3,
@@ -3013,1391 +61,17 @@
       "asOf": "2026-06-24",
       "high52w": 186.61
     },
-    "UHS": {
-      "price": 146.88,
+    "UNH": {
+      "price": 406.72,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 245.55
-    },
-    "CF": {
-      "price": 102.61,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 141.38
-    },
-    "TAJGVK": {
-      "price": 338.95,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 510.33
-    },
-    "AIG": {
-      "price": 77.11,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 86.21
-    },
-    "TT": {
-      "price": 484.42,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 502.33
-    },
-    "PIDILITIND": {
-      "price": 1579.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1599.3
-    },
-    "VBL": {
-      "price": 506.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 555.8
-    },
-    "DRI": {
-      "price": 216.28,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 219.38
-    },
-    "PHM": {
-      "price": 138.98,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 143.89
-    },
-    "MOTILALOFS": {
-      "price": 935.15,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1088.32
-    },
-    "CME": {
-      "price": 240.29,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 319.82
-    },
-    "HUDCO": {
-      "price": 207.98,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 242.66
-    },
-    "ETR": {
-      "price": 114.33,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 118.11
-    },
-    "CHTR": {
-      "price": 133.18,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 422.29
-    },
-    "TROW": {
-      "price": 105.51,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 112.34
-    },
-    "DCMSHRIRAM": {
-      "price": 1040.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1489.48
-    },
-    "GPN": {
-      "price": 67.35,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 89.46
-    },
-    "TAP": {
-      "price": 40.96,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 53.62
-    },
-    "KMB": {
-      "price": 107.44,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 131.04
-    },
-    "BSX": {
-      "price": 45.43,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 109.5
-    },
-    "GNRC": {
-      "price": 286.2,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 296.03
-    },
-    "VRSN": {
-      "price": 252.51,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 311.65
-    },
-    "MOH": {
-      "price": 197.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 311.52
-    },
-    "NWL": {
-      "price": 5.38,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 6.29
-    },
-    "STARCEMENT": {
-      "price": 212.34,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 307.54
-    },
-    "MMM": {
-      "price": 168.38,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 175.71
-    },
-    "KPITTECH": {
-      "price": 736.05,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1356.83
-    },
-    "HAS": {
-      "price": 84.55,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 105.38
-    },
-    "ESS": {
-      "price": 280.87,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 288.31
-    },
-    "HCA": {
-      "price": 392.19,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 554.58
-    },
-    "BWA": {
-      "price": 68.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 78.63
-    },
-    "ROL": {
-      "price": 44.98,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 65.72
-    },
-    "MUTHOOTFIN": {
-      "price": 3129.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4114.71
-    },
-    "PERSISTENT": {
-      "price": 4928.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 6575.41
-    },
-    "FFIV": {
-      "price": 389.35,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 411.52
-    },
-    "MOTHERSON": {
-      "price": 144.58,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 151.77
-    },
-    "BEL": {
-      "price": 413.55,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 471.44
-    },
-    "RHI": {
-      "price": 29.98,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 40.26
-    },
-    "TIMKEN": {
-      "price": 3760.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3925.0
-    },
-    "CINF": {
-      "price": 178.68,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 178.68
-    },
-    "INDHOTEL": {
-      "price": 725.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 808.35
-    },
-    "NDSN": {
-      "price": 298.33,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 303.48
-    },
-    "EL": {
-      "price": 83.99,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 120.79
-    },
-    "MSCI": {
-      "price": 587.36,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 644.68
-    },
-    "COLPAL": {
-      "price": 1965.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2448.35
-    },
-    "AJG": {
-      "price": 219.56,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 323.7
-    },
-    "BAX": {
-      "price": 20.91,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 31.49
-    },
-    "RELINFRA": {
-      "price": 77.48,
-      "currency": "INR",
-      "asOf": "2026-06-23",
-      "high52w": 423.4
-    },
-    "CAMPUS": {
-      "price": 232.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 304.06
-    },
-    "BERGEPAINT": {
-      "price": 530.55,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 600.97
-    },
-    "MTCH": {
-      "price": 36.01,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 38.94
-    },
-    "KIMS": {
-      "price": 797.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 818.0
-    },
-    "GRASIM": {
-      "price": 3127.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3200.0
-    },
-    "USB": {
-      "price": 60.17,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 60.56
-    },
-    "KDP": {
-      "price": 31.7,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 35.02
-    },
-    "JINDALSTEL": {
-      "price": 1089.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1306.2
-    },
-    "SANOFI": {
-      "price": 3399.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 6224.22
-    },
-    "ABBV": {
-      "price": 233.86,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 239.13
-    },
-    "LALPATHLAB": {
-      "price": 1660.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1803.0
-    },
-    "NTPC": {
-      "price": 357.05,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 414.4
-    },
-    "AIAENG": {
-      "price": 4857.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 5060.0
-    },
-    "CVX": {
-      "price": 171.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 212.76
-    },
-    "JNJ": {
-      "price": 240.26,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 250.27
-    },
-    "XEL": {
-      "price": 80.73,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 83.22
-    },
-    "BIOCON": {
-      "price": 420.65,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 440.4
-    },
-    "HAVELLS": {
-      "price": 1186.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1608.14
-    },
-    "LH": {
-      "price": 264.58,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 291.4
-    },
-    "DXCM": {
-      "price": 69.96,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 89.98
-    },
-    "TIINDIA": {
-      "price": 3170.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3417.01
-    },
-    "TECHM": {
-      "price": 1461.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1854.0
+      "high52w": 413.62
     },
     "CSGP": {
-      "price": 30.73,
+      "price": 30.3,
       "currency": "USD",
       "asOf": "2026-06-24",
       "high52w": 97.43
-    },
-    "FOX": {
-      "price": 46.37,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 67.81
-    },
-    "JIOFIN": {
-      "price": 238.87,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 338.07
-    },
-    "MANAPPURAM": {
-      "price": 318.35,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 334.0
-    },
-    "EQIX": {
-      "price": 1103.39,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1124.0
-    },
-    "PM": {
-      "price": 178.05,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 193.05
-    },
-    "FDX": {
-      "price": 313.39,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 344.08
-    },
-    "JSL": {
-      "price": 695.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 882.91
-    },
-    "TATAPOWER": {
-      "price": 393.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 462.04
-    },
-    "ROUTE": {
-      "price": 533.35,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1024.27
-    },
-    "TATAELXSI": {
-      "price": 4025.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 6326.05
-    },
-    "SUDARSCHEM": {
-      "price": 893.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1598.11
-    },
-    "PVH": {
-      "price": 73.96,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 100.71
-    },
-    "AVY": {
-      "price": 163.5,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 197.29
-    },
-    "PARAS": {
-      "price": 1288.45,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1443.0
-    },
-    "AUROPHARMA": {
-      "price": 1530.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1550.9
-    },
-    "WYNN": {
-      "price": 106.03,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 134.07
-    },
-    "HPQ": {
-      "price": 23.34,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 29.29
-    },
-    "FANG": {
-      "price": 183.5,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 213.34
-    },
-    "APH": {
-      "price": 165.49,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 168.75
-    },
-    "FAST": {
-      "price": 46.76,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 49.83
-    },
-    "V": {
-      "price": 334.48,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 357.14
-    },
-    "CHD": {
-      "price": 98.83,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 105.69
-    },
-    "GLW": {
-      "price": 213.16,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 217.09
-    },
-    "HSY": {
-      "price": 181.33,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 237.65
-    },
-    "CCL": {
-      "price": 29.76,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 33.67
-    },
-    "ACC": {
-      "price": 1347.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2017.13
-    },
-    "GPC": {
-      "price": 110.01,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 148.58
-    },
-    "INTU": {
-      "price": 268.47,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 808.22
-    },
-    "WST": {
-      "price": 343.34,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 345.99
-    },
-    "ABCAPITAL": {
-      "price": 394.8,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 396.5
-    },
-    "UPL": {
-      "price": 599.25,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 812.2
-    },
-    "EMN": {
-      "price": 71.14,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 81.56
-    },
-    "MARUTI": {
-      "price": 13248.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 17370.0
-    },
-    "DELTACORP": {
-      "price": 64.94,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 98.8
-    },
-    "VICI": {
-      "price": 27.0,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 31.94
-    },
-    "CVS": {
-      "price": 100.16,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 103.12
-    },
-    "HSIC": {
-      "price": 82.66,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 89.29
-    },
-    "CMS": {
-      "price": 75.86,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 79.74
-    },
-    "MAXHEALTH": {
-      "price": 1081.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1312.79
-    },
-    "CCI": {
-      "price": 82.17,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 110.45
-    },
-    "ADBE": {
-      "price": 200.31,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 392.58
-    },
-    "CRL": {
-      "price": 201.1,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 228.88
-    },
-    "SJM": {
-      "price": 112.25,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 118.08
-    },
-    "WDC": {
-      "price": 650.97,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 799.87
-    },
-    "ABSLAMC": {
-      "price": 1195.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1224.9
-    },
-    "SUNTV": {
-      "price": 516.85,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 660.7
-    },
-    "STX": {
-      "price": 1014.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1145.0
-    },
-    "SHRIRAMFIN": {
-      "price": 1019.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1108.0
-    },
-    "ALB": {
-      "price": 149.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 220.44
-    },
-    "CE": {
-      "price": 47.49,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 70.7
-    },
-    "MTD": {
-      "price": 1211.05,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1525.17
-    },
-    "ODFL": {
-      "price": 218.76,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 252.03
-    },
-    "KIM": {
-      "price": 25.42,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 26.08
-    },
-    "ITW": {
-      "price": 265.2,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 301.25
-    },
-    "VZ": {
-      "price": 45.9,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 50.91
-    },
-    "ICICIBANK": {
-      "price": 1373.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1488.51
-    },
-    "HAL": {
-      "price": 4368.9,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 5006.4
-    },
-    "SNPS": {
-      "price": 470.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 651.73
-    },
-    "OMC": {
-      "price": 74.08,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 85.4
-    },
-    "TEL": {
-      "price": 201.55,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 251.59
-    },
-    "PVRINOX": {
-      "price": 989.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1249.7
-    },
-    "NAZARA": {
-      "price": 292.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 363.25
-    },
-    "WMT": {
-      "price": 119.71,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 135.16
-    },
-    "NDAQ": {
-      "price": 83.16,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 101.11
-    },
-    "BBY": {
-      "price": 77.62,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 81.54
-    },
-    "L": {
-      "price": 111.58,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 114.77
-    },
-    "YUM": {
-      "price": 152.26,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 168.57
-    },
-    "TTWO": {
-      "price": 244.02,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 264.79
-    },
-    "LAURUSLABS": {
-      "price": 1454.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1492.6
-    },
-    "RATEGAIN": {
-      "price": 860.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 901.6
-    },
-    "CB": {
-      "price": 334.73,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 343.58
-    },
-    "MEDANTA": {
-      "price": 1318.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1455.98
-    },
-    "KO": {
-      "price": 81.43,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 83.5
-    },
-    "FE": {
-      "price": 47.6,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 51.81
-    },
-    "BEN": {
-      "price": 33.01,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 34.42
-    },
-    "COALINDIA": {
-      "price": 441.75,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 491.25
-    },
-    "NOC": {
-      "price": 506.05,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 770.61
-    },
-    "CARR": {
-      "price": 74.25,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 80.15
-    },
-    "DRREDDY": {
-      "price": 1328.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1375.9
-    },
-    "MAS": {
-      "price": 77.89,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 78.48
-    },
-    "FLUOROCHEM": {
-      "price": 3908.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3948.0
-    },
-    "AON": {
-      "price": 326.23,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 379.2
-    },
-    "CMG": {
-      "price": 31.67,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 58.42
-    },
-    "DVA": {
-      "price": 213.46,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 215.33
-    },
-    "ROST": {
-      "price": 229.94,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 242.33
-    },
-    "TANLA": {
-      "price": 521.35,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 750.08
-    },
-    "INTC": {
-      "price": 134.63,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 141.45
-    },
-    "NEM": {
-      "price": 94.36,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 134.29
-    },
-    "EMR": {
-      "price": 143.4,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 163.86
-    },
-    "FOXA": {
-      "price": 50.79,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 76.02
-    },
-    "INVH": {
-      "price": 29.59,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 32.77
-    },
-    "BRITANNIA": {
-      "price": 5262.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 6336.0
-    },
-    "ASTRAL": {
-      "price": 1536.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1768.7
-    },
-    "MGL": {
-      "price": 1196.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1549.34
-    },
-    "YATHARTH": {
-      "price": 857.0,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 889.9
-    },
-    "ICE": {
-      "price": 132.69,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 186.96
-    },
-    "CLX": {
-      "price": 96.22,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 127.3
-    },
-    "RAMCOCEM": {
-      "price": 913.75,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1214.5
-    },
-    "PYPL": {
-      "price": 43.28,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 78.82
-    },
-    "VTRS": {
-      "price": 15.98,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 17.4
-    },
-    "PCAR": {
-      "price": 118.43,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 131.13
-    },
-    "FMC": {
-      "price": 11.42,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 43.06
-    },
-    "T": {
-      "price": 22.56,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 29.14
-    },
-    "NRG": {
-      "price": 140.67,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 189.38
-    },
-    "LICHSGFIN": {
-      "price": 550.55,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 635.31
-    },
-    "AMBUJACEM": {
-      "price": 426.85,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 621.87
-    },
-    "APLAPOLLO": {
-      "price": 1826.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2301.4
-    },
-    "CYIENT": {
-      "price": 893.95,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1300.3
-    },
-    "INTELLECT": {
-      "price": 755.35,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1244.6
-    },
-    "GD": {
-      "price": 345.73,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 367.29
-    },
-    "SYY": {
-      "price": 80.76,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 91.16
-    },
-    "SCHW": {
-      "price": 91.61,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 106.76
-    },
-    "ATGL": {
-      "price": 719.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 859.55
-    },
-    "META": {
-      "price": 567.02,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 793.65
-    },
-    "SAIL": {
-      "price": 171.42,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 209.7
-    },
-    "PAYTM": {
-      "price": 1087.3,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1381.8
-    },
-    "QCOM": {
-      "price": 197.7,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 258.96
-    },
-    "BLK": {
-      "price": 983.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1200.54
-    },
-    "AIZ": {
-      "price": 265.52,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 268.67
-    },
-    "NTRS": {
-      "price": 175.4,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 177.78
-    },
-    "CROMPTON": {
-      "price": 275.25,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 358.81
-    },
-    "UDR": {
-      "price": 38.39,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 39.97
-    },
-    "HEROMOTOCO": {
-      "price": 4897.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 6266.36
-    },
-    "MRNA": {
-      "price": 62.16,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 67.74
-    },
-    "ARE": {
-      "price": 51.87,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 84.26
-    },
-    "REGN": {
-      "price": 623.28,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 818.9
-    },
-    "AVGO": {
-      "price": 385.3,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 494.22
-    },
-    "CDSL": {
-      "price": 1331.7,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 1799.33
-    },
-    "PCG": {
-      "price": 16.99,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 19.11
-    },
-    "UPS": {
-      "price": 106.19,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 118.73
-    },
-    "TXN": {
-      "price": 305.04,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 334.03
-    },
-    "EW": {
-      "price": 90.24,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 90.99
-    },
-    "URI": {
-      "price": 1080.33,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 1106.88
-    },
-    "MDLZ": {
-      "price": 62.3,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 69.34
-    },
-    "ICICIGI": {
-      "price": 1821.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2057.09
-    },
-    "RAILTEL": {
-      "price": 317.4,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 432.74
-    },
-    "VLO": {
-      "price": 240.94,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 265.61
-    },
-    "BK": {
-      "price": 143.63,
-      "currency": "USD",
-      "asOf": "2026-06-18",
-      "high52w": 148.13
-    },
-    "SCHAEFFLER": {
-      "price": 4186.2,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 4445.0
-    },
-    "NHPC": {
-      "price": 79.31,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 87.64
-    },
-    "DELHIVERY": {
-      "price": 481.05,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 491.7
-    },
-    "CSCO": {
-      "price": 121.44,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 130.37
-    },
-    "NCLH": {
-      "price": 21.25,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 27.18
-    },
-    "CDNS": {
-      "price": 378.86,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 416.69
-    },
-    "IRFC": {
-      "price": 92.5,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 140.46
-    },
-    "MIDHANI": {
-      "price": 435.05,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 467.76
-    },
-    "COCHINSHIP": {
-      "price": 1487.1,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 2264.36
-    },
-    "LICI": {
-      "price": 436.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 483.59
-    },
-    "WELL": {
-      "price": 220.78,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 221.05
-    },
-    "HST": {
-      "price": 24.68,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 25.41
-    },
-    "CRM": {
-      "price": 155.95,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 274.48
-    },
-    "MCX": {
-      "price": 2840.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3480.0
-    },
-    "WY": {
-      "price": 25.41,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 27.28
-    },
-    "NSC": {
-      "price": 307.56,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 326.0
-    },
-    "PPL": {
-      "price": 36.66,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 39.79
-    },
-    "GOOG": {
-      "price": 349.78,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 404.23
-    },
-    "CZR": {
-      "price": 29.52,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 31.58
-    },
-    "PAYC": {
-      "price": 127.79,
-      "currency": "USD",
-      "asOf": "2026-06-24",
-      "high52w": 246.63
-    },
-    "BRIGADE": {
-      "price": 543.55,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 878.99
-    },
-    "RATNAMANI": {
-      "price": 2753.6,
-      "currency": "INR",
-      "asOf": "2026-06-24",
-      "high52w": 3345.0
     },
     "CENTURYPLY": {
       "price": 755.2,
@@ -4405,89 +79,815 @@
       "asOf": "2026-06-24",
       "high52w": 859.0
     },
-    "KMX": {
-      "price": 52.57,
+    "BAX": {
+      "price": 20.85,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 71.99
+      "high52w": 31.49
+    },
+    "HON": {
+      "price": 227.46,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 246.82
+    },
+    "INDHOTEL": {
+      "price": 725.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 808.35
+    },
+    "SILVERBETA": {
+      "price": 215.32,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 379.66
+    },
+    "GLW": {
+      "price": 213.9,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 217.09
+    },
+    "CF": {
+      "price": 102.3,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 141.38
+    },
+    "IEX": {
+      "price": 223.62,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 228.26
+    },
+    "KHC": {
+      "price": 22.76,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 27.35
+    },
+    "TMUS": {
+      "price": 182.72,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 256.72
+    },
+    "HONAUT": {
+      "price": 39015.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 41450.0
+    },
+    "SUDARSCHEM": {
+      "price": 893.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1598.11
+    },
+    "USB": {
+      "price": 59.99,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 60.56
+    },
+    "TSLA": {
+      "price": 380.96,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 498.83
+    },
+    "NUE": {
+      "price": 241.97,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 270.9
+    },
+    "NESTLEIND": {
+      "price": 1382.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1498.1
+    },
+    "IRM": {
+      "price": 131.32,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 134.68
+    },
+    "KO": {
+      "price": 81.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 83.5
+    },
+    "RAILTEL": {
+      "price": 317.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 432.74
+    },
+    "AEE": {
+      "price": 112.66,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 114.78
+    },
+    "AVB": {
+      "price": 182.04,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 200.91
+    },
+    "VOLTAS": {
+      "price": 1310.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1577.54
+    },
+    "HSY": {
+      "price": 181.59,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 237.65
+    },
+    "ABBV": {
+      "price": 233.49,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 239.13
+    },
+    "AVY": {
+      "price": 162.97,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 197.29
+    },
+    "BAC": {
+      "price": 57.55,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 58.33
+    },
+    "EXPE": {
+      "price": 264.79,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 302.5
     },
     "DG": {
-      "price": 119.15,
+      "price": 119.04,
       "currency": "USD",
       "asOf": "2026-06-24",
       "high52w": 157.48
     },
-    "IDEA": {
-      "price": 14.31,
+    "SYF": {
+      "price": 76.61,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 88.05
+    },
+    "TECH": {
+      "price": 59.64,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 71.93
+    },
+    "GRANULES": {
+      "price": 770.85,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 15.34
+      "high52w": 804.3
+    },
+    "EOG": {
+      "price": 133.62,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 150.7
+    },
+    "MAPMYINDIA": {
+      "price": 861.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1998.0
+    },
+    "IPCALAB": {
+      "price": 1621.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1678.3
+    },
+    "NXPI": {
+      "price": 294.49,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 339.95
+    },
+    "CHD": {
+      "price": 99.18,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 105.69
+    },
+    "BDL": {
+      "price": 1383.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2005.55
+    },
+    "VGUARD": {
+      "price": 313.55,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 408.17
+    },
+    "EQR": {
+      "price": 65.76,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 69.03
+    },
+    "VTR": {
+      "price": 86.84,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 91.06
+    },
+    "KLAC": {
+      "price": 240.93,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 269.9
+    },
+    "NTPC": {
+      "price": 357.05,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 414.4
+    },
+    "AEP": {
+      "price": 133.8,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 138.43
+    },
+    "CPT": {
+      "price": 111.03,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 116.59
+    },
+    "CHTR": {
+      "price": 131.21,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 422.29
+    },
+    "EASEMYTRIP": {
+      "price": 7.54,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 11.11
+    },
+    "CMS": {
+      "price": 75.92,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 79.74
+    },
+    "GE": {
+      "price": 365.36,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 369.25
+    },
+    "SCHAEFFLER": {
+      "price": 4186.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4445.0
+    },
+    "ESS": {
+      "price": 280.69,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 288.31
+    },
+    "NHPC": {
+      "price": 79.31,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 87.64
+    },
+    "CAH": {
+      "price": 234.63,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 234.86
     },
     "FITB": {
-      "price": 55.22,
+      "price": 55.15,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 55.3
+      "high52w": 55.34
     },
-    "NI": {
-      "price": 47.3,
+    "LUPIN": {
+      "price": 2367.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2494.0
+    },
+    "BAJAJ-AUTO": {
+      "price": 9750.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 10683.65
+    },
+    "BEL": {
+      "price": 413.55,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 471.44
+    },
+    "BANKBEES": {
+      "price": 602.28,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 638.99
+    },
+    "AUTOIETF": {
+      "price": 27.18,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 30.5
+    },
+    "RCL": {
+      "price": 324.24,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 48.71
+      "high52w": 360.34
     },
-    "ATUL": {
-      "price": 6612.5,
+    "ARVIND": {
+      "price": 556.1,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 7762.06
+      "high52w": 561.5
     },
-    "PEG": {
-      "price": 81.76,
+    "BMY": {
+      "price": 54.88,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 88.34
+      "high52w": 62.25
     },
-    "HBAN": {
-      "price": 17.71,
+    "PAYC": {
+      "price": 128.07,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 19.09
+      "high52w": 246.63
     },
-    "WESTLIFE": {
-      "price": 481.25,
+    "CAMS": {
+      "price": 797.2,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 818.35
+      "high52w": 860.94
     },
-    "POONAWALLA": {
-      "price": 428.15,
+    "HDFCLIFE": {
+      "price": 591.75,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 570.4
+      "high52w": 817.84
     },
-    "IRCTC": {
-      "price": 515.25,
+    "ILMN": {
+      "price": 175.29,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 177.76
+    },
+    "SAIL": {
+      "price": 171.42,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 787.42
+      "high52w": 209.7
     },
-    "RECLTD": {
-      "price": 363.65,
+    "KMI": {
+      "price": 32.41,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 34.81
+    },
+    "C": {
+      "price": 144.0,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 147.96
+    },
+    "MPWR": {
+      "price": 1442.0,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1714.09
+    },
+    "ASTRAL": {
+      "price": 1536.7,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 388.79
+      "high52w": 1768.7
+    },
+    "CYIENTDLM": {
+      "price": 467.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 505.5
+    },
+    "AXP": {
+      "price": 342.74,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 385.41
+    },
+    "CEG": {
+      "price": 272.16,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 411.04
+    },
+    "BANKBARODA": {
+      "price": 279.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 315.3
+    },
+    "CMG": {
+      "price": 31.53,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 58.42
+    },
+    "FINEORG": {
+      "price": 5270.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 5482.78
+    },
+    "ENPH": {
+      "price": 49.13,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 73.74
+    },
+    "BSE": {
+      "price": 3886.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4446.8
+    },
+    "SWK": {
+      "price": 89.34,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 91.37
+    },
+    "XRAY": {
+      "price": 10.49,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 16.63
+    },
+    "ADANIPOWER": {
+      "price": 229.76,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 254.2
+    },
+    "TER": {
+      "price": 427.3,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 459.19
+    },
+    "LTTS": {
+      "price": 3322.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4673.3
+    },
+    "DOW": {
+      "price": 28.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 42.31
+    },
+    "KEY": {
+      "price": 23.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 23.33
+    },
+    "TAP": {
+      "price": 40.74,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 53.62
+    },
+    "LOWVOLIETF": {
+      "price": 21.74,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 26.81
+    },
+    "UAL": {
+      "price": 128.69,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 129.85
+    },
+    "DEVYANI": {
+      "price": 115.33,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 191.0
+    },
+    "GODREJPROP": {
+      "price": 1820.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2450.9
+    },
+    "AMAT": {
+      "price": 590.8,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 641.18
+    },
+    "ACN": {
+      "price": 127.81,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 303.66
+    },
+    "MCO": {
+      "price": 451.26,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 544.4
+    },
+    "INTU": {
+      "price": 266.61,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 808.22
+    },
+    "ODFL": {
+      "price": 218.53,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 252.03
     },
     "PG": {
-      "price": 152.92,
+      "price": 152.9,
       "currency": "USD",
       "asOf": "2026-06-24",
       "high52w": 166.0
     },
-    "AMP": {
-      "price": 461.73,
+    "SYY": {
+      "price": 80.75,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 546.56
+      "high52w": 91.16
+    },
+    "RJF": {
+      "price": 155.77,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 175.89
+    },
+    "JUNIORBEES": {
+      "price": 778.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 789.97
+    },
+    "AMD": {
+      "price": 521.07,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 562.99
+    },
+    "INCY": {
+      "price": 108.13,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 112.29
+    },
+    "MSFT": {
+      "price": 373.69,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 551.05
+    },
+    "CHRW": {
+      "price": 179.28,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 201.96
+    },
+    "EXR": {
+      "price": 145.29,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 151.76
+    },
+    "ED": {
+      "price": 109.73,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 115.26
+    },
+    "TRV": {
+      "price": 322.04,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 322.71
+    },
+    "NAUKRI": {
+      "price": 1009.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1527.35
+    },
+    "EMN": {
+      "price": 70.54,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 81.56
+    },
+    "NDAQ": {
+      "price": 82.38,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 101.11
+    },
+    "NIFTYBEES": {
+      "price": 272.68,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 302.25
+    },
+    "WELL": {
+      "price": 221.54,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 221.98
+    },
+    "HOMEFIRST": {
+      "price": 1163.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1511.93
+    },
+    "OMC": {
+      "price": 73.78,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 85.4
+    },
+    "ZBRA": {
+      "price": 246.26,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 352.66
+    },
+    "CONSUMBEES": {
+      "price": 127.72,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 144.38
+    },
+    "ABBOTINDIA": {
+      "price": 25595.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 36491.76
+    },
+    "L": {
+      "price": 111.81,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 114.77
+    },
+    "IT": {
+      "price": 130.58,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 409.76
+    },
+    "MARICO": {
+      "price": 819.45,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 848.8
+    },
+    "RAMCOCEM": {
+      "price": 913.75,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1214.5
+    },
+    "DEEPAKNTR": {
+      "price": 1645.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2003.71
+    },
+    "HUDCO": {
+      "price": 207.98,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 242.66
+    },
+    "MNST": {
+      "price": 95.5,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 95.75
+    },
+    "RELAXO": {
+      "price": 368.95,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 526.0
+    },
+    "INTELLECT": {
+      "price": 755.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1244.6
+    },
+    "MMM": {
+      "price": 167.6,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 175.71
+    },
+    "CANFINHOME": {
+      "price": 884.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 971.5
+    },
+    "COALINDIA": {
+      "price": 441.75,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 491.25
+    },
+    "FLUOROCHEM": {
+      "price": 3908.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3948.0
+    },
+    "TT": {
+      "price": 484.03,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 502.33
+    },
+    "COP": {
+      "price": 106.54,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 134.87
+    },
+    "CESC": {
+      "price": 169.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 204.5
+    },
+    "ON": {
+      "price": 115.4,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 134.92
+    },
+    "HFCL": {
+      "price": 204.77,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 220.09
+    },
+    "TPR": {
+      "price": 151.17,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 161.08
+    },
+    "ASIANPAINT": {
+      "price": 2667.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2960.02
     },
     "FORTIS": {
       "price": 975.4,
@@ -4495,11 +895,3035 @@
       "asOf": "2026-06-24",
       "high52w": 1104.3
     },
-    "ALKYLAMINE": {
-      "price": 1781.5,
+    "ZION": {
+      "price": 68.3,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 69.08
+    },
+    "COLPAL": {
+      "price": 1965.3,
       "currency": "INR",
       "asOf": "2026-06-24",
-      "high52w": 2438.8
+      "high52w": 2448.35
+    },
+    "SRF": {
+      "price": 2765.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3314.53
+    },
+    "WY": {
+      "price": 25.41,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 27.28
+    },
+    "PHOENIXLTD": {
+      "price": 1912.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1993.0
+    },
+    "HAS": {
+      "price": 84.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 105.38
+    },
+    "BLK": {
+      "price": 983.18,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1200.54
+    },
+    "HCA": {
+      "price": 391.1,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 554.58
+    },
+    "TSN": {
+      "price": 58.0,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 68.9
+    },
+    "SPIC": {
+      "price": 69.61,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 125.79
+    },
+    "CNC": {
+      "price": 62.39,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 66.55
+    },
+    "TIMKEN": {
+      "price": 3760.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3925.0
+    },
+    "PFE": {
+      "price": 24.13,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 28.28
+    },
+    "KALYANKJIL": {
+      "price": 376.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 615.9
+    },
+    "KEYS": {
+      "price": 355.97,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 374.96
+    },
+    "CDNS": {
+      "price": 378.02,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 416.69
+    },
+    "SETFNIF50": {
+      "price": 257.97,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 287.33
+    },
+    "IBREALEST": {
+      "price": 60.3,
+      "currency": "INR",
+      "asOf": "2026-06-23",
+      "high52w": 128.0
+    },
+    "WEC": {
+      "price": 115.09,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 118.6
+    },
+    "REG": {
+      "price": 79.37,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 80.9
+    },
+    "JCI": {
+      "price": 143.6,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 148.97
+    },
+    "PKG": {
+      "price": 239.08,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 246.42
+    },
+    "O": {
+      "price": 61.94,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 66.84
+    },
+    "PSX": {
+      "price": 168.14,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 189.24
+    },
+    "EXPD": {
+      "price": 160.78,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 168.52
+    },
+    "ALL": {
+      "price": 236.02,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 236.31
+    },
+    "TDG": {
+      "price": 1325.95,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1519.36
+    },
+    "MAR": {
+      "price": 383.18,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 410.98
+    },
+    "GNFC": {
+      "price": 558.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 616.0
+    },
+    "YATHARTH": {
+      "price": 857.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 889.9
+    },
+    "CIPLA": {
+      "price": 1437.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1657.45
+    },
+    "GD": {
+      "price": 345.72,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 367.29
+    },
+    "CRL": {
+      "price": 199.81,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 228.88
+    },
+    "UHS": {
+      "price": 145.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 245.55
+    },
+    "ADP": {
+      "price": 219.67,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 307.44
+    },
+    "YESBANK": {
+      "price": 24.94,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 25.78
+    },
+    "KDP": {
+      "price": 31.68,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 35.02
+    },
+    "ANET": {
+      "price": 164.03,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 179.8
+    },
+    "VBL": {
+      "price": 506.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 555.8
+    },
+    "LIQUIDBEES": {
+      "price": 999.99,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1029.99
+    },
+    "HPE": {
+      "price": 49.57,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 64.06
+    },
+    "SANOFI": {
+      "price": 3399.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 6224.22
+    },
+    "DE": {
+      "price": 609.66,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 672.22
+    },
+    "GLOBUSSPR": {
+      "price": 869.45,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1300.11
+    },
+    "LXCHEM": {
+      "price": 159.95,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 241.0
+    },
+    "3MINDIA": {
+      "price": 33535.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 38030.0
+    },
+    "HDFCBANK": {
+      "price": 793.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1003.9
+    },
+    "PYPL": {
+      "price": 42.75,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 78.82
+    },
+    "POWERGRID": {
+      "price": 290.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 324.95
+    },
+    "RMD": {
+      "price": 195.79,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 291.57
+    },
+    "SNPS": {
+      "price": 471.48,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 651.73
+    },
+    "IVZ": {
+      "price": 25.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 29.82
+    },
+    "RSG": {
+      "price": 214.68,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 248.44
+    },
+    "PRESTIGE": {
+      "price": 1541.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1811.91
+    },
+    "TATACHEM": {
+      "price": 728.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1011.1
+    },
+    "ULTRACEMCO": {
+      "price": 11430.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 13110.0
+    },
+    "TCS": {
+      "price": 2109.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3357.78
+    },
+    "METROBRAND": {
+      "price": 1039.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1336.57
+    },
+    "PRU": {
+      "price": 106.25,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 116.57
+    },
+    "GPN": {
+      "price": 66.39,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 89.46
+    },
+    "ROP": {
+      "price": 331.41,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 571.35
+    },
+    "PNW": {
+      "price": 104.79,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 105.5
+    },
+    "CCI": {
+      "price": 81.75,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 110.45
+    },
+    "EMR": {
+      "price": 142.27,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 163.86
+    },
+    "LYB": {
+      "price": 55.55,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 83.07
+    },
+    "KR": {
+      "price": 57.79,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 76.18
+    },
+    "JKHY": {
+      "price": 127.83,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 191.83
+    },
+    "DPZ": {
+      "price": 291.31,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 486.62
+    },
+    "RF": {
+      "price": 29.56,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 30.93
+    },
+    "MOTHERSON": {
+      "price": 144.58,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 151.77
+    },
+    "SPGI": {
+      "price": 402.35,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 574.23
+    },
+    "MCD": {
+      "price": 273.96,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 337.56
+    },
+    "ROST": {
+      "price": 230.3,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 242.33
+    },
+    "LW": {
+      "price": 46.01,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 65.54
+    },
+    "STT": {
+      "price": 169.95,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 175.46
+    },
+    "ADBE": {
+      "price": 198.64,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 392.58
+    },
+    "CUMMINSIND": {
+      "price": 5555.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 6100.0
+    },
+    "PNR": {
+      "price": 75.2,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 113.06
+    },
+    "URI": {
+      "price": 1077.96,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1106.88
+    },
+    "NWSA": {
+      "price": 25.5,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 31.48
+    },
+    "ETN": {
+      "price": 409.43,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 436.74
+    },
+    "POWERMECH": {
+      "price": 2792.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3413.61
+    },
+    "DGX": {
+      "price": 202.44,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 212.57
+    },
+    "GIS": {
+      "price": 34.97,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 51.27
+    },
+    "CZR": {
+      "price": 29.52,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 31.58
+    },
+    "TORNTPHARM": {
+      "price": 4504.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4703.55
+    },
+    "VNO": {
+      "price": 37.4,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 42.43
+    },
+    "KAYNES": {
+      "price": 3203.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 7705.0
+    },
+    "RATEGAIN": {
+      "price": 860.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 901.6
+    },
+    "MANYAVAR": {
+      "price": 411.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 839.05
+    },
+    "PWR": {
+      "price": 707.6,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 788.75
+    },
+    "ITC": {
+      "price": 290.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 407.14
+    },
+    "HEROMOTOCO": {
+      "price": 4897.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 6266.36
+    },
+    "CI": {
+      "price": 279.49,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 331.54
+    },
+    "JSWENERGY": {
+      "price": 574.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 615.26
+    },
+    "BAJAJFINSV": {
+      "price": 1780.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2195.0
+    },
+    "IDEA": {
+      "price": 14.31,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 15.34
+    },
+    "ATUL": {
+      "price": 6612.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 7762.06
+    },
+    "SHW": {
+      "price": 335.22,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 376.95
+    },
+    "OTIS": {
+      "price": 72.71,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 99.4
+    },
+    "JSWSTEEL": {
+      "price": 1231.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1328.0
+    },
+    "GAIL": {
+      "price": 174.93,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 188.46
+    },
+    "IR": {
+      "price": 78.99,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 100.91
+    },
+    "PNC": {
+      "price": 239.21,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 242.08
+    },
+    "INDUSINDBK": {
+      "price": 927.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 968.85
+    },
+    "NAVINFLUOR": {
+      "price": 7698.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 7714.5
+    },
+    "WBD": {
+      "price": 27.21,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 30.0
+    },
+    "F": {
+      "price": 13.86,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 17.78
+    },
+    "MRNA": {
+      "price": 61.5,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 67.74
+    },
+    "AAVAS": {
+      "price": 1482.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2152.9
+    },
+    "UDR": {
+      "price": 38.37,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 39.97
+    },
+    "CLEAN": {
+      "price": 788.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1512.97
+    },
+    "TEL": {
+      "price": 201.15,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 251.59
+    },
+    "FDS": {
+      "price": 221.84,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 445.8
+    },
+    "HPQ": {
+      "price": 23.17,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 29.29
+    },
+    "HRL": {
+      "price": 25.53,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 30.34
+    },
+    "WYNN": {
+      "price": 105.75,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 134.07
+    },
+    "EXIDEIND": {
+      "price": 399.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 431.0
+    },
+    "TRGP": {
+      "price": 264.68,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 280.0
+    },
+    "COO": {
+      "price": 68.66,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 89.83
+    },
+    "PGR": {
+      "price": 219.55,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 251.6
+    },
+    "DABUR": {
+      "price": 424.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 573.97
+    },
+    "PVRINOX": {
+      "price": 989.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1249.7
+    },
+    "HST": {
+      "price": 24.57,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 25.41
+    },
+    "SJM": {
+      "price": 111.64,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 118.08
+    },
+    "PLD": {
+      "price": 140.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 149.1
+    },
+    "NETWORK18": {
+      "price": 33.17,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 65.29
+    },
+    "AVGO": {
+      "price": 384.13,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 494.22
+    },
+    "FFIV": {
+      "price": 387.15,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 411.52
+    },
+    "KMX": {
+      "price": 52.03,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 71.99
+    },
+    "NKE": {
+      "price": 41.9,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 78.03
+    },
+    "SBILIFE": {
+      "price": 1767.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2129.04
+    },
+    "AXISNIFTY": {
+      "price": 264.94,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 296.38
+    },
+    "ABT": {
+      "price": 90.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 136.28
+    },
+    "APOLLOHOSP": {
+      "price": 8573.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 8624.0
+    },
+    "NMDC": {
+      "price": 85.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 97.49
+    },
+    "TTWO": {
+      "price": 239.01,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 264.79
+    },
+    "ROK": {
+      "price": 460.66,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 479.59
+    },
+    "MHK": {
+      "price": 117.68,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 143.13
+    },
+    "MOM30IETF": {
+      "price": 31.73,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 33.61
+    },
+    "LH": {
+      "price": 264.45,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 291.4
+    },
+    "IDFCFIRSTB": {
+      "price": 79.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 87.0
+    },
+    "ROUTE": {
+      "price": 533.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1024.27
+    },
+    "NFLX": {
+      "price": 72.14,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 134.12
+    },
+    "FTNT": {
+      "price": 146.84,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 150.07
+    },
+    "GALAXYSURF": {
+      "price": 2004.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2745.97
+    },
+    "LUMN": {
+      "price": 8.03,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 11.95
+    },
+    "UPS": {
+      "price": 105.45,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 118.73
+    },
+    "DELTACORP": {
+      "price": 64.94,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 98.8
+    },
+    "MANAPPURAM": {
+      "price": 318.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 334.0
+    },
+    "CSX": {
+      "price": 46.47,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 48.03
+    },
+    "JPPOWER": {
+      "price": 17.98,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 27.7
+    },
+    "CTSH": {
+      "price": 42.01,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 85.98
+    },
+    "MOS": {
+      "price": 21.27,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 36.94
+    },
+    "CRM": {
+      "price": 154.51,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 274.48
+    },
+    "PSUBNKBEES": {
+      "price": 96.43,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 110.4
+    },
+    "SAPPHIRE": {
+      "price": 185.84,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 368.0
+    },
+    "PH": {
+      "price": 968.52,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1032.63
+    },
+    "INDUSTOWER": {
+      "price": 398.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 481.5
+    },
+    "ZENSARTECH": {
+      "price": 453.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 866.52
+    },
+    "DVN": {
+      "price": 42.05,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 52.34
+    },
+    "LUV": {
+      "price": 50.89,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 54.63
+    },
+    "V": {
+      "price": 331.93,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 357.14
+    },
+    "SBUX": {
+      "price": 103.37,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 108.25
+    },
+    "FEDERALBNK": {
+      "price": 325.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 327.0
+    },
+    "MEDANTA": {
+      "price": 1318.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1455.98
+    },
+    "NOC": {
+      "price": 503.93,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 770.61
+    },
+    "GLAXO": {
+      "price": 2366.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3413.12
+    },
+    "NCC": {
+      "price": 157.57,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 234.55
+    },
+    "BEN": {
+      "price": 32.9,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 34.42
+    },
+    "NYKAA": {
+      "price": 306.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 309.75
+    },
+    "STZ": {
+      "price": 144.65,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 173.43
+    },
+    "QRVO": {
+      "price": 98.51,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 109.49
+    },
+    "BOSCHLTD": {
+      "price": 40365.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 41945.0
+    },
+    "BBWI": {
+      "price": 21.56,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 32.66
+    },
+    "AWK": {
+      "price": 128.04,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 144.9
+    },
+    "FIS": {
+      "price": 38.43,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 80.15
+    },
+    "VTRS": {
+      "price": 15.98,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 17.4
+    },
+    "AKAM": {
+      "price": 120.42,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 165.45
+    },
+    "BKNG": {
+      "price": 180.57,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 231.62
+    },
+    "RALLIS": {
+      "price": 230.32,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 381.02
+    },
+    "LNT": {
+      "price": 74.85,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 75.23
+    },
+    "WRB": {
+      "price": 70.4,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 76.93
+    },
+    "HCLTECH": {
+      "price": 1113.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1746.66
+    },
+    "MGM": {
+      "price": 47.38,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 51.59
+    },
+    "SPG": {
+      "price": 219.01,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 219.87
+    },
+    "LAURUSLABS": {
+      "price": 1454.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1492.6
+    },
+    "VEDL": {
+      "price": 282.55,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 795.0
+    },
+    "LHX": {
+      "price": 291.98,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 376.39
+    },
+    "TMO": {
+      "price": 487.2,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 642.71
+    },
+    "INDIAMART": {
+      "price": 1974.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2720.44
+    },
+    "DOV": {
+      "price": 224.99,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 236.42
+    },
+    "MDT": {
+      "price": 80.59,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 104.7
+    },
+    "SENCO": {
+      "price": 329.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 403.94
+    },
+    "PPL": {
+      "price": 36.64,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 39.79
+    },
+    "TATAELXSI": {
+      "price": 4025.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 6326.05
+    },
+    "PNB": {
+      "price": 107.71,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 131.33
+    },
+    "CPSEETF": {
+      "price": 97.87,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 112.0
+    },
+    "LLY": {
+      "price": 1105.33,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1182.73
+    },
+    "QCOM": {
+      "price": 196.74,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 258.96
+    },
+    "RHI": {
+      "price": 29.35,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 40.26
+    },
+    "SBICARD": {
+      "price": 607.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1011.46
+    },
+    "AMGN": {
+      "price": 351.32,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 388.36
+    },
+    "ALB": {
+      "price": 149.27,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 220.44
+    },
+    "ISRG": {
+      "price": 402.93,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 603.88
+    },
+    "DMART": {
+      "price": 4336.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4949.5
+    },
+    "FOXA": {
+      "price": 50.36,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 76.02
+    },
+    "PFIZER": {
+      "price": 4507.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 5873.5
+    },
+    "DLTR": {
+      "price": 118.43,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 142.4
+    },
+    "COST": {
+      "price": 959.34,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1096.5
+    },
+    "BRIGADE": {
+      "price": 543.55,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 878.99
+    },
+    "LATENTVIEW": {
+      "price": 296.65,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 517.5
+    },
+    "COF": {
+      "price": 201.74,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 257.54
+    },
+    "WHR": {
+      "price": 37.87,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 108.05
+    },
+    "YATRA": {
+      "price": 109.85,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 202.0
+    },
+    "LT": {
+      "price": 4181.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4397.05
+    },
+    "TATACONSUM": {
+      "price": 1098.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1271.94
+    },
+    "CONCOR": {
+      "price": 473.95,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 620.02
+    },
+    "SLB": {
+      "price": 46.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 58.51
+    },
+    "WAB": {
+      "price": 274.5,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 278.98
+    },
+    "WM": {
+      "price": 224.29,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 246.08
+    },
+    "OXY": {
+      "price": 50.78,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 67.14
+    },
+    "KPITTECH": {
+      "price": 736.05,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1356.83
+    },
+    "WIPRO": {
+      "price": 174.48,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 266.23
+    },
+    "ABSLNN50ET": {
+      "price": 75.54,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 76.54
+    },
+    "CTVA": {
+      "price": 80.7,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 85.43
+    },
+    "DAL": {
+      "price": 90.05,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 90.5
+    },
+    "AIAENG": {
+      "price": 4857.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 5060.0
+    },
+    "COCHINSHIP": {
+      "price": 1487.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2264.36
+    },
+    "MCX": {
+      "price": 2840.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3480.0
+    },
+    "HD": {
+      "price": 341.13,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 418.06
+    },
+    "GOOG": {
+      "price": 349.45,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 404.23
+    },
+    "PARAS": {
+      "price": 1288.45,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1443.0
+    },
+    "BK": {
+      "price": 143.63,
+      "currency": "USD",
+      "asOf": "2026-06-18",
+      "high52w": 148.13
+    },
+    "MAZDOCK": {
+      "price": 2493.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3348.16
+    },
+    "AWL": {
+      "price": 183.09,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 284.51
+    },
+    "NDSN": {
+      "price": 297.83,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 303.48
+    },
+    "GOLDBEES": {
+      "price": 117.56,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 148.14
+    },
+    "INFY": {
+      "price": 1056.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1691.4
+    },
+    "BR": {
+      "price": 139.83,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 266.43
+    },
+    "OKE": {
+      "price": 86.22,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 96.07
+    },
+    "XEL": {
+      "price": 80.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 83.22
+    },
+    "NOCIL": {
+      "price": 183.34,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 204.5
+    },
+    "DTE": {
+      "price": 150.17,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 152.51
+    },
+    "PAYTM": {
+      "price": 1087.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1381.8
+    },
+    "TXN": {
+      "price": 304.37,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 334.03
+    },
+    "OBEROIRLTY": {
+      "price": 1753.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1995.18
+    },
+    "PRINCEPIPE": {
+      "price": 292.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 375.63
+    },
+    "SYK": {
+      "price": 315.85,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 401.86
+    },
+    "APD": {
+      "price": 276.57,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 307.96
+    },
+    "CHOLAFIN": {
+      "price": 1792.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1830.13
+    },
+    "RRKABEL": {
+      "price": 2438.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2450.0
+    },
+    "SUMICHEM": {
+      "price": 446.05,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 665.0
+    },
+    "NRG": {
+      "price": 141.84,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 189.38
+    },
+    "CARTRADE": {
+      "price": 2603.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3290.5
+    },
+    "CBOE": {
+      "price": 262.74,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 370.4
+    },
+    "NEE": {
+      "price": 87.13,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 98.03
+    },
+    "GOKEX": {
+      "price": 859.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 975.0
+    },
+    "CMCSA": {
+      "price": 22.62,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 32.92
+    },
+    "MDLZ": {
+      "price": 62.07,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 69.34
+    },
+    "MAS": {
+      "price": 77.69,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 78.48
+    },
+    "LTFOODS": {
+      "price": 387.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 514.98
+    },
+    "SUNDARMFIN": {
+      "price": 4600.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 5642.0
+    },
+    "AAPL": {
+      "price": 298.91,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 317.4
+    },
+    "BATAINDIA": {
+      "price": 715.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1282.5
+    },
+    "BHARATFORG": {
+      "price": 2122.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2167.5
+    },
+    "INTC": {
+      "price": 135.01,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 141.45
+    },
+    "APLAPOLLO": {
+      "price": 1826.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2301.4
+    },
+    "FOX": {
+      "price": 45.97,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 67.81
+    },
+    "SRE": {
+      "price": 91.96,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 101.04
+    },
+    "RAYMOND": {
+      "price": 606.25,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 783.9
+    },
+    "STARHEALTH": {
+      "price": 574.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 597.4
+    },
+    "EMAMILTD": {
+      "price": 403.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 621.89
+    },
+    "LICHSGFIN": {
+      "price": 550.55,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 635.31
+    },
+    "AES": {
+      "price": 14.69,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 17.44
+    },
+    "VRTX": {
+      "price": 476.25,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 507.92
+    },
+    "IXIGO": {
+      "price": 184.94,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 339.15
+    },
+    "IDXX": {
+      "price": 551.68,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 769.98
+    },
+    "MANKIND": {
+      "price": 2483.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2715.43
+    },
+    "CNP": {
+      "price": 43.62,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 44.23
+    },
+    "CHALET": {
+      "price": 826.75,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1080.8
+    },
+    "FTV": {
+      "price": 60.44,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 63.34
+    },
+    "GRASIM": {
+      "price": 3127.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3200.0
+    },
+    "POONAWALLA": {
+      "price": 428.15,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 570.4
+    },
+    "IRFC": {
+      "price": 92.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 140.46
+    },
+    "DLR": {
+      "price": 193.39,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 206.76
+    },
+    "HAVELLS": {
+      "price": 1186.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1608.14
+    },
+    "CVX": {
+      "price": 171.32,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 212.76
+    },
+    "MLM": {
+      "price": 621.95,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 709.08
+    },
+    "ADANIENT": {
+      "price": 3069.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3091.7
+    },
+    "NCLH": {
+      "price": 21.09,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 27.18
+    },
+    "MAXHEALTH": {
+      "price": 1081.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1312.79
+    },
+    "HATSUN": {
+      "price": 913.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1166.41
+    },
+    "ABSLAMC": {
+      "price": 1195.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1224.9
+    },
+    "LODHA": {
+      "price": 937.85,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1504.84
+    },
+    "INOXWIND": {
+      "price": 90.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 181.0
+    },
+    "VMC": {
+      "price": 307.83,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 329.81
+    },
+    "LIN": {
+      "price": 520.16,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 525.87
+    },
+    "GWW": {
+      "price": 1344.52,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1377.08
+    },
+    "HBAN": {
+      "price": 17.65,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 19.09
+    },
+    "ALLE": {
+      "price": 133.97,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 181.67
+    },
+    "TANLA": {
+      "price": 521.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 750.08
+    },
+    "ABCAPITAL": {
+      "price": 394.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 396.5
+    },
+    "NVDA": {
+      "price": 200.8,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 236.26
+    },
+    "SHREECEM": {
+      "price": 26070.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 32335.05
+    },
+    "SWKS": {
+      "price": 72.25,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 88.05
+    },
+    "CTAS": {
+      "price": 171.36,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 224.62
+    },
+    "PAYX": {
+      "price": 95.82,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 146.54
+    },
+    "ORLY": {
+      "price": 88.28,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 108.72
+    },
+    "CME": {
+      "price": 238.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 319.82
+    },
+    "COFORGE": {
+      "price": 1497.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1984.96
+    },
+    "TAJGVK": {
+      "price": 338.95,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 510.33
+    },
+    "CLX": {
+      "price": 96.05,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 127.3
+    },
+    "TFC": {
+      "price": 50.17,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 55.06
+    },
+    "JIOFIN": {
+      "price": 238.87,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 338.07
+    },
+    "AIIL": {
+      "price": 534.05,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 683.0
+    },
+    "IP": {
+      "price": 38.09,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 53.57
+    },
+    "MFSL": {
+      "price": 1662.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1892.5
+    },
+    "CAT": {
+      "price": 999.72,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1023.29
+    },
+    "FISV": {
+      "price": 48.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 177.36
+    },
+    "PCG": {
+      "price": 17.02,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 19.11
+    },
+    "RPOWER": {
+      "price": 25.19,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 70.9
+    },
+    "ADANIPORTS": {
+      "price": 1813.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1850.0
+    },
+    "INVH": {
+      "price": 29.55,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 32.77
+    },
+    "AFL": {
+      "price": 117.77,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 119.21
+    },
+    "D": {
+      "price": 68.99,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 69.28
+    },
+    "APH": {
+      "price": 165.32,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 168.75
+    },
+    "LKQ": {
+      "price": 26.15,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 38.17
+    },
+    "IREDA": {
+      "price": 127.52,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 173.68
+    },
+    "FRT": {
+      "price": 124.2,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 126.41
+    },
+    "FMC": {
+      "price": 11.28,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 43.06
+    },
+    "CYIENT": {
+      "price": 893.95,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1300.3
+    },
+    "VRSN": {
+      "price": 253.31,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 311.65
+    },
+    "AMBUJACEM": {
+      "price": 426.85,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 621.87
+    },
+    "PEP": {
+      "price": 143.17,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 168.19
+    },
+    "DRI": {
+      "price": 215.17,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 219.38
+    },
+    "HDFCSML250": {
+      "price": 179.08,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 183.18
+    },
+    "DXC": {
+      "price": 8.44,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 16.45
+    },
+    "PCAR": {
+      "price": 117.8,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 131.13
+    },
+    "NTAP": {
+      "price": 156.75,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 192.83
+    },
+    "WMT": {
+      "price": 119.72,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 135.16
+    },
+    "DIVISLAB": {
+      "price": 6753.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 7039.45
+    },
+    "ICE": {
+      "price": 131.89,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 186.96
+    },
+    "KIMS": {
+      "price": 797.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 818.0
+    },
+    "GODREJCP": {
+      "price": 1020.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1291.23
+    },
+    "PIDILITIND": {
+      "price": 1579.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1599.3
+    },
+    "MARUTI": {
+      "price": 13248.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 17370.0
+    },
+    "BIO": {
+      "price": 280.46,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 343.12
+    },
+    "FAST": {
+      "price": 46.56,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 49.83
+    },
+    "TIINDIA": {
+      "price": 3170.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3417.01
+    },
+    "AZO": {
+      "price": 3119.28,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 4388.11
+    },
+    "ES": {
+      "price": 71.14,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 74.72
+    },
+    "ICICIB22": {
+      "price": 120.12,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 131.0
+    },
+    "AMZN": {
+      "price": 241.63,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 278.56
+    },
+    "ACC": {
+      "price": 1347.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2017.13
+    },
+    "HAPPSTMNDS": {
+      "price": 346.15,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 653.68
+    },
+    "DATAPATTNS": {
+      "price": 4620.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4955.9
+    },
+    "MSCI": {
+      "price": 584.59,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 644.68
+    },
+    "AIZ": {
+      "price": 265.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 268.67
+    },
+    "GSFC": {
+      "price": 163.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 215.43
+    },
+    "PM": {
+      "price": 178.28,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 193.05
+    },
+    "NWS": {
+      "price": 28.82,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 35.34
+    },
+    "CDW": {
+      "price": 131.35,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 180.42
+    },
+    "ADI": {
+      "price": 412.97,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 445.91
+    },
+    "SNA": {
+      "price": 393.47,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 398.16
+    },
+    "ZBH": {
+      "price": 89.37,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 107.45
+    },
+    "BIOCON": {
+      "price": 420.65,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 440.4
+    },
+    "LEN": {
+      "price": 93.38,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 142.24
+    },
+    "MIDHANI": {
+      "price": 435.05,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 467.76
+    },
+    "CFG": {
+      "price": 69.62,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 69.95
+    },
+    "SBAC": {
+      "price": 185.61,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 237.56
+    },
+    "ARE": {
+      "price": 51.4,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 84.26
+    },
+    "RELINFRA": {
+      "price": 77.48,
+      "currency": "INR",
+      "asOf": "2026-06-23",
+      "high52w": 423.4
+    },
+    "TATAPOWER": {
+      "price": 393.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 462.04
+    },
+    "CPRT": {
+      "price": 30.43,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 50.11
+    },
+    "ULTA": {
+      "price": 474.89,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 714.97
+    },
+    "WFC": {
+      "price": 83.87,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 96.73
+    },
+    "ATGL": {
+      "price": 719.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 859.55
+    },
+    "KOTAKBANK": {
+      "price": 405.95,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 453.2
+    },
+    "MS": {
+      "price": 222.48,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 230.47
+    },
+    "GS": {
+      "price": 1084.54,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1125.0
+    },
+    "MTCH": {
+      "price": 35.82,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 38.94
+    },
+    "ADANIENSOL": {
+      "price": 1495.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1614.8
+    },
+    "AMP": {
+      "price": 460.69,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 546.56
+    },
+    "SONACOMS": {
+      "price": 621.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 626.35
+    },
+    "NVR": {
+      "price": 6775.08,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 8618.28
+    },
+    "HINDUNILVR": {
+      "price": 2157.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2701.08
+    },
+    "IIFL": {
+      "price": 525.15,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 670.04
+    },
+    "AOS": {
+      "price": 60.51,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 81.41
+    },
+    "WHIRLPOOL": {
+      "price": 803.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1468.14
+    },
+    "XYL": {
+      "price": 112.89,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 152.72
+    },
+    "ITBEES": {
+      "price": 30.61,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 44.27
+    },
+    "WESTLIFE": {
+      "price": 481.25,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 818.35
+    },
+    "EVRG": {
+      "price": 85.31,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 85.63
+    },
+    "GTLINFRA": {
+      "price": 1.44,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1.99
+    },
+    "CB": {
+      "price": 335.19,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 343.58
+    },
+    "TATACOMM": {
+      "price": 2028.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2110.0
+    },
+    "IFF": {
+      "price": 76.82,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 83.51
+    },
+    "ZTS": {
+      "price": 77.9,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 159.3
+    },
+    "MPC": {
+      "price": 245.6,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 272.46
+    },
+    "VZ": {
+      "price": 45.62,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 50.91
+    },
+    "XOM": {
+      "price": 135.95,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 175.22
+    },
+    "AXISBANK": {
+      "price": 1384.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1418.3
+    },
+    "HDFCAMC": {
+      "price": 2625.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2903.74
+    },
+    "FDX": {
+      "price": 313.3,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 344.08
+    },
+    "ADANIGREEN": {
+      "price": 1525.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1557.0
+    },
+    "ALKEM": {
+      "price": 5428.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 5886.05
+    },
+    "ATO": {
+      "price": 172.53,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 191.43
+    },
+    "IRCTC": {
+      "price": 515.25,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 787.42
+    },
+    "ETSY": {
+      "price": 79.49,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 79.9
+    },
+    "SBIN": {
+      "price": 1034.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1212.84
+    },
+    "ECL": {
+      "price": 278.4,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 307.61
+    },
+    "LVS": {
+      "price": 48.19,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 69.68
+    },
+    "BIIB": {
+      "price": 198.82,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 205.97
+    },
+    "BXP": {
+      "price": 63.58,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 76.75
+    },
+    "FCX": {
+      "price": 61.95,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 72.28
+    },
+    "WMB": {
+      "price": 75.25,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 79.49
+    },
+    "SUNTV": {
+      "price": 516.85,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 660.7
+    },
+    "SO": {
+      "price": 94.87,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 98.76
+    },
+    "GPC": {
+      "price": 109.13,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 148.58
+    },
+    "HWM": {
+      "price": 277.51,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 290.63
+    },
+    "RTX": {
+      "price": 185.68,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 213.61
+    },
+    "WTW": {
+      "price": 261.21,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 350.65
+    },
+    "STLTECH": {
+      "price": 584.15,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 679.9
+    },
+    "MGL": {
+      "price": 1196.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1549.34
+    },
+    "TECHM": {
+      "price": 1461.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1854.0
+    },
+    "GILD": {
+      "price": 125.16,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 155.38
+    },
+    "HUM": {
+      "price": 357.22,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 380.86
+    },
+    "NSLNISP": {
+      "price": 44.65,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 53.75
+    },
+    "EXC": {
+      "price": 46.65,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 50.18
+    },
+    "EBBETF0431": {
+      "price": 1431.79,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1435.99
+    },
+    "ICICIGI": {
+      "price": 1821.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2057.09
+    },
+    "SILVERBEES": {
+      "price": 213.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 360.0
+    },
+    "HDFCMOMENT": {
+      "price": 31.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 33.23
+    },
+    "APA": {
+      "price": 32.84,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 45.36
+    },
+    "SHRIRAMFIN": {
+      "price": 1019.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1108.0
+    },
+    "DD": {
+      "price": 140.41,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 156.73
+    },
+    "ITW": {
+      "price": 263.73,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 301.25
+    },
+    "MA": {
+      "price": 494.46,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 599.05
+    },
+    "VLO": {
+      "price": 241.9,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 265.61
+    },
+    "VFC": {
+      "price": 17.28,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 22.15
+    },
+    "MO": {
+      "price": 71.95,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 73.46
+    },
+    "ALGN": {
+      "price": 171.99,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 208.31
+    },
+    "TROW": {
+      "price": 105.43,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 112.34
+    },
+    "BKR": {
+      "price": 55.9,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 70.18
+    },
+    "EA": {
+      "price": 204.67,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 204.75
+    },
+    "RECLTD": {
+      "price": 363.65,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 388.79
+    },
+    "OIL": {
+      "price": 418.05,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 531.0
+    },
+    "EW": {
+      "price": 89.67,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 90.99
+    },
+    "AON": {
+      "price": 325.68,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 379.2
+    },
+    "TXT": {
+      "price": 86.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 101.53
+    },
+    "ZYDUSLIFE": {
+      "price": 1099.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1126.0
+    },
+    "MSI": {
+      "price": 398.64,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 487.49
+    },
+    "GOOGL": {
+      "price": 350.18,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 408.37
+    },
+    "TATASTEEL": {
+      "price": 190.16,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 219.87
+    },
+    "TGT": {
+      "price": 138.6,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 139.21
+    },
+    "VRSK": {
+      "price": 179.23,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 311.97
+    },
+    "OGN": {
+      "price": 13.45,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 13.49
+    },
+    "RL": {
+      "price": 414.01,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 421.6
+    },
+    "BIKAJI": {
+      "price": 650.95,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 818.7
+    },
+    "MID150BEES": {
+      "price": 236.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 239.89
+    },
+    "ICICIPRULI": {
+      "price": 496.35,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 704.36
+    },
+    "LYV": {
+      "price": 171.6,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 176.0
+    },
+    "TRENT": {
+      "price": 3247.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 6251.76
+    },
+    "MKC": {
+      "price": 48.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 75.94
+    },
+    "GPPL": {
+      "price": 156.26,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 200.09
+    },
+    "DIS": {
+      "price": 103.32,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 123.85
+    },
+    "TITAN": {
+      "price": 4323.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4605.0
+    },
+    "PNBHOUSING": {
+      "price": 1046.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1130.24
+    },
+    "WAT": {
+      "price": 371.52,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 414.15
+    },
+    "CMI": {
+      "price": 704.85,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 737.76
+    },
+    "FANG": {
+      "price": 182.34,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 213.34
+    },
+    "LOW": {
+      "price": 221.28,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 291.66
+    },
+    "MKTX": {
+      "price": 115.16,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 220.97
+    },
+    "RATNAMANI": {
+      "price": 2753.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3345.0
+    },
+    "RVNL": {
+      "price": 239.94,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 402.13
+    },
+    "CAG": {
+      "price": 13.55,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 19.92
+    },
+    "ONGC": {
+      "price": 240.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 307.5
+    },
+    "EPAM": {
+      "price": 76.46,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 222.53
+    },
+    "T": {
+      "price": 22.42,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 29.14
+    },
+    "DLF": {
+      "price": 618.15,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 862.39
+    },
+    "BALKRISIND": {
+      "price": 2223.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2787.61
+    },
+    "STE": {
+      "price": 206.1,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 267.96
+    },
+    "M&MFIN": {
+      "price": 310.85,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 412.2
+    },
+    "SJVN": {
+      "price": 72.91,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 100.4
+    },
+    "THERMAX": {
+      "price": 4757.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 5075.0
+    },
+    "ADSK": {
+      "price": 193.54,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 329.09
+    },
+    "EL": {
+      "price": 84.18,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 120.79
+    },
+    "PHM": {
+      "price": 137.95,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 143.89
+    },
+    "SUNPHARMA": {
+      "price": 1874.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1916.6
+    },
+    "METROPOLIS": {
+      "price": 553.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 598.82
+    },
+    "MET": {
+      "price": 85.21,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 89.62
+    },
+    "LICI": {
+      "price": 436.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 483.59
+    },
+    "BRO": {
+      "price": 61.58,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 110.12
+    },
+    "IQV": {
+      "price": 183.71,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 247.05
+    },
+    "JPM": {
+      "price": 333.22,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 338.09
+    },
+    "JUBLFOOD": {
+      "price": 424.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 717.7
+    },
+    "AMBER": {
+      "price": 7843.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 8974.0
+    },
+    "GRSE": {
+      "price": 2782.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3499.42
+    },
+    "M&M": {
+      "price": 3064.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3839.9
+    },
+    "TDY": {
+      "price": 615.36,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 693.38
+    },
+    "EICHERMOT": {
+      "price": 7572.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 8230.0
+    },
+    "BRITANNIA": {
+      "price": 5262.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 6336.0
+    },
+    "MCHP": {
+      "price": 92.96,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 105.38
+    },
+    "CARR": {
+      "price": 74.07,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 80.15
     },
     "SUZLON": {
       "price": 57.91,
@@ -4507,11 +3931,869 @@
       "asOf": "2026-06-24",
       "high52w": 68.3
     },
-    "AZO": {
-      "price": 3127.74,
+    "PETRONET": {
+      "price": 287.85,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 322.68
+    },
+    "STARCEMENT": {
+      "price": 212.34,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 307.54
+    },
+    "TRIDENT": {
+      "price": 26.78,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 32.98
+    },
+    "CL": {
+      "price": 92.83,
       "currency": "USD",
       "asOf": "2026-06-24",
-      "high52w": 4388.11
+      "high52w": 98.72
+    },
+    "RADICO": {
+      "price": 3757.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3806.2
+    },
+    "JSL": {
+      "price": 695.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 882.91
+    },
+    "LNC": {
+      "price": 36.63,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 45.74
+    },
+    "POOL": {
+      "price": 203.9,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 337.46
+    },
+    "BBY": {
+      "price": 77.09,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 81.54
+    },
+    "KIM": {
+      "price": 25.35,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 26.08
+    },
+    "BPCL": {
+      "price": 315.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 390.9
+    },
+    "UNP": {
+      "price": 261.01,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 278.25
+    },
+    "SBNY": {
+      "price": 0.45,
+      "currency": "USD",
+      "asOf": "2026-06-23",
+      "high52w": 1.5
+    },
+    "ICICIBANK": {
+      "price": 1373.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1488.51
+    },
+    "CBRE": {
+      "price": 133.29,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 174.27
+    },
+    "PERSISTENT": {
+      "price": 4928.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 6575.41
+    },
+    "J": {
+      "price": 122.16,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 167.07
+    },
+    "GILLETTE": {
+      "price": 7793.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 11214.86
+    },
+    "HEIDELBERG": {
+      "price": 154.45,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 217.63
+    },
+    "CDSL": {
+      "price": 1331.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1799.33
+    },
+    "SKFINDIA": {
+      "price": 1658.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 5074.0
+    },
+    "MUTHOOTFIN": {
+      "price": 3129.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4114.71
+    },
+    "SOBHA": {
+      "price": 1428.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1732.5
+    },
+    "DHANUKA": {
+      "price": 1062.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1975.0
+    },
+    "APTV": {
+      "price": 61.36,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 88.93
+    },
+    "MAA": {
+      "price": 134.37,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 148.66
+    },
+    "COROMANDEL": {
+      "price": 1983.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2708.22
+    },
+    "GM": {
+      "price": 79.5,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 87.22
+    },
+    "FE": {
+      "price": 47.65,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 51.81
+    },
+    "TSCO": {
+      "price": 30.01,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 62.68
+    },
+    "ROL": {
+      "price": 44.76,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 65.72
+    },
+    "LLOYDSME": {
+      "price": 1704.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1887.47
+    },
+    "NEM": {
+      "price": 94.17,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 134.29
+    },
+    "MOH": {
+      "price": 198.21,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 311.52
+    },
+    "BHARTIARTL": {
+      "price": 1877.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2174.5
+    },
+    "IBM": {
+      "price": 261.52,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 332.46
+    },
+    "JINDALSTEL": {
+      "price": 1089.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1306.2
+    },
+    "GICRE": {
+      "price": 363.7,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 417.95
+    },
+    "ALKYLAMINE": {
+      "price": 1781.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2438.8
+    },
+    "EQIX": {
+      "price": 1105.59,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1124.0
+    },
+    "MTB": {
+      "price": 233.12,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 235.7
+    },
+    "TORNTPOWER": {
+      "price": 1444.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1817.8
+    },
+    "LALPATHLAB": {
+      "price": 1660.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1803.0
+    },
+    "GRINDWELL": {
+      "price": 2128.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2177.0
+    },
+    "MASTEK": {
+      "price": 1600.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2788.97
+    },
+    "NATCOPHARM": {
+      "price": 893.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1226.8
+    },
+    "BAJFINANCE": {
+      "price": 990.95,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1102.5
+    },
+    "LRCX": {
+      "price": 369.52,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 409.75
+    },
+    "LMT": {
+      "price": 492.89,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 683.9
+    },
+    "WDC": {
+      "price": 647.2,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 799.87
+    },
+    "CINF": {
+      "price": 179.52,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 180.21
+    },
+    "DUK": {
+      "price": 125.35,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 133.34
+    },
+    "BDX": {
+      "price": 147.53,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 184.86
+    },
+    "HSIC": {
+      "price": 82.7,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 89.29
+    },
+    "IGL": {
+      "price": 167.94,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 223.11
+    },
+    "AIG": {
+      "price": 76.94,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 86.21
+    },
+    "MRK": {
+      "price": 120.33,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 123.33
+    },
+    "DHI": {
+      "price": 167.5,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 182.9
+    },
+    "RELIANCE": {
+      "price": 1313.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1604.38
+    },
+    "AMCR": {
+      "price": 41.59,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 49.46
+    },
+    "PIIND": {
+      "price": 2746.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4312.31
+    },
+    "MTD": {
+      "price": 1209.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1525.17
+    },
+    "ASHOKLEY": {
+      "price": 154.91,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 211.81
+    },
+    "PSA": {
+      "price": 316.91,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 328.74
+    },
+    "JBHT": {
+      "price": 270.74,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 293.54
+    },
+    "MU": {
+      "price": 1043.19,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1213.56
+    },
+    "UPL": {
+      "price": 599.25,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 812.2
+    },
+    "BA": {
+      "price": 220.64,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 254.35
+    },
+    "CANBK": {
+      "price": 130.15,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 157.69
+    },
+    "ZEEL": {
+      "price": 115.48,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 148.58
+    },
+    "AME": {
+      "price": 238.38,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 242.82
+    },
+    "DELHIVERY": {
+      "price": 481.05,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 491.7
+    },
+    "GUJGASLTD": {
+      "price": 352.85,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 502.01
+    },
+    "BSX": {
+      "price": 44.83,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 109.5
+    },
+    "IGPL": {
+      "price": 444.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 509.33
+    },
+    "PFC": {
+      "price": 437.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 486.5
+    },
+    "ANGELONE": {
+      "price": 340.65,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 360.45
+    },
+    "PTC": {
+      "price": 114.05,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 219.69
+    },
+    "DRREDDY": {
+      "price": 1328.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1375.9
+    },
+    "PAGEIND": {
+      "price": 40885.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 49879.64
+    },
+    "BERGEPAINT": {
+      "price": 530.55,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 600.97
+    },
+    "NWL": {
+      "price": 5.43,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 6.29
+    },
+    "TYL": {
+      "price": 288.54,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 621.34
+    },
+    "NAZARA": {
+      "price": 292.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 363.25
+    },
+    "SCHW": {
+      "price": 91.58,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 106.76
+    },
+    "POLICYBZR": {
+      "price": 1636.3,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1974.0
+    },
+    "DCMSHRIRAM": {
+      "price": 1040.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1489.48
+    },
+    "AJG": {
+      "price": 219.99,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 323.7
+    },
+    "LDOS": {
+      "price": 105.47,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 204.07
+    },
+    "NOW": {
+      "price": 94.76,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 211.48
+    },
+    "VICI": {
+      "price": 26.88,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 31.94
+    },
+    "PFG": {
+      "price": 107.07,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 112.45
+    },
+    "TFX": {
+      "price": 126.67,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 139.31
+    },
+    "CPB": {
+      "price": 22.08,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 32.67
+    },
+    "REGN": {
+      "price": 619.38,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 818.9
+    },
+    "MOTILALOFS": {
+      "price": 935.15,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1088.32
+    },
+    "DVA": {
+      "price": 213.25,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 215.33
+    },
+    "STX": {
+      "price": 1005.35,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 1145.0
+    },
+    "WST": {
+      "price": 344.54,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 345.99
+    },
+    "BHEL": {
+      "price": 402.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 424.9
+    },
+    "AFFLE": {
+      "price": 1455.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 2185.9
+    },
+    "BWA": {
+      "price": 68.36,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 78.63
+    },
+    "CE": {
+      "price": 47.08,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 70.7
+    },
+    "CVS": {
+      "price": 100.98,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 103.12
+    },
+    "ETR": {
+      "price": 114.26,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 118.11
+    },
+    "BAJAJHLDNG": {
+      "price": 10583.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 14690.34
+    },
+    "MCK": {
+      "price": 774.36,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 997.07
+    },
+    "YUM": {
+      "price": 152.24,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 168.57
+    },
+    "CAMPUS": {
+      "price": 232.8,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 304.06
+    },
+    "RAINBOW": {
+      "price": 1434.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1645.7
+    },
+    "DHR": {
+      "price": 187.57,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 242.28
+    },
+    "HAL": {
+      "price": 4368.9,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 5006.4
+    },
+    "NI": {
+      "price": 47.49,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 48.71
+    },
+    "NATIONALUM": {
+      "price": 348.55,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 444.5
+    },
+    "PEG": {
+      "price": 81.86,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 88.34
+    },
+    "NSC": {
+      "price": 306.06,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 326.0
+    },
+    "PPG": {
+      "price": 120.77,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 131.81
+    },
+    "GNRC": {
+      "price": 284.9,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 296.03
+    },
+    "MPHASIS": {
+      "price": 2261.1,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3037.2
+    },
+    "ALK": {
+      "price": 52.08,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 65.88
+    },
+    "PVH": {
+      "price": 74.29,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 100.71
+    },
+    "TRMB": {
+      "price": 50.35,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 87.5
+    },
+    "RBLBANK": {
+      "price": 377.05,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 381.7
+    },
+    "CCL": {
+      "price": 29.23,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 33.67
+    },
+    "GL": {
+      "price": 175.35,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 177.05
+    },
+    "CROMPTON": {
+      "price": 275.25,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 358.81
+    },
+    "BANDHANBNK": {
+      "price": 211.76,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 218.13
+    },
+    "ADM": {
+      "price": 73.21,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 85.37
+    },
+    "SIEMENS": {
+      "price": 3561.5,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 3937.3
+    },
+    "AUROPHARMA": {
+      "price": 1530.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1550.9
+    },
+    "JKCEMENT": {
+      "price": 5513.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 7565.5
+    },
+    "KMB": {
+      "price": 107.44,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 131.04
+    },
+    "NTRS": {
+      "price": 174.91,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 177.78
+    },
+    "AMT": {
+      "price": 175.08,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 225.61
+    },
+    "EFX": {
+      "price": 157.51,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 273.02
+    },
+    "HINDALCO": {
+      "price": 976.6,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 1176.0
+    },
+    "JNJ": {
+      "price": 240.29,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 250.27
+    },
+    "DIXON": {
+      "price": 12086.0,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 18471.0
+    },
+    "DENORA": {
+      "price": 949.2,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 994.5
+    },
+    "SUPREMEIND": {
+      "price": 3560.4,
+      "currency": "INR",
+      "asOf": "2026-06-24",
+      "high52w": 4651.44
+    },
+    "EBAY": {
+      "price": 110.99,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 118.98
+    },
+    "ORCL": {
+      "price": 158.15,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 343.01
+    },
+    "META": {
+      "price": 562.96,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 793.65
+    },
+    "GRMN": {
+      "price": 247.92,
+      "currency": "USD",
+      "asOf": "2026-06-24",
+      "high52w": 272.11
     }
   }
 }

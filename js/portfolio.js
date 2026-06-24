@@ -436,6 +436,8 @@
         holdingsMap[t.symbol] = {
           symbol: t.symbol, name: t.name, market: t.market,
           qty: 0, totalCost: 0, earliestDate: t.date,
+          totalBought: 0, totalBoughtCost: 0,
+          totalSold: 0, totalSellProceeds: 0,
           trades: []
         };
       }
@@ -448,9 +450,13 @@
         // BUY: add to position
         h.totalCost += t.qty * t.price;
         h.qty += t.qty;
+        h.totalBought += t.qty;
+        h.totalBoughtCost += t.qty * t.price;
       } else {
-        // SELL: reduce position (FIFO-ish — just reduce qty, keep avg cost intact)
+        // SELL: reduce position, track realized proceeds
         h.qty -= t.qty;
+        h.totalSold += t.qty;
+        h.totalSellProceeds += t.qty * t.price;
         // Adjust cost proportionally
         if (h.qty > 0 && (h.qty + t.qty) > 0) {
           h.totalCost = h.totalCost * (h.qty / (h.qty + t.qty));
@@ -460,20 +466,40 @@
       }
     });
 
-    // Convert aggregated positions to holdings array (only keep positive positions).
+    // Convert aggregated positions to holdings array.
+    // Include fully-sold positions (qty <= 0) with realized P&L.
     var holdings = [];
+    var soldPositions = [];
     Object.keys(holdingsMap).forEach(function (sym) {
       var h = holdingsMap[sym];
-      if (h.qty <= 0) {
-        if (h.qty < 0) warnings.push(sym + ": net position is negative (more sells than buys) — skipped.");
-        return; // fully sold or short — skip
-      }
-
-      var avgPrice = h.totalCost / h.qty;
       var symbol = h.symbol;
       var market = h.market;
       var currency = currencyForMarket(market);
       var ref = SD.getByTicker(symbol);
+      var sector = ref ? ref.sector : "Other";
+      var name = h.name || (ref ? ref.name : symbol);
+
+      if (h.qty <= 0) {
+        // Fully sold (or over-sold) position — show realized P&L
+        var avgBuyPrice = h.totalBought > 0 ? h.totalBoughtCost / h.totalBought : 0;
+        var avgSellPrice = h.totalSold > 0 ? h.totalSellProceeds / h.totalSold : 0;
+        var realizedGain = h.totalSellProceeds - h.totalBoughtCost;
+        var realizedPct = h.totalBoughtCost > 0 ? realizedGain / h.totalBoughtCost : 0;
+
+        soldPositions.push({
+          symbol: symbol, name: name, market: market, sector: sector,
+          currency: currency, qty: 0, avgPrice: avgBuyPrice,
+          currentPrice: avgSellPrice,
+          invested: h.totalBoughtCost, currentValue: h.totalSellProceeds,
+          gain: realizedGain, gainPct: realizedPct,
+          date: h.earliestDate, delayed: false, noQuote: false,
+          asOf: null, status: "sold",
+          qtyBought: h.totalBought, qtySold: h.totalSold
+        });
+        return;
+      }
+
+      var avgPrice = h.totalCost / h.qty;
       var quote = SD.PriceService.getQuote(symbol);
       var currentPrice, delayed, noQuote = false;
       if (quote) {
@@ -481,8 +507,6 @@
       } else {
         currentPrice = avgPrice; delayed = true; noQuote = true;
       }
-      var sector = ref ? ref.sector : "Other";
-      var name = h.name || (ref ? ref.name : symbol);
 
       var invested = h.qty * avgPrice;
       var currentValue = h.qty * currentPrice;
@@ -493,22 +517,30 @@
         gain: currentValue - invested,
         gainPct: invested > 0 ? (currentValue - invested) / invested : 0,
         date: h.earliestDate, delayed: delayed, noQuote: noQuote,
-        asOf: quote ? quote.asOf : null
+        asOf: quote ? quote.asOf : null, status: "active",
+        qtyBought: h.totalBought, qtySold: h.totalSold,
+        realizedGain: h.totalSellProceeds - (h.totalSold * avgPrice)
       });
     });
 
-    if (!holdings.length) {
-      return { error: "No net positive holdings found. All positions may have been sold.", warnings: warnings };
+    if (!holdings.length && !soldPositions.length) {
+      return { error: "No holdings or trades found in the file.", warnings: warnings };
     }
 
     // Base currency = most common holding currency (avoids odd conversions for
     // single-market portfolios; mixed portfolios get converted + flagged).
     var curCount = {};
     holdings.forEach(function (h) { curCount[h.currency] = (curCount[h.currency] || 0) + 1; });
-    var baseCurrency = Object.keys(curCount).sort(function (a, b) { return curCount[b] - curCount[a]; })[0];
+    soldPositions.forEach(function (h) { curCount[h.currency] = (curCount[h.currency] || 0) + 1; });
+    var baseCurrency = Object.keys(curCount).sort(function (a, b) { return curCount[b] - curCount[a]; })[0] || "INR";
     var mixedCurrency = Object.keys(curCount).length > 1;
 
     holdings.forEach(function (h) {
+      h.investedBase = convert(h.invested, h.currency, baseCurrency);
+      h.currentValueBase = convert(h.currentValue, h.currency, baseCurrency);
+      h.gainBase = h.currentValueBase - h.investedBase;
+    });
+    soldPositions.forEach(function (h) {
       h.investedBase = convert(h.invested, h.currency, baseCurrency);
       h.currentValueBase = convert(h.currentValue, h.currency, baseCurrency);
       h.gainBase = h.currentValueBase - h.investedBase;
@@ -519,16 +551,39 @@
     var totalGain = totalCurrent - totalInvested;
     var absReturn = totalInvested > 0 ? totalGain / totalInvested : null;
 
-    // XIRR: each buy is a negative flow at its date; current value is positive today.
+    // XIRR: use actual trade-level cash flows for accuracy.
+    // Each BUY = negative cash flow (money going out)
+    // Each SELL = positive cash flow (money coming in)
+    // Current portfolio value = positive cash flow today
     var now = new Date();
-    var flows = holdings.map(function (h) { return { amount: -h.investedBase, date: h.date }; });
-    flows.push({ amount: totalCurrent, date: now });
-    var xirr = F.xirr(flows);
+    var flows = [];
+    // Collect all individual trades across all symbols
+    Object.keys(holdingsMap).forEach(function (sym) {
+      var h = holdingsMap[sym];
+      var currency = currencyForMarket(h.market);
+      h.trades.forEach(function (t) {
+        var amount = convert(t.qty * t.price, currency, baseCurrency);
+        if (!hasTradeType || t.tradeType === "BUY") {
+          flows.push({ amount: -amount, date: t.date }); // buy = money out
+        } else {
+          flows.push({ amount: amount, date: t.date });  // sell = money in
+        }
+      });
+    });
+    // Add current value of active holdings as a final positive flow
+    if (totalCurrent > 0) {
+      flows.push({ amount: totalCurrent, date: now });
+    }
+    var xirr = flows.length >= 2 ? F.xirr(flows) : null;
 
     // CAGR from earliest purchase to today.
-    var earliest = holdings.reduce(function (d, h) { return h.date < d ? h.date : d; }, holdings[0].date);
+    var allPositions = holdings.concat(soldPositions);
+    var earliest = allPositions.length > 0
+      ? allPositions.reduce(function (d, h) { return h.date < d ? h.date : d; }, allPositions[0].date)
+      : now;
     var years = F.yearsBetween(earliest, now);
-    var cagr = years > 0 ? F.cagr(totalInvested, totalCurrent, years) : null;
+    var totalRealizedGain = soldPositions.reduce(function (s, h) { return s + h.gainBase; }, 0);
+    var cagr = years > 0 && totalInvested > 0 ? F.cagr(totalInvested, totalCurrent + totalRealizedGain + totalInvested, years) : null;
 
     // ---- Concentrations ----
     var byStock = groupConc(holdings, totalCurrent, function (h) { return h.symbol; }, function (h) { return h.name; });
@@ -564,9 +619,10 @@
     var timeline = buildTimeline(holdings, totalCurrent, now);
 
     var analysis = {
-      holdings: holdings, warnings: warnings,
+      holdings: holdings, soldPositions: soldPositions, warnings: warnings,
       baseCurrency: baseCurrency, mixedCurrency: mixedCurrency, fxRate: FX_INR_PER_USD,
       totalInvested: totalInvested, totalCurrent: totalCurrent, totalGain: totalGain,
+      totalRealizedGain: totalRealizedGain,
       absReturn: absReturn, xirr: xirr, cagr: cagr, years: years, earliest: earliest,
       byStock: byStock, bySector: bySector, byMarket: byMarket,
       hhi: hhi, effectiveStocks: effectiveStocks, divScore: divScore,
@@ -912,11 +968,41 @@
           '<div class="muted">' + F.fmtSignedPct(h.gainPct) + '</div></td>' +
         '</tr>';
     }).join("");
-    return '<h2 class="card-section-title">Holdings</h2><div class="table-wrap"><table>' +
+
+    // Sold positions section
+    var soldRows = "";
+    if (a.soldPositions && a.soldPositions.length > 0) {
+      soldRows = a.soldPositions.map(function (h) {
+        return '<tr style="opacity:0.75">' +
+          '<td><strong>' + esc(h.symbol) + '</strong> <span class="pill pill-grey">Sold</span>' +
+            '<div class="muted">' + esc(h.name) + '</div></td>' +
+          '<td><span class="chip">' + esc(h.market) + '</span></td>' +
+          '<td>' + esc(h.sector) + '</td>' +
+          '<td class="num muted">' + h.qtyBought + ' → ' + h.qtySold + '</td>' +
+          '<td class="num">' + SD.fmtMoney(h.avgPrice, h.currency) + '</td>' +
+          '<td class="num">' + SD.fmtMoney(h.currentPrice, h.currency) +
+            ' <span class="muted">(avg sell)</span></td>' +
+          '<td class="num">' + SD.fmtMoney(h.invested, h.currency) + '</td>' +
+          '<td class="num">' + SD.fmtMoney(h.currentValue, h.currency) + '</td>' +
+          '<td class="num ' + (h.gain >= 0 ? "pos" : "neg") + '">' + SD.fmtMoney(h.gain, h.currency) +
+            '<div class="muted">' + F.fmtSignedPct(h.gainPct) + ' realized</div></td>' +
+          '</tr>';
+      }).join("");
+    }
+
+    var soldSection = soldRows
+      ? '<h2 class="card-section-title">Sold Positions (Realized P&amp;L)</h2><div class="table-wrap"><table>' +
+        '<thead><tr><th>Stock</th><th>Market</th><th>Sector</th><th class="num">Bought → Sold</th>' +
+        '<th class="num">Avg buy</th><th class="num">Avg sell</th><th class="num">Total cost</th>' +
+        '<th class="num">Proceeds</th><th class="num">Realized P&amp;L</th></tr></thead>' +
+        '<tbody>' + soldRows + '</tbody></table></div>'
+      : '';
+
+    return '<h2 class="card-section-title">Active Holdings</h2><div class="table-wrap"><table>' +
       '<thead><tr><th>Stock</th><th>Market</th><th>Sector</th><th class="num">Qty</th>' +
       '<th class="num">Avg price</th><th class="num">Cur price</th><th class="num">Invested</th>' +
       '<th class="num">Cur value</th><th class="num">Gain/Loss</th></tr></thead>' +
-      '<tbody>' + rows + '</tbody></table></div>';
+      '<tbody>' + rows + '</tbody></table></div>' + soldSection;
   }
 
   function wireDashboard(container) {

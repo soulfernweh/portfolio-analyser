@@ -10,9 +10,9 @@
   "use strict";
 
   var PALETTE = [
-    "#4da3ff", "#2ecc71", "#f5a623", "#ff5c5c", "#9b6dff",
-    "#1abc9c", "#e056a0", "#f8c471", "#5dade2", "#58d68d",
-    "#af7ac5", "#f1948a", "#48c9b0", "#7fb3d5"
+    "#667eea", "#34c759", "#ff9f0a", "#ff3b30", "#af52de",
+    "#00c7be", "#ff2d55", "#5ac8fa", "#30d158", "#5856d6",
+    "#ff6482", "#64d2ff", "#ffd60a", "#bf5af2", "#0a84ff"
   ];
   function color(i) { return PALETTE[i % PALETTE.length]; }
 

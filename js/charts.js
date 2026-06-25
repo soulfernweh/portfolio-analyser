@@ -145,7 +145,7 @@
       return '<div class="empty-state"><div class="es-icon">📈</div>Not enough data points to chart</div>';
     }
     var w = opts.width || 600, h = opts.height || 240;
-    var padL = 56, padR = 16, padT = 16, padB = 34;
+    var padL = 56, padR = 16, padT = 16, padB = 38;
     var plotW = w - padL - padR, plotH = h - padT - padB;
 
     var vals = data.map(function (d) { return d.value; });
@@ -181,12 +181,18 @@
         '" r="2.5" fill="var(--accent)"/>';
     }).join("");
 
-    // x labels: first, middle, last
-    var xls = [0, Math.floor((data.length - 1) / 2), data.length - 1];
+    // x labels: show up to 5 evenly-spaced labels (adapts to data size)
+    var numLabels = Math.min(5, data.length);
+    var xls = [];
+    for (var li = 0; li < numLabels; li++) {
+      xls.push(Math.round(li * (data.length - 1) / (numLabels - 1 || 1)));
+    }
+    // Deduplicate indices
+    xls = xls.filter(function (v, i, a) { return a.indexOf(v) === i; });
     var xlabels = xls.map(function (idx) {
-      return '<text x="' + px(idx).toFixed(1) + '" y="' + (h - 12) +
-        '" text-anchor="middle" fill="var(--text-faint)" font-size="11">' +
-        esc(trim(data[idx].label, 12)) + '</text>';
+      return '<text x="' + px(idx).toFixed(1) + '" y="' + (h - 10) +
+        '" text-anchor="middle" fill="var(--text-faint)" font-size="10">' +
+        esc(data[idx].label) + '</text>';
     }).join("");
 
     return '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img">' +

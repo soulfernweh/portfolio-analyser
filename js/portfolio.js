@@ -898,10 +898,9 @@
         }).join("") + '</ul>'
       : '<p class="muted">No notable risk flags. Portfolio looks balanced.</p>';
 
-    var perfData = a.byStock.map(function (g) {
-      var h = a.holdings.filter(function (x) { return x.symbol === g.key; })[0];
-      return { label: g.key, value: round2(h ? h.gainBase : 0) };
-    });
+    var perfData = a.holdings.map(function (h) {
+      return { label: h.symbol, invested: round2(h.investedBase), current: round2(h.currentValueBase), net: round2(h.gainBase) };
+    }).sort(function (a, b) { return b.current - a.current; }); // sort by current value desc
 
     var html =
       '<div class="row-between"><div><h1 class="page-title">Portfolio Analysis</h1>' +
@@ -923,14 +922,14 @@
         '<div class="card"><h3>Sector allocation</h3>' +
           C.pie(a.bySector.map(function (g) { return { label: g.key, value: g.value }; }), { donut: true, centerLabel: a.bySector.length + "", centerSub: "sectors" }) +
         '</div>' +
-        '<div class="card"><h3>Performance by holding (' + base + ')</h3>' +
-          C.bar(perfData, { colorBySign: true, valuePrefix: base === "INR" ? "₹" : "$" }) +
+        '<div class="card"><h3>Holdings comparison (' + base + ')</h3>' +
+          '<p class="muted" style="margin:0 0 8px;font-size:12px">Invested (grey) vs Current value (color) per stock</p>' +
+          renderPerfComparison(perfData, base) +
         '</div>' +
       '</div>' +
       '<div class="card section-gap"><h3>Capital deployed → current value (' + base + ')</h3>' +
-        '<p class="muted" style="margin-top:-4px">Cumulative cost basis at each purchase date, ending at today\'s market value. ' +
-          '(Historical daily prices aren\'t bundled offline.)</p>' +
-        C.line(a.timeline, { valuePrefix: base === "INR" ? "₹" : "$" }) +
+        '<p class="muted" style="margin-top:-4px">Cumulative cost basis at each purchase date, ending at today\'s market value.</p>' +
+        C.line(a.timeline, { valuePrefix: base === "INR" ? "\u20B9" : "$" }) +
       '</div>' +
       renderConcentrationTables(a) +
       renderHoldingsTable(a) +
@@ -946,19 +945,17 @@
     function tbl(title, groups, isStock) {
       var rows = groups.map(function (g) {
         var flag = "";
-        if (isStock && g.pct > 20) flag = ' <span class="pill pill-red">>20%</span>';
         if (!isStock && g.pct > 40) flag = ' <span class="pill pill-red">>40%</span>';
         return '<tr><td>' + esc(g.label || g.key) + flag + '</td>' +
           '<td class="num">' + SD.fmtMoney(g.value, a.baseCurrency) + '</td>' +
           '<td class="num">' + g.pct.toFixed(1) + '%</td></tr>';
       }).join("");
       return '<div class="card"><h3>' + title + '</h3><div class="table-wrap"><table>' +
-        '<thead><tr><th>' + (isStock ? "Stock" : title.replace("By ", "")) + '</th><th class="num">Value</th><th class="num">Weight</th></tr></thead>' +
+        '<thead><tr><th>' + title.replace("By ", "") + '</th><th class="num">Value</th><th class="num">Weight</th></tr></thead>' +
         '<tbody>' + rows + '</tbody></table></div></div>';
     }
     return '<h2 class="card-section-title">Concentration &amp; risk exposure</h2>' +
-      '<div class="grid grid-3">' +
-        tbl("By stock", a.byStock, true) +
+      '<div class="grid grid-2">' +
         tbl("By sector", a.bySector, false) +
         tbl("By market", a.byMarket, false) +
       '</div>';
@@ -1019,6 +1016,40 @@
       '<th class="num">Avg price</th><th class="num">Cur price</th>' +
       '<th class="num">Gain/Loss</th><th>52-week range</th></tr></thead>' +
       '<tbody>' + rows + '</tbody></table></div>' + soldSection;
+  }
+
+  // ---- Horizontal performance comparison (invested vs current per holding) ---
+  function renderPerfComparison(data, base) {
+    if (!data.length) return '<div class="empty-state">No holdings</div>';
+    var sym = base === "INR" ? "\u20B9" : "$";
+    var maxVal = data.reduce(function (m, d) { return Math.max(m, d.invested, d.current); }, 0) || 1;
+    var rowH = 36, gap = 6, padL = 80, padR = 80, padT = 4, padB = 4;
+    var w = 520;
+    var barH = 10;
+    var h = padT + padB + data.length * rowH + (data.length - 1) * gap;
+    var plotW = w - padL - padR;
+    var scale = plotW / maxVal;
+
+    var rows = data.map(function (d, i) {
+      var y = padT + i * (rowH + gap);
+      var investedW = Math.max(1, d.invested * scale);
+      var currentW = Math.max(1, d.current * scale);
+      var netColor = d.net >= 0 ? "var(--green)" : "var(--red)";
+      var netSign = d.net >= 0 ? "+" : "";
+
+      return '<text x="' + (padL - 8) + '" y="' + (y + rowH / 2 + 1) + '" text-anchor="end" fill="var(--text-dim)" font-size="12" font-weight="600">' + d.label + '</text>' +
+        '<rect x="' + padL + '" y="' + (y + 6) + '" width="' + investedW + '" height="' + barH + '" rx="3" fill="var(--border)" opacity="0.7"/>' +
+        '<rect x="' + padL + '" y="' + (y + 6 + barH + 3) + '" width="' + currentW + '" height="' + barH + '" rx="3" fill="' + (d.net >= 0 ? 'var(--green)' : 'var(--red)') + '" opacity="0.8"/>' +
+        '<text x="' + (padL + Math.max(investedW, currentW) + 8) + '" y="' + (y + rowH / 2 + 1) + '" fill="' + netColor + '" font-size="11" font-weight="700">' +
+          netSign + sym + Math.abs(d.net).toLocaleString() + '</text>';
+    }).join("");
+
+    var legend = '<div class="chart-legend" style="margin-top:10px">' +
+      '<span class="lg"><span class="sw" style="background:var(--border)"></span>Invested</span>' +
+      '<span class="lg"><span class="sw" style="background:var(--green)"></span>Current (gain)</span>' +
+      '<span class="lg"><span class="sw" style="background:var(--red)"></span>Current (loss)</span></div>';
+
+    return '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img" style="max-height:' + Math.min(h, 400) + 'px">' + rows + '</svg>' + legend;
   }
 
   // ---- Segment stats (Active / Sold) ----------------------------------------

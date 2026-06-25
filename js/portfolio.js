@@ -782,8 +782,13 @@
     // ---- Value-over-time series (cost basis deployed -> current value) ----
     var timeline = buildTimeline(holdings, totalCurrent, now);
 
-    // ---- Benchmark comparison (money-weighted, same cash flows into index) ----
-    var benchmark = computeBenchmark(holdingsMap, hasTradeType, baseCurrency, totalCurrent, now);
+    // ---- Benchmark comparison (money-weighted, same cash flows into each index) ----
+    var benchmarks = computeBenchmarks(holdingsMap, hasTradeType, baseCurrency, now);
+    // Primary benchmark (for the headline verdict): prefer Nifty 50, else first.
+    var benchmark = null;
+    if (benchmarks && benchmarks.length) {
+      benchmark = benchmarks.filter(function (b) { return b.key === "NIFTY50"; })[0] || benchmarks[0];
+    }
 
     var analysis = {
       holdings: holdings, soldPositions: soldPositions, warnings: warnings,
@@ -795,7 +800,7 @@
       hhi: hhi, effectiveStocks: effectiveStocks, divScore: divScore,
       underweightSectors: underweightSectors, ownedTickers: ownedTickers,
       longTerm: lt, shortTerm: st, insights: insights, timeline: timeline,
-      benchmark: benchmark,
+      benchmark: benchmark, benchmarks: benchmarks,
       generatedAt: now
     };
     return analysis;
@@ -861,63 +866,95 @@
     return chosen ? chosen.c : null;
   }
 
-  function computeBenchmark(holdingsMap, hasTradeType, baseCurrency, portfolioCurrent, now) {
-    var nifty = SD.PriceService.getBenchmark ? SD.PriceService.getBenchmark("NIFTY50") : null;
-    var sp500 = SD.PriceService.getBenchmark ? SD.PriceService.getBenchmark("SP500") : null;
-    if (!nifty && !sp500) return null;
-
-    function latest(series) { return series && series.length ? series[series.length - 1].c : null; }
-    var niftyLatest = nifty ? latest(nifty.series) : null;
-    var spLatest = sp500 ? latest(sp500.series) : null;
-
-    var benchFlows = [];      // mirrored buy/sell flows (base currency)
-    var benchTerminal = 0;    // index-equivalent value today
-    var totalBuys = 0;
-    var anyMatched = false;
+  // Mirror ALL of the portfolio's cash flows (buys/sells, converted to base
+  // currency) into ONE index series and return its money-weighted XIRR — i.e.
+  // "what if I'd invested the exact same amounts on the same dates into this
+  // index instead?". Growth multiples are unitless so the FX conversion of the
+  // flow amount is all that's needed.
+  function computeIndexXirr(holdingsMap, hasTradeType, baseCurrency, series, now) {
+    if (!series || !series.length) return null;
+    var latest = series[series.length - 1].c;
+    if (!latest) return null;
+    var flows = [], terminal = 0, totalBuys = 0, matched = false;
 
     Object.keys(holdingsMap).forEach(function (sym) {
       var h = holdingsMap[sym];
-      var isIndia = h.market === "India";
-      var bench = isIndia ? nifty : sp500;
-      var benchLatest = isIndia ? niftyLatest : spLatest;
-      if (!bench || !benchLatest) return;
-
       h.trades.forEach(function (t) {
         var amountBase = convert(t.qty * t.price, currencyForMarket(h.market), baseCurrency);
-        var closeAt = indexCloseAt(bench.series, t.date);
+        var closeAt = indexCloseAt(series, t.date);
         if (!closeAt) return;
-        var growth = benchLatest / closeAt; // unitless multiple
-        anyMatched = true;
-
+        var growth = latest / closeAt;
+        matched = true;
         if (!hasTradeType || t.tradeType === "BUY") {
-          benchFlows.push({ amount: -amountBase, date: t.date });
-          benchTerminal += amountBase * growth;
+          flows.push({ amount: -amountBase, date: t.date });
+          terminal += amountBase * growth;
           totalBuys += amountBase;
         } else {
-          benchFlows.push({ amount: amountBase, date: t.date });
-          benchTerminal -= amountBase * growth;
+          flows.push({ amount: amountBase, date: t.date });
+          terminal -= amountBase * growth;
         }
       });
     });
 
-    if (!anyMatched || totalBuys <= 0) return null;
-    if (benchTerminal > 0) benchFlows.push({ amount: benchTerminal, date: now });
-
-    var benchXirr = F.xirr(benchFlows);
-    var benchAbsReturn = totalBuys > 0 ? (benchTerminal - totalBuys) / totalBuys : null;
-
-    // Determine which index label to show
-    var label = "Nifty 50 + S&P 500 blend";
-    if (nifty && !sp500) label = "Nifty 50";
-    else if (sp500 && !nifty) label = "S&P 500";
-
+    if (!matched || totalBuys <= 0) return null;
+    if (terminal > 0) flows.push({ amount: terminal, date: now });
     return {
-      label: label,
-      xirr: benchXirr,
-      absReturn: benchAbsReturn,
-      terminalValue: round2(benchTerminal),
+      xirr: F.xirr(flows),
+      terminalValue: round2(terminal),
       invested: round2(totalBuys)
     };
+  }
+
+  // Built-in display labels + preferred ordering for known indices. Any index
+  // present in prices.json's `benchmarks` is shown; unknown keys fall back to
+  // their raw name. The updater (scripts/update_prices.py) also stamps a label.
+  var BENCH_LABELS = {
+    NIFTY50: "Nifty 50",
+    NIFTYNEXT50: "Nifty Next 50",
+    NIFTYMIDCAP150: "Nifty Midcap 150",
+    NIFTYSMALLCAP250: "Nifty Smallcap 250",
+    SP500: "S&P 500"
+  };
+  var BENCH_ORDER = ["NIFTY50", "NIFTYNEXT50", "NIFTYMIDCAP150", "NIFTYSMALLCAP250", "SP500"];
+
+  // Compute the XIRR your exact cash-flow schedule would have earned in EACH
+  // available index. Returns an array (one entry per index) for side-by-side
+  // comparison, ordered with the broad-market indices first.
+  function computeBenchmarks(holdingsMap, hasTradeType, baseCurrency, now) {
+    var all = SD.PriceService.getBenchmarks ? SD.PriceService.getBenchmarks() : null;
+    if (!all) {
+      // Legacy fallback: only the two original series via getBenchmark.
+      all = {};
+      var n = SD.PriceService.getBenchmark ? SD.PriceService.getBenchmark("NIFTY50") : null;
+      var s = SD.PriceService.getBenchmark ? SD.PriceService.getBenchmark("SP500") : null;
+      if (n) all.NIFTY50 = n;
+      if (s) all.SP500 = s;
+    }
+    var keys = Object.keys(all);
+    if (!keys.length) return null;
+
+    var results = [];
+    keys.forEach(function (name) {
+      var bench = all[name];
+      if (!bench || !bench.series || !bench.series.length) return;
+      var r = computeIndexXirr(holdingsMap, hasTradeType, baseCurrency, bench.series, now);
+      if (!r || r.xirr == null) return;
+      results.push({
+        key: name,
+        label: bench.label || BENCH_LABELS[name] || name,
+        xirr: r.xirr,
+        terminalValue: r.terminalValue,
+        invested: r.invested
+      });
+    });
+    if (!results.length) return null;
+
+    results.sort(function (a, b) {
+      var ia = BENCH_ORDER.indexOf(a.key); if (ia < 0) ia = 99;
+      var ib = BENCH_ORDER.indexOf(b.key); if (ib < 0) ib = 99;
+      return ia - ib;
+    });
+    return results;
   }
 
   function buildInsights(byStock, bySector, divScore, effStocks, lt, st, total, holdings) {
@@ -1153,20 +1190,39 @@
 
     // Benchmark comparison row
     var benchHtml = "";
-    if (a.benchmark && a.benchmark.xirr != null) {
-      var outperf = (a.xirr != null && a.benchmark.xirr != null) ? (a.xirr - a.benchmark.xirr) : null;
-      var verdict = outperf == null ? "" : (outperf >= 0
-        ? '<span class="pill pill-green">Beating ' + a.benchmark.label + ' by ' + (outperf * 100).toFixed(1) + ' pts</span>'
-        : '<span class="pill pill-red">Trailing ' + a.benchmark.label + ' by ' + Math.abs(outperf * 100).toFixed(1) + ' pts</span>');
+    if (a.benchmarks && a.benchmarks.length && a.xirr != null) {
+      // One row per index: index XIRR + your edge (your XIRR − index XIRR).
+      var benchRows = a.benchmarks.map(function (b) {
+        var edge = (b.xirr != null) ? (a.xirr - b.xirr) : null;
+        var edgeCell = edge == null ? '<span class="muted">--</span>'
+          : '<span class="' + (edge >= 0 ? "pos" : "neg") + '">' +
+              (edge >= 0 ? "+" : "") + (edge * 100).toFixed(1) + ' pts</span>';
+        var verdictPill = edge == null ? ''
+          : (edge >= 0 ? '<span class="pill pill-green">Beating</span>'
+                       : '<span class="pill pill-red">Trailing</span>');
+        return '<tr><td><strong>' + esc(b.label) + '</strong></td>' +
+          '<td class="num">' + coloredPct(b.xirr) + '</td>' +
+          '<td class="num">' + edgeCell + '</td>' +
+          '<td>' + verdictPill + '</td></tr>';
+      }).join("");
+
       benchHtml =
-        '<div class="card section-gap"><div class="row-between"><h3 style="margin:0">Benchmark comparison</h3>' + verdict + '</div>' +
-        '<p class="muted" style="margin:6px 0 12px;font-size:12px">If you had invested the same amounts on the same dates into ' +
-          esc(a.benchmark.label) + ' (money-weighted).</p>' +
-        '<div class="grid grid-3">' +
-          benchMetric("Your XIRR", coloredPct(a.xirr)) +
-          benchMetric(a.benchmark.label + " XIRR", coloredPct(a.benchmark.xirr)) +
-          benchMetric("Your return vs index", coloredPct(a.benchmark.absReturn != null ? (a.absReturn - a.benchmark.absReturn) : null)) +
-        '</div></div>';
+        '<div class="card section-gap"><h3 style="margin:0 0 4px">Benchmark comparison</h3>' +
+        '<p class="muted" style="margin:4px 0 12px;font-size:12px">Money-weighted return (XIRR) if you had invested the ' +
+          'same amounts on the same dates into each index instead. Your portfolio XIRR is ' +
+          '<strong>' + coloredPct(a.xirr) + '</strong>.</p>' +
+        '<div class="table-wrap"><table>' +
+          '<thead><tr><th>Index</th><th class="num">Index XIRR</th>' +
+            '<th class="num">Your edge</th><th>vs you</th></tr></thead>' +
+          '<tbody>' +
+            '<tr style="background:var(--bg-card-2)"><td><strong>Your portfolio</strong></td>' +
+              '<td class="num">' + coloredPct(a.xirr) + '</td>' +
+              '<td class="num muted">—</td><td></td></tr>' +
+            benchRows +
+          '</tbody></table></div>' +
+        '<p class="muted" style="font-size:11px;margin-top:8px">Index returns are price-based and ignore USD/INR moves ' +
+          '(growth multiples are unitless). Sub-index series may use a tracking ETF as a proxy.</p>' +
+        '</div>';
     }
 
     // Quick callouts: top gainer / loser

@@ -538,6 +538,11 @@
     },
 
     /**
+     * Get the full benchmarks map: { NAME: { currency, series, label? } } or null.
+     */
+    getBenchmarks: function () { return benchmarks || null; },
+
+    /**
      * Load/refresh prices from prices.json. Returns a promise that resolves
      * to true if live prices were loaded, false otherwise.
      */

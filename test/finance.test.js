@@ -244,6 +244,27 @@ console.log("\nDate Parsing:");
   ok("Null input returns null", F.parseDate(null) === null);
 })();
 
+// Excel serial date parsing (common when CSV is opened/saved in Excel)
+(function () {
+  // 45936 = 2025-10-06 (verified against Zerodha tradebook "Order Execution Time")
+  var d1 = F.parseDate("45936");
+  ok("Excel serial 45936 = 2025-10-06", d1 && d1.getFullYear() === 2025 && d1.getMonth() === 9 && d1.getDate() === 6,
+    d1 ? d1.toDateString() : "null");
+
+  // 45446 = 2024-06-03
+  var d2 = F.parseDate("45446");
+  ok("Excel serial 45446 = 2024-06-03", d2 && d2.getFullYear() === 2024 && d2.getMonth() === 5 && d2.getDate() === 3,
+    d2 ? d2.toDateString() : "null");
+
+  // A bare number must NOT be misparsed as a far-future year (the old bug)
+  var d3 = F.parseDate("44949");
+  ok("Excel serial 44949 stays in 2023, not year 44949", d3 && d3.getFullYear() === 2023,
+    d3 ? d3.toDateString() : "null");
+
+  // A 4-digit year-like number below the serial range should not become a serial date
+  ok("Bare '2024' is not treated as a serial date", F.parseDate("2024") === null);
+})();
+
 // ============================================================================
 // Years Between Tests
 // ============================================================================

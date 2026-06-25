@@ -154,6 +154,24 @@
       else { day = a; mon = b; }
       return mkDate(y, mon, day);
     }
+    // Excel serial date number (e.g. 45936 -> 2025-10-06). This happens when a
+    // CSV was opened/saved in Excel and the date cells became integers. Excel's
+    // day 0 is 1899-12-30 (accounting for its 1900 leap-year bug).
+    if (/^\d{4,6}$/.test(str)) {
+      var serial = +str;
+      // Sane range ~1954..~2119 (excludes bare 4-digit years like 2024).
+      if (serial >= 20000 && serial <= 80000) {
+        var ms = Date.UTC(1899, 11, 30) + serial * 86400000;
+        var ed = new Date(ms);
+        if (!isNaN(ed.getTime())) {
+          // Re-anchor to local midnight so downstream day math is timezone-safe.
+          return new Date(ed.getUTCFullYear(), ed.getUTCMonth(), ed.getUTCDate());
+        }
+      }
+    }
+    // Never let a bare number fall through to `new Date()` — JS would misparse
+    // a string like "45936" as the YEAR 45936 instead of rejecting it.
+    if (/^\d+$/.test(str)) return null;
     var d = new Date(str);
     return isNaN(d.getTime()) ? null : d;
   }

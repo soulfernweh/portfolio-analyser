@@ -22,6 +22,27 @@
   var REQUIRED = ["Symbol", "Quantity", "Avg Price", "Date"];
   var OPTIONAL = ["Name", "Market", "Trade Type"];
 
+  // ---- Ticker alias map (mergers, renames, ETF consolidation) ----------------
+  // Maps old/alternative tickers to the current live trading ticker.
+  var TICKER_ALIASES = {
+    // Mergers
+    "HDFC": "HDFCBANK",          // HDFC merged into HDFC Bank (Jul 2023)
+    // Renames
+    "ZOMATO": "ETERNAL",         // Zomato renamed to Eternal (2025)
+    // ETF consolidation (map to the primary liquid ticker)
+    "SILVERETF": "SILVERBEES",
+    "SILVERBETA": "SILVERBEES",
+    "UTINEXT50": "JUNIORBEES",
+    "NEXT50BETA": "JUNIORBEES",
+    // Delisted / matured — map to themselves but flag (handled downstream)
+    // "OFSPL060123" — sovereign gold bond, skip
+    // "105AFPL24" — RBI bond, skip
+    // Other common renames
+    "PVRINOX": "PVRINOX",        // PVR + INOX merged
+    "PVR": "PVRINOX",
+    "INOXLEISUR": "PVRINOX",
+  };
+
   // ---- SMART COLUMN DETECTION -----------------------------------------------
   // Two-pass approach:
   //   Pass 1: Fuzzy keyword scoring on header names (substring/token matching)
@@ -396,6 +417,14 @@
       var symbol = String(r[map.Symbol] || "").trim().toUpperCase();
       // Strip any suffix like -EQ, -BE (NSE series suffixes)
       symbol = symbol.replace(/[-](EQ|BE|BL|BZ|SM|ST|GS)$/i, "");
+      // Apply ticker aliases (mergers, renames, ETF consolidation)
+      symbol = TICKER_ALIASES[symbol] || symbol;
+
+      // Skip known non-equity instruments (SGBs, bonds, matured securities)
+      if (/^(OFSPL|AFPL|\d{3}AFPL|SGB|SGBM|N\d)/.test(symbol) || /^\d+AFPL/.test(symbol)) {
+        warnings.push("Row " + rowNo + " (" + symbol + "): non-equity instrument (bond/SGB) — skipped.");
+        return;
+      }
 
       var name = hasNameCol ? String(r[map.Name] || "").trim() : "";
       var qty = toNumber(r[map.Quantity]);
@@ -557,24 +586,37 @@
     // Current portfolio value = positive cash flow today
     var now = new Date();
     var flows = [];
-    // Collect all individual trades across all symbols
-    Object.keys(holdingsMap).forEach(function (sym) {
-      var h = holdingsMap[sym];
-      var currency = currencyForMarket(h.market);
-      h.trades.forEach(function (t) {
-        var amount = convert(t.qty * t.price, currency, baseCurrency);
-        if (!hasTradeType || t.tradeType === "BUY") {
-          flows.push({ amount: -amount, date: t.date }); // buy = money out
-        } else {
-          flows.push({ amount: amount, date: t.date });  // sell = money in
-        }
+
+    if (hasTradeType) {
+      // Trade log with BUY/SELL — use actual trade flows
+      Object.keys(holdingsMap).forEach(function (sym) {
+        var h = holdingsMap[sym];
+        var currency = currencyForMarket(h.market);
+        h.trades.forEach(function (t) {
+          var amount = convert(t.qty * t.price, currency, baseCurrency);
+          if (t.tradeType === "BUY") {
+            flows.push({ amount: -amount, date: t.date }); // buy = money out
+          } else {
+            flows.push({ amount: amount, date: t.date });  // sell = money in
+          }
+        });
       });
-    });
+    } else {
+      // Simple holdings file (no trade type) — each row is a buy
+      holdings.forEach(function (h) {
+        flows.push({ amount: -h.investedBase, date: h.date });
+      });
+    }
+
     // Add current value of active holdings as a final positive flow
     if (totalCurrent > 0) {
       flows.push({ amount: totalCurrent, date: now });
     }
-    var xirr = flows.length >= 2 ? F.xirr(flows) : null;
+
+    // XIRR needs at least one negative and one positive flow
+    var hasNeg = flows.some(function (f) { return f.amount < 0; });
+    var hasPos = flows.some(function (f) { return f.amount > 0; });
+    var xirr = (flows.length >= 2 && hasNeg && hasPos) ? F.xirr(flows) : null;
 
     // CAGR from earliest purchase to today.
     var allPositions = holdings.concat(soldPositions);
@@ -583,7 +625,7 @@
       : now;
     var years = F.yearsBetween(earliest, now);
     var totalRealizedGain = soldPositions.reduce(function (s, h) { return s + h.gainBase; }, 0);
-    var cagr = years > 0 && totalInvested > 0 ? F.cagr(totalInvested, totalCurrent + totalRealizedGain + totalInvested, years) : null;
+    var cagr = years > 0 && totalInvested > 0 ? F.cagr(totalInvested, totalCurrent + totalRealizedGain, years) : null;
 
     // ---- Concentrations ----
     var byStock = groupConc(holdings, totalCurrent, function (h) { return h.symbol; }, function (h) { return h.name; });
@@ -654,9 +696,9 @@
     var cum = 0, pts = [];
     sorted.forEach(function (h) {
       cum += h.investedBase;
-      pts.push({ label: fmtDate(h.date), value: round2(cum) });
+      pts.push({ label: fmtDateShort(h.date), value: round2(cum) });
     });
-    pts.push({ label: fmtDate(now) + " (now)", value: round2(totalCurrent) });
+    pts.push({ label: fmtDateShort(now) + " (now)", value: round2(totalCurrent) });
     return pts;
   }
 
@@ -900,7 +942,9 @@
 
     var perfData = a.holdings.map(function (h) {
       return { label: h.symbol, invested: round2(h.investedBase), current: round2(h.currentValueBase), net: round2(h.gainBase) };
-    }).sort(function (a, b) { return b.current - a.current; }); // sort by current value desc
+    }).sort(function (a, b) { return b.current - a.current; });
+    // Limit to top 20 by current value for readability
+    var perfDataTop = perfData.slice(0, 20);
 
     var html =
       '<div class="row-between"><div><h1 class="page-title">Portfolio Analysis</h1>' +
@@ -922,9 +966,10 @@
         '<div class="card"><h3>Sector allocation</h3>' +
           C.pie(a.bySector.map(function (g) { return { label: g.key, value: g.value }; }), { donut: true, centerLabel: a.bySector.length + "", centerSub: "sectors" }) +
         '</div>' +
-        '<div class="card"><h3>Holdings comparison (' + base + ')</h3>' +
-          '<p class="muted" style="margin:0 0 8px;font-size:12px">Invested (grey) vs Current value (color) per stock</p>' +
-          renderPerfComparison(perfData, base) +
+        '<div class="card"><h3>Holdings comparison (' + base + ')' +
+          (perfData.length > 20 ? ' <span class="muted" style="font-weight:400;font-size:13px">top 20 of ' + perfData.length + '</span>' : '') + '</h3>' +
+          '<p class="muted" style="margin:0 0 8px;font-size:12px">Invested (grey) vs Current value (colored) per stock</p>' +
+          renderPerfComparison(perfDataTop, base) +
         '</div>' +
       '</div>' +
       '<div class="card section-gap"><h3>Capital deployed → current value (' + base + ')</h3>' +
@@ -1148,6 +1193,10 @@
   function round2(n) { return Math.round(n * 100) / 100; }
   function pad(n) { return n < 10 ? "0" + n : "" + n; }
   function fmtDate(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function fmtDateShort(d) {
+    var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months[d.getMonth()] + " " + String(d.getFullYear()).slice(2);
+  }
   function fmtDateTime(d) { return fmtDate(d) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes()); }
 
   global.Portfolio = {

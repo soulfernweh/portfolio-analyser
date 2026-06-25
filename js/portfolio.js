@@ -22,25 +22,21 @@
   var REQUIRED = ["Symbol", "Quantity", "Avg Price", "Date"];
   var OPTIONAL = ["Name", "Market", "Trade Type"];
 
-  // ---- Ticker alias map (mergers, renames, ETF consolidation) ----------------
-  // Maps old/alternative tickers to the current live trading ticker.
+  // ---- Ticker alias map (SAFE renames only) ----------------------------------
+  // ONLY pure 1:1 renames where the ticker changed but it's the SAME security
+  // at the SAME unit price. We deliberately do NOT alias:
+  //   - ETF variants (UTINEXT50 ≈ ₹65 vs JUNIORBEES ≈ ₹750 — different NAVs!)
+  //   - Mergers needing share-ratio conversion (HDFC → HDFCBANK at ~1.68x)
+  // Those are fetched with their own tickers instead, to avoid skewing values.
   var TICKER_ALIASES = {
-    // Mergers
-    "HDFC": "HDFCBANK",          // HDFC merged into HDFC Bank (Jul 2023)
-    // Renames
-    "ZOMATO": "ETERNAL",         // Zomato renamed to Eternal (2025)
-    // ETF consolidation (map to the primary liquid ticker)
-    "SILVERETF": "SILVERBEES",
-    "SILVERBETA": "SILVERBEES",
-    "UTINEXT50": "JUNIORBEES",
-    "NEXT50BETA": "JUNIORBEES",
-    // Delisted / matured — map to themselves but flag (handled downstream)
-    // "OFSPL060123" — sovereign gold bond, skip
-    // "105AFPL24" — RBI bond, skip
-    // Other common renames
-    "PVRINOX": "PVRINOX",        // PVR + INOX merged
-    "PVR": "PVRINOX",
-    "INOXLEISUR": "PVRINOX",
+    "ZOMATO": "ETERNAL"          // Zomato renamed to Eternal (2025), 1:1 same price
+  };
+
+  // Tickers that need a merger share-ratio adjustment (oldQty * ratio = newQty).
+  // Applied during aggregation so quantity and value stay correct.
+  var MERGER_RATIOS = {
+    // HDFC merged into HDFCBANK (Jul 2023): 42 HDFCBANK shares per 25 HDFC
+    "HDFC": { newTicker: "HDFCBANK", ratio: 42 / 25, priceRatio: 25 / 42 }
   };
 
   // ---- SMART COLUMN DETECTION -----------------------------------------------
@@ -417,14 +413,8 @@
       var symbol = String(r[map.Symbol] || "").trim().toUpperCase();
       // Strip any suffix like -EQ, -BE (NSE series suffixes)
       symbol = symbol.replace(/[-](EQ|BE|BL|BZ|SM|ST|GS)$/i, "");
-      // Apply ticker aliases (mergers, renames, ETF consolidation)
+      // Apply ticker aliases (pure 1:1 renames only)
       symbol = TICKER_ALIASES[symbol] || symbol;
-
-      // Skip known non-equity instruments (SGBs, bonds, matured securities)
-      if (/^(OFSPL|AFPL|\d{3}AFPL|SGB|SGBM|N\d)/.test(symbol) || /^\d+AFPL/.test(symbol)) {
-        warnings.push("Row " + rowNo + " (" + symbol + "): non-equity instrument (bond/SGB) — skipped.");
-        return;
-      }
 
       var name = hasNameCol ? String(r[map.Name] || "").trim() : "";
       var qty = toNumber(r[map.Quantity]);
@@ -432,6 +422,21 @@
       var market = hasMarketCol ? normalizeMarket(r[map.Market]) : "India";
       var dateStr = String(r[map.Date] || "").trim();
       var date = F.parseDate(dateStr);
+
+      // Apply merger share-ratio conversion (e.g. HDFC → HDFCBANK at ~1.68x).
+      // Scale quantity up by ratio, price down inversely, so cost basis is preserved.
+      if (MERGER_RATIOS[symbol] && !isNaN(qty) && !isNaN(price)) {
+        var mr = MERGER_RATIOS[symbol];
+        qty = qty * mr.ratio;
+        price = price * mr.priceRatio;
+        symbol = mr.newTicker;
+      }
+
+      // Skip known non-equity instruments (SGBs, bonds, matured securities)
+      if (/^(OFSPL|AFPL|SGB|SGBM)/.test(symbol) || /^\d+AFPL/.test(symbol) || /^\d{3}AFPL/.test(symbol)) {
+        warnings.push("Row " + rowNo + " (" + symbol + "): non-equity instrument (bond/SGB) — skipped.");
+        return;
+      }
 
       // Determine trade type (BUY or SELL)
       var tradeType = "BUY";
@@ -1068,33 +1073,47 @@
     if (!data.length) return '<div class="empty-state">No holdings</div>';
     var sym = base === "INR" ? "\u20B9" : "$";
     var maxVal = data.reduce(function (m, d) { return Math.max(m, d.invested, d.current); }, 0) || 1;
-    var rowH = 36, gap = 6, padL = 80, padR = 80, padT = 4, padB = 4;
-    var w = 520;
-    var barH = 10;
-    var h = padT + padB + data.length * rowH + (data.length - 1) * gap;
+
+    // Layout: each stock = one row with label, two stacked bars, net value
+    var rowH = 30, padL = 90, padR = 96, padT = 6, padB = 6;
+    var w = 560, barH = 9, barGap = 3;
+    var h = padT + padB + data.length * rowH;
     var plotW = w - padL - padR;
     var scale = plotW / maxVal;
 
-    var rows = data.map(function (d, i) {
-      var y = padT + i * (rowH + gap);
-      var investedW = Math.max(1, d.invested * scale);
-      var currentW = Math.max(1, d.current * scale);
-      var netColor = d.net >= 0 ? "var(--green)" : "var(--red)";
-      var netSign = d.net >= 0 ? "+" : "";
+    function fmtK(v) {
+      var a = Math.abs(v);
+      if (a >= 1e7) return (v / 1e7).toFixed(2) + "Cr";
+      if (a >= 1e5) return (v / 1e5).toFixed(2) + "L";
+      if (a >= 1e3) return (v / 1e3).toFixed(1) + "k";
+      return v.toFixed(0);
+    }
 
-      return '<text x="' + (padL - 8) + '" y="' + (y + rowH / 2 + 1) + '" text-anchor="end" fill="var(--text-dim)" font-size="12" font-weight="600">' + d.label + '</text>' +
-        '<rect x="' + padL + '" y="' + (y + 6) + '" width="' + investedW + '" height="' + barH + '" rx="3" fill="var(--border)" opacity="0.7"/>' +
-        '<rect x="' + padL + '" y="' + (y + 6 + barH + 3) + '" width="' + currentW + '" height="' + barH + '" rx="3" fill="' + (d.net >= 0 ? 'var(--green)' : 'var(--red)') + '" opacity="0.8"/>' +
-        '<text x="' + (padL + Math.max(investedW, currentW) + 8) + '" y="' + (y + rowH / 2 + 1) + '" fill="' + netColor + '" font-size="11" font-weight="700">' +
-          netSign + sym + Math.abs(d.net).toLocaleString() + '</text>';
+    var rows = data.map(function (d, i) {
+      var y = padT + i * rowH;
+      var midY = y + rowH / 2;
+      var investedW = Math.max(2, d.invested * scale);
+      var currentW = Math.max(2, d.current * scale);
+      var curColor = d.net >= 0 ? "var(--green)" : "var(--red)";
+      var netSign = d.net >= 0 ? "+" : "-";
+
+      return '<text x="' + (padL - 10) + '" y="' + (midY + 4) + '" text-anchor="end" fill="var(--text)" font-size="12" font-weight="600">' + esc(d.label) + '</text>' +
+        // invested bar (top)
+        '<rect x="' + padL + '" y="' + (midY - barH - barGap / 2) + '" width="' + investedW + '" height="' + barH + '" rx="2" fill="#c7ccd4"/>' +
+        // current bar (bottom)
+        '<rect x="' + padL + '" y="' + (midY + barGap / 2) + '" width="' + currentW + '" height="' + barH + '" rx="2" fill="' + curColor + '"/>' +
+        // net value label on right
+        '<text x="' + (w - padR + 8) + '" y="' + (midY + 4) + '" fill="' + curColor + '" font-size="11" font-weight="700">' +
+          netSign + sym + fmtK(Math.abs(d.net)) + '</text>';
     }).join("");
 
     var legend = '<div class="chart-legend" style="margin-top:10px">' +
-      '<span class="lg"><span class="sw" style="background:var(--border)"></span>Invested</span>' +
+      '<span class="lg"><span class="sw" style="background:#c7ccd4"></span>Invested</span>' +
       '<span class="lg"><span class="sw" style="background:var(--green)"></span>Current (gain)</span>' +
       '<span class="lg"><span class="sw" style="background:var(--red)"></span>Current (loss)</span></div>';
 
-    return '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img" style="max-height:' + Math.min(h, 400) + 'px">' + rows + '</svg>' + legend;
+    return '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img" preserveAspectRatio="xMinYMin meet" style="width:100%;height:auto">' +
+      rows + '</svg>' + legend;
   }
 
   // ---- Segment stats (Active / Sold) ----------------------------------------

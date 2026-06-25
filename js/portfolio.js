@@ -326,6 +326,79 @@
     return { map: map, missing: missing };
   }
 
+  // ---- ISIN detection + rename merging --------------------------------------
+  // Indian ISINs encode the security type in characters 8-9 (0-indexed 7-8):
+  // "01" = equity shares. Debt instruments (debentures, bonds, commercial paper)
+  // use 07/08/09 and trade at ~₹1,00,000/unit, which badly skews an equity
+  // portfolio. ETFs/mutual funds use an "INF" prefix and are never flagged here.
+  function isNonEquityIsin(isin) {
+    if (!isin) return false;
+    return /^INE.{4}(0[7-9])/.test(isin);
+  }
+
+  // Detects an ISIN column (by header name or 12-char content pattern) and uses
+  // it to unify holdings whose ticker symbol changed over time but whose ISIN
+  // (the security's permanent identifier) stayed the same.
+  function detectIsinColumn(header, dataRows) {
+    // 1) Header explicitly named "isin".
+    for (var i = 0; i < header.length; i++) {
+      if (/isin/i.test(String(header[i]))) return i;
+    }
+    // 2) Content pattern: 2 letters + 9 alphanumerics + 1 check digit (e.g. INE758T01015).
+    var sample = Math.min(dataRows.length, 10);
+    if (!sample) return -1;
+    for (var c = 0; c < header.length; c++) {
+      var hits = 0;
+      for (var r = 0; r < sample; r++) {
+        var v = dataRows[r] && dataRows[r][c] != null ? String(dataRows[r][c]).trim().toUpperCase() : "";
+        if (/^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(v)) hits++;
+      }
+      if (hits >= Math.ceil(sample * 0.6)) return c;
+    }
+    return -1;
+  }
+
+  // When one ISIN maps to several ticker symbols (a rename), pick a single
+  // canonical symbol — preferring one that has a live price, then the most
+  // recently traded — and rewrite every trade for that ISIN to use it. This
+  // keeps the position whole (correct quantity) and priced.
+  function canonicalizeByIsin(trades, warnings) {
+    var byIsin = {};
+    trades.forEach(function (t) {
+      if (!t.isin) return;
+      if (!byIsin[t.isin]) byIsin[t.isin] = {};
+      var g = byIsin[t.isin];
+      if (!g[t.symbol]) {
+        g[t.symbol] = { symbol: t.symbol, latest: t.date, priced: !!SD.PriceService.getQuote(t.symbol) };
+      } else if (t.date > g[t.symbol].latest) {
+        g[t.symbol].latest = t.date;
+      }
+    });
+    var canon = {}; // isin -> chosen symbol
+    Object.keys(byIsin).forEach(function (isin) {
+      var syms = Object.keys(byIsin[isin]).map(function (k) { return byIsin[isin][k]; });
+      if (syms.length < 2) return; // no rename — nothing to merge
+      syms.sort(function (a, b) {
+        if (a.priced !== b.priced) return a.priced ? -1 : 1; // priced symbol wins
+        return b.latest - a.latest;                          // else most recent
+      });
+      canon[isin] = syms[0].symbol;
+    });
+    trades.forEach(function (t) {
+      if (t.isin && canon[t.isin] && t.symbol !== canon[t.isin]) {
+        t.symbol = canon[t.isin];
+      }
+    });
+    // Note which renames were merged, for transparency.
+    Object.keys(canon).forEach(function (isin) {
+      var others = Object.keys(byIsin[isin]).filter(function (s) { return s !== canon[isin]; });
+      if (others.length && warnings) {
+        warnings.push("Merged renamed ticker(s) " + others.join(", ") + " into " +
+          canon[isin] + " (same ISIN " + isin + ").");
+      }
+    });
+  }
+
   function medianNumeric(vals) {
     var nums = vals.map(function (v) {
       return Number(String(v).trim().replace(/[,\s\u20B9$]/g, ""));
@@ -412,6 +485,10 @@
     var hasNameCol = map["Name"] != null;
     var hasMarketCol = map["Market"] != null;
 
+    // Detect an ISIN column. Used to merge holdings whose ticker was renamed
+    // (same ISIN, new symbol) — e.g. SILVERETF -> SILVERBETA, UTINEXT50 -> NEXT50BETA.
+    var isinCol = detectIsinColumn(header, dataRows);
+
     var trades = [], warnings = [];
     dataRows.forEach(function (r, i) {
       var rowNo = i + 2; // 1-based, +1 for header
@@ -421,12 +498,19 @@
       // Apply ticker aliases (pure 1:1 renames only)
       symbol = TICKER_ALIASES[symbol] || symbol;
 
+      var isin = isinCol >= 0 ? String(r[isinCol] || "").trim().toUpperCase() : "";
       var name = hasNameCol ? String(r[map.Name] || "").trim() : "";
       var qty = toNumber(r[map.Quantity]);
       var price = toNumber(r[map["Avg Price"]]);
       var market = hasMarketCol ? normalizeMarket(r[map.Market]) : "India";
       var dateStr = String(r[map.Date] || "").trim();
       var date = F.parseDate(dateStr);
+
+      // Flag non-equity instruments (bonds, debentures, commercial paper) by
+      // their ISIN security-type code. They are INCLUDED in the portfolio for a
+      // complete view and priced at current market value where a quote exists;
+      // we only tag them so they can be grouped under a "Bonds / Debt" sector.
+      var isBond = isNonEquityIsin(isin);
 
       // Apply merger share-ratio conversion (e.g. HDFC → HDFCBANK at ~1.68x).
       // Scale quantity up by ratio, price down inversely, so cost basis is preserved.
@@ -454,13 +538,16 @@
 
       trades.push({
         symbol: symbol, name: name, qty: qty, price: price,
-        market: market, date: date, tradeType: tradeType
+        market: market, date: date, tradeType: tradeType, isin: isin, isBond: isBond
       });
     });
 
     if (!trades.length) {
       return { error: "No valid trades/holdings found. Check that Quantity and Price columns are numeric.", warnings: warnings };
     }
+
+    // Merge renamed tickers via ISIN before aggregation.
+    canonicalizeByIsin(trades, warnings);
 
     // Aggregate trades into net holdings.
     // If it's a trade log with BUY/SELL, compute weighted average buy price and net quantity.
@@ -475,6 +562,7 @@
           totalSold: 0, totalSellProceeds: 0,
           latestSellDate: null,  // Track the most recent sell date
           sellTrades: [],        // Track individual sell trades for accurate XIRR
+          isBond: t.isBond,      // non-equity (bond / debenture / CP) flag
           trades: []
         };
       }
@@ -519,7 +607,7 @@
       var market = h.market;
       var currency = currencyForMarket(market);
       var ref = SD.getByTicker(symbol);
-      var sector = ref ? ref.sector : "Other";
+      var sector = h.isBond ? "Bonds / Debt" : (ref ? ref.sector : "Other");
       var name = h.name || (ref ? ref.name : symbol);
 
       if (h.qty <= 0) {
@@ -536,7 +624,7 @@
           invested: h.totalBoughtCost, currentValue: h.totalSellProceeds,
           gain: realizedGain, gainPct: realizedPct,
           date: h.earliestDate, delayed: false, noQuote: false,
-          asOf: null, status: "sold",
+          asOf: null, status: "sold", isBond: !!h.isBond,
           qtyBought: h.totalBought, qtySold: h.totalSold,
           sellDate: h.latestSellDate || h.earliestDate,  // Actual sell date for XIRR
           sellTrades: h.sellTrades || []                 // Individual sell trades for accurate XIRR
@@ -562,7 +650,7 @@
         gain: currentValue - invested,
         gainPct: invested > 0 ? (currentValue - invested) / invested : 0,
         date: h.earliestDate, delayed: delayed, noQuote: noQuote,
-        asOf: quote ? quote.asOf : null, status: "active",
+        asOf: quote ? quote.asOf : null, status: "active", isBond: !!h.isBond,
         qtyBought: h.totalBought, qtySold: h.totalSold,
         realizedGain: h.totalSellProceeds - (h.totalSold * avgPrice)
       });

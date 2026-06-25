@@ -312,16 +312,16 @@ def fetch_prices_batch(yf_symbols: list, batch_size: int = 200) -> dict:
     return results
 
 
-def fetch_52w_highs(yf_symbols: list, batch_size: int = 200) -> dict:
-    """Fetch 52-week highs using 1-year history (more reliable than fast_info)."""
-    highs = {}
+def fetch_52w_range(yf_symbols: list, batch_size: int = 200) -> dict:
+    """Fetch 52-week high AND low using 1-year history."""
+    ranges = {}
     total = len(yf_symbols)
 
     for i in range(0, total, batch_size):
         batch = yf_symbols[i:i + batch_size]
         batch_num = (i // batch_size) + 1
         total_batches = (total + batch_size - 1) // batch_size
-        print(f"  52w high batch {batch_num}/{total_batches}: {len(batch)} tickers...")
+        print(f"  52w range batch {batch_num}/{total_batches}: {len(batch)} tickers...")
 
         try:
             data = yf.download(
@@ -341,14 +341,21 @@ def fetch_52w_highs(yf_symbols: list, batch_size: int = 200) -> dict:
                 try:
                     if len(batch) == 1:
                         high_series = data["High"].dropna()
+                        low_series = data["Low"].dropna()
                     else:
                         if sym in data.columns.get_level_values(0):
                             high_series = data[sym]["High"].dropna()
+                            low_series = data[sym]["Low"].dropna()
                         else:
                             continue
 
+                    entry = {}
                     if high_series is not None and not high_series.empty:
-                        highs[sym] = round(float(high_series.max()), 2)
+                        entry["high"] = round(float(high_series.max()), 2)
+                    if low_series is not None and not low_series.empty:
+                        entry["low"] = round(float(low_series.min()), 2)
+                    if entry:
+                        ranges[sym] = entry
                 except Exception:
                     continue
 
@@ -356,7 +363,46 @@ def fetch_52w_highs(yf_symbols: list, batch_size: int = 200) -> dict:
             print(f"    WARNING: 52w batch {batch_num} failed: {e}")
             continue
 
-    return highs
+    return ranges
+
+
+def fetch_benchmark_series():
+    """
+    Fetch ~5 years of weekly closes for Nifty 50 (^NSEI) and S&P 500 (^GSPC).
+    Used for money-weighted benchmark comparison against the user's portfolio.
+    Returns: { "NIFTY50": {currency, series:[{d, c}]}, "SP500": {...} }
+    """
+    benchmarks = {}
+    index_map = {
+        "NIFTY50": {"symbol": "^NSEI", "currency": "INR"},
+        "SP500": {"symbol": "^GSPC", "currency": "USD"},
+    }
+    print("\n--- Fetching benchmark index series (5y weekly) ---")
+    for name, info in index_map.items():
+        try:
+            data = yf.download(
+                tickers=info["symbol"],
+                period="5y",
+                interval="1wk",
+                auto_adjust=True,
+                progress=False,
+                threads=True,
+            )
+            if data.empty:
+                print(f"    WARNING: no data for {name} ({info['symbol']})")
+                continue
+            closes = data["Close"].dropna()
+            # Handle multi-column (shouldn't happen for single ticker, but be safe)
+            if hasattr(closes, "columns"):
+                closes = closes.iloc[:, 0].dropna()
+            series = []
+            for idx, val in closes.items():
+                series.append({"d": idx.strftime("%Y-%m-%d"), "c": round(float(val), 2)})
+            benchmarks[name] = {"currency": info["currency"], "series": series}
+            print(f"    {name}: {len(series)} weekly points")
+        except Exception as e:
+            print(f"    WARNING: {name} fetch failed: {e}")
+    return benchmarks
 
 
 def main():
@@ -383,10 +429,10 @@ def main():
     raw_prices = fetch_prices_batch(yf_symbols, batch_size=200)
     print(f"  Got prices for {len(raw_prices)} symbols")
 
-    # Fetch 52-week highs
-    print("\n--- Fetching 52-week highs ---")
-    raw_highs = fetch_52w_highs(yf_symbols, batch_size=200)
-    print(f"  Got 52w highs for {len(raw_highs)} symbols")
+    # Fetch 52-week high + low range
+    print("\n--- Fetching 52-week high/low ---")
+    raw_ranges = fetch_52w_range(yf_symbols, batch_size=200)
+    print(f"  Got 52w range for {len(raw_ranges)} symbols")
 
     # Assemble final prices dict keyed by app ticker
     prices = {}
@@ -399,15 +445,22 @@ def main():
             "currency": currency,
             "asOf": data["asOf"],
         }
-        if yf_sym in raw_highs:
-            entry["high52w"] = raw_highs[yf_sym]
+        if yf_sym in raw_ranges:
+            if "high" in raw_ranges[yf_sym]:
+                entry["high52w"] = raw_ranges[yf_sym]["high"]
+            if "low" in raw_ranges[yf_sym]:
+                entry["low52w"] = raw_ranges[yf_sym]["low"]
 
         prices[app_ticker] = entry
+
+    # Fetch benchmark index series for portfolio comparison
+    benchmarks = fetch_benchmark_series()
 
     print(f"\n--- Results ---")
     print(f"  Total prices assembled: {len(prices)}")
     print(f"  Indian stocks: {sum(1 for p in prices.values() if p['currency'] == 'INR')}")
     print(f"  US stocks: {sum(1 for p in prices.values() if p['currency'] == 'USD')}")
+    print(f"  Benchmarks: {list(benchmarks.keys())}")
 
     # Failed tickers
     fetched_yf = set(raw_prices.keys())
@@ -420,6 +473,7 @@ def main():
         "source": "yfinance",
         "totalTickers": len(prices),
         "indices": ["NIFTY500", "SP500"],
+        "benchmarks": benchmarks,
         "prices": prices,
     }
 

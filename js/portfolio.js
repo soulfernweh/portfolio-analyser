@@ -675,6 +675,9 @@
     // ---- Value-over-time series (cost basis deployed -> current value) ----
     var timeline = buildTimeline(holdings, totalCurrent, now);
 
+    // ---- Benchmark comparison (money-weighted, same cash flows into index) ----
+    var benchmark = computeBenchmark(holdingsMap, hasTradeType, baseCurrency, totalCurrent, now);
+
     var analysis = {
       holdings: holdings, soldPositions: soldPositions, warnings: warnings,
       baseCurrency: baseCurrency, mixedCurrency: mixedCurrency, fxRate: FX_INR_PER_USD,
@@ -685,6 +688,7 @@
       hhi: hhi, effectiveStocks: effectiveStocks, divScore: divScore,
       underweightSectors: underweightSectors, ownedTickers: ownedTickers,
       longTerm: lt, shortTerm: st, insights: insights, timeline: timeline,
+      benchmark: benchmark,
       generatedAt: now
     };
     return analysis;
@@ -715,6 +719,84 @@
     });
     pts.push({ label: fmtDateShort(now) + " (now)", value: round2(totalCurrent) });
     return pts;
+  }
+
+  // ---- Benchmark comparison --------------------------------------------------
+  // Simulates investing the SAME cash flows (buys/sells) into the matching index
+  // (Nifty 50 for India holdings, S&P 500 for US), then computes the index's
+  // money-weighted return (XIRR) and terminal value for an apples-to-apples
+  // comparison. The growth multiple is unitless so currency conversion isn't
+  // needed for the ratio.
+  function indexCloseAt(series, date) {
+    if (!series || !series.length) return null;
+    var t = date.getTime();
+    var chosen = series[0];
+    for (var i = 0; i < series.length; i++) {
+      var pt = series[i];
+      var ptt = new Date(pt.d).getTime();
+      if (ptt <= t) chosen = pt;
+      else break;
+    }
+    return chosen ? chosen.c : null;
+  }
+
+  function computeBenchmark(holdingsMap, hasTradeType, baseCurrency, portfolioCurrent, now) {
+    var nifty = SD.PriceService.getBenchmark ? SD.PriceService.getBenchmark("NIFTY50") : null;
+    var sp500 = SD.PriceService.getBenchmark ? SD.PriceService.getBenchmark("SP500") : null;
+    if (!nifty && !sp500) return null;
+
+    function latest(series) { return series && series.length ? series[series.length - 1].c : null; }
+    var niftyLatest = nifty ? latest(nifty.series) : null;
+    var spLatest = sp500 ? latest(sp500.series) : null;
+
+    var benchFlows = [];      // mirrored buy/sell flows (base currency)
+    var benchTerminal = 0;    // index-equivalent value today
+    var totalBuys = 0;
+    var anyMatched = false;
+
+    Object.keys(holdingsMap).forEach(function (sym) {
+      var h = holdingsMap[sym];
+      var isIndia = h.market === "India";
+      var bench = isIndia ? nifty : sp500;
+      var benchLatest = isIndia ? niftyLatest : spLatest;
+      if (!bench || !benchLatest) return;
+
+      h.trades.forEach(function (t) {
+        var amountBase = convert(t.qty * t.price, currencyForMarket(h.market), baseCurrency);
+        var closeAt = indexCloseAt(bench.series, t.date);
+        if (!closeAt) return;
+        var growth = benchLatest / closeAt; // unitless multiple
+        anyMatched = true;
+
+        if (!hasTradeType || t.tradeType === "BUY") {
+          benchFlows.push({ amount: -amountBase, date: t.date });
+          benchTerminal += amountBase * growth;
+          totalBuys += amountBase;
+        } else {
+          benchFlows.push({ amount: amountBase, date: t.date });
+          benchTerminal -= amountBase * growth;
+        }
+      });
+    });
+
+    if (!anyMatched || totalBuys <= 0) return null;
+    if (benchTerminal > 0) benchFlows.push({ amount: benchTerminal, date: now });
+
+    var benchXirr = F.xirr(benchFlows);
+    var benchAbsReturn = totalBuys > 0 ? (benchTerminal - totalBuys) / totalBuys : null;
+
+    // Determine which index label to show
+    var label = "Nifty 50 + S&P 500 blend";
+    if (nifty && !sp500) label = "Nifty 50";
+    else if (sp500 && !nifty) label = "S&P 500";
+
+    return {
+      label: label,
+      xirr: benchXirr,
+      absReturn: benchAbsReturn,
+      terminalValue: round2(benchTerminal),
+      invested: round2(totalBuys)
+    };
   }
 
   function buildInsights(byStock, bySector, divScore, effStocks, lt, st, total, holdings) {
@@ -922,32 +1004,59 @@
       ? '<div class="alert alert-info no-print">Holdings span multiple currencies. Totals and allocations are shown in <strong>' +
         base + '</strong>, converting at ₹' + a.fxRate + ' per $1.</div>' : "";
 
+    // ---- Headline verdict + key metrics (XIRR-led) ----
+    var unrealizedGain = a.totalGain;
+    var realizedGain = a.totalRealizedGain || 0;
+
+    // Top gainer / loser among active holdings
+    var sortedByGain = a.holdings.slice().sort(function (x, y) { return y.gainPct - x.gainPct; });
+    var topGainer = sortedByGain[0];
+    var topLoser = sortedByGain[sortedByGain.length - 1];
+
+    // Concentration headline: % in top 3 holdings
+    var top3Pct = a.byStock.slice(0, 3).reduce(function (s, g) { return s + g.pct; }, 0);
+    var largest = a.byStock[0];
+
+    var verdictHtml = renderVerdict(a, base, top3Pct, largest);
+
     var statCards =
       '<div class="grid grid-4">' +
-        stat("Invested", money(a.totalInvested)) +
-        stat("Current value", money(a.totalCurrent)) +
-        stat("Total gain/loss", '<span class="' + sign(a.totalGain) + '">' + money(a.totalGain) + '</span>',
-          F.fmtSignedPct(a.absReturn)) +
-        stat("Holdings", String(a.holdings.length) + ' active' +
-          (a.soldPositions.length ? ' + ' + a.soldPositions.length + ' sold' : ''),
-          a.bySector.length + " sectors · " + a.byMarket.length + " market(s)") +
-      '</div>' +
-      '<div class="grid grid-4 section-gap">' +
-        stat("Absolute return", F.fmtSignedPct(a.absReturn)) +
-        stat("XIRR (annualized)", a.xirr == null ? "--" : F.fmtSignedPct(a.xirr)) +
-        stat("CAGR", a.cagr == null ? "--" : F.fmtSignedPct(a.cagr), a.years > 0 ? "over " + a.years.toFixed(1) + " yrs" : "") +
-        stat("Diversification", a.divScore + "/100", "~" + a.effectiveStocks.toFixed(1) + " effective holdings") +
+        stat("Current value", money(a.totalCurrent), "invested " + money(a.totalInvested)) +
+        stat("XIRR (annualized)", coloredPct(a.xirr),
+          a.years > 0 ? "over " + a.years.toFixed(1) + " yrs" : "money-weighted") +
+        stat("Unrealized P&L", '<span class="' + sign(unrealizedGain) + '">' + money(unrealizedGain) + '</span>',
+          F.fmtSignedPct(a.absReturn) + " · on holdings") +
+        stat("Realized P&L", '<span class="' + sign(realizedGain) + '">' + (realizedGain ? money(realizedGain) : "—") + '</span>',
+          a.soldPositions.length ? "booked on " + a.soldPositions.length + " exits" : "no exits yet") +
       '</div>';
 
-    // Separate P&L stats for active holdings vs redeemed/sold
-    var activeStats = computeSegmentStats(a.holdings, a, "active");
-    var soldStats = a.soldPositions.length ? computeSegmentStats(a.soldPositions, a, "sold") : null;
+    // Benchmark comparison row
+    var benchHtml = "";
+    if (a.benchmark && a.benchmark.xirr != null) {
+      var outperf = (a.xirr != null && a.benchmark.xirr != null) ? (a.xirr - a.benchmark.xirr) : null;
+      var verdict = outperf == null ? "" : (outperf >= 0
+        ? '<span class="pill pill-green">Beating ' + a.benchmark.label + ' by ' + (outperf * 100).toFixed(1) + ' pts</span>'
+        : '<span class="pill pill-red">Trailing ' + a.benchmark.label + ' by ' + Math.abs(outperf * 100).toFixed(1) + ' pts</span>');
+      benchHtml =
+        '<div class="card section-gap"><div class="row-between"><h3 style="margin:0">Benchmark comparison</h3>' + verdict + '</div>' +
+        '<p class="muted" style="margin:6px 0 12px;font-size:12px">If you had invested the same amounts on the same dates into ' +
+          esc(a.benchmark.label) + ' (money-weighted).</p>' +
+        '<div class="grid grid-3">' +
+          benchMetric("Your XIRR", coloredPct(a.xirr)) +
+          benchMetric(a.benchmark.label + " XIRR", coloredPct(a.benchmark.xirr)) +
+          benchMetric("Your return vs index", coloredPct(a.benchmark.absReturn != null ? (a.absReturn - a.benchmark.absReturn) : null)) +
+        '</div></div>';
+    }
 
-    var segmentHtml = '<h2 class="card-section-title">Performance breakdown</h2>' +
-      '<div class="grid ' + (soldStats ? 'grid-2' : 'grid-1') + '">' +
-        renderSegmentCard("Active Holdings", activeStats, base) +
-        (soldStats ? renderSegmentCard("Redeemed / Sold", soldStats, base) : '') +
-      '</div>';
+    // Quick callouts: top gainer / loser
+    var calloutHtml = "";
+    if (topGainer && topLoser && a.holdings.length > 1) {
+      calloutHtml =
+        '<div class="grid grid-2 section-gap">' +
+          calloutCard("📈 Top gainer", topGainer, base) +
+          calloutCard("📉 Top loser", topLoser, base) +
+        '</div>';
+    }
 
     var insightsHtml = a.insights.length
       ? '<ul class="insight-list">' + a.insights.map(function (ins) {
@@ -972,11 +1081,18 @@
         '</div></div>' +
       fxNote +
       (a.warnings && a.warnings.length
-        ? '<div class="alert alert-warn no-print"><strong>' + a.warnings.length + ' row warning(s):</strong><br>' +
+        ? '<div class="alert alert-warn no-print"><strong>' + a.warnings.length + ' note(s):</strong><br>' +
           a.warnings.map(esc).join("<br>") + '</div>' : "") +
+      verdictHtml +
       statCards +
+      benchHtml +
+      calloutHtml +
+      '<h2 class="card-section-title">Performance breakdown</h2>' +
+      '<div class="grid ' + (a.soldPositions.length ? 'grid-2' : 'grid-1') + '">' +
+        renderSegmentCard("Active Holdings", computeSegmentStats(a.holdings, a, "active"), base) +
+        (a.soldPositions.length ? renderSegmentCard("Redeemed / Sold", computeSegmentStats(a.soldPositions, a, "sold"), base) : '') +
+      '</div>' +
       '<h2 class="card-section-title">Insights</h2>' + insightsHtml +
-      segmentHtml +
       '<div class="grid grid-2 section-gap">' +
         '<div class="card"><h3>Sector allocation</h3>' +
           C.pie(a.bySector.map(function (g) { return { label: g.key, value: g.value }; }), { donut: true, centerLabel: a.bySector.length + "", centerSub: "sectors" }) +
@@ -993,12 +1109,62 @@
       '</div>' +
       renderConcentrationTables(a) +
       renderHoldingsTable(a) +
+      '<p class="muted no-print" style="font-size:12px;margin-top:18px">Note: returns are <strong>price-based only</strong> and exclude dividends, ' +
+        'bonuses and buybacks — actual total return may be higher. Prices may be delayed up to one trading day.</p>' +
       '<div class="card section-gap no-print"><h3>Find complementary opportunities</h3>' +
         '<p>Based on your sector allocation, the Discovery tool can highlight discounted stocks in sectors where you are underweight (and hide ones you already own).</p>' +
         '<a class="btn btn-primary" href="#/discovery">Open Stock Discovery →</a></div>';
 
     container.innerHTML = html;
     wireDashboard(container);
+  }
+
+  // ---- Headline verdict card -------------------------------------------------
+  function renderVerdict(a, base, top3Pct, largest) {
+    var money = function (v) { return SD.fmtMoney(v, base); };
+    var gainClass = a.totalGain >= 0 ? "pos" : "neg";
+    var gainWord = a.totalGain >= 0 ? "up" : "down";
+    var xirrTxt = a.xirr != null ? F.fmtSignedPct(a.xirr) + " XIRR" : "";
+
+    // Concentration descriptor
+    var concWord = top3Pct > 60 ? "highly concentrated" : top3Pct > 40 ? "moderately concentrated" : "well diversified";
+    var concClass = top3Pct > 60 ? "neg" : top3Pct > 40 ? "" : "pos";
+
+    // Benchmark verdict snippet
+    var benchTxt = "";
+    if (a.benchmark && a.benchmark.xirr != null && a.xirr != null) {
+      var diff = a.xirr - a.benchmark.xirr;
+      benchTxt = diff >= 0
+        ? ' and <span class="pos">beating ' + esc(a.benchmark.label) + '</span>'
+        : ' but <span class="neg">trailing ' + esc(a.benchmark.label) + '</span>';
+    }
+
+    return '<div class="verdict-card no-print">' +
+      '<div class="verdict-icon">' + (a.totalGain >= 0 ? "📊" : "📉") + '</div>' +
+      '<div class="verdict-text">' +
+        'Your portfolio is worth <strong>' + money(a.totalCurrent) + '</strong>, ' +
+        '<span class="' + gainClass + '">' + gainWord + ' ' + money(Math.abs(a.totalGain)) + ' (' + F.fmtSignedPct(a.absReturn) + ')</span>' +
+        (xirrTxt ? ' at <strong>' + xirrTxt + '</strong>' : '') + benchTxt + '. ' +
+        'It is <span class="' + concClass + '">' + concWord + '</span>' +
+        (largest ? ' — ' + esc(largest.key) + ' is your largest position at ' + largest.pct.toFixed(0) + '%' : '') + '.' +
+      '</div></div>';
+  }
+
+  function coloredPct(dec) {
+    if (dec == null || isNaN(dec)) return '<span class="muted">--</span>';
+    return '<span class="' + (dec >= 0 ? "pos" : "neg") + '">' + F.fmtSignedPct(dec) + '</span>';
+  }
+
+  function benchMetric(label, valueHtml) {
+    return '<div class="m"><div class="l">' + esc(label) + '</div><div class="v">' + valueHtml + '</div></div>';
+  }
+
+  function calloutCard(title, h, base) {
+    var sign = h.gain >= 0 ? "pos" : "neg";
+    return '<div class="card callout"><div class="callout-title">' + title + '</div>' +
+      '<div class="callout-body"><div><strong>' + esc(h.symbol) + '</strong> <span class="muted">' + esc(h.name) + '</span></div>' +
+      '<div class="callout-figures"><span class="' + sign + '" style="font-size:20px;font-weight:700">' + F.fmtSignedPct(h.gainPct) + '</span>' +
+      '<span class="muted">' + SD.fmtMoney(h.gain, h.currency) + '</span></div></div></div>';
   }
 
   function renderConcentrationTables(a) {
@@ -1022,23 +1188,30 @@
   }
 
   function renderHoldingsTable(a) {
+    var now = new Date();
     var rows = a.holdings.map(function (h) {
       var delayBadge = h.delayed ? ' <span class="chip" title="Reference / delayed price' +
         (h.asOf ? " as of " + h.asOf : "") + '">⏱ delayed</span>' : '';
-      // 52-week range
+      // 52-week range — use REAL low if available, else estimate (flagged)
       var high52w = SD.PriceService.getHigh52w ? SD.PriceService.getHigh52w(h.symbol) : null;
-      // Estimate 52w low as ~60-80% of high if not available (conservative)
-      var low52w = high52w ? high52w * 0.6 : null;
-      // If we have livePrices data with more info, use it
+      var realLow = SD.PriceService.getLow52w ? SD.PriceService.getLow52w(h.symbol) : null;
+      var low52w = realLow || (high52w ? high52w * 0.6 : null);
       var sparkline = (high52w && h.currentPrice)
-        ? render52wSparkline(h.currentPrice, high52w, low52w)
+        ? render52wSparkline(h.currentPrice, high52w, low52w, !realLow)
         : '<span class="muted">--</span>';
+      // Holding period
+      var yrs = F.yearsBetween(h.date, now);
+      var heldTxt = yrs >= 1 ? yrs.toFixed(1) + "y" : Math.round(yrs * 12) + "m";
+      var term = yrs >= 1 ? "LT" : "ST";
 
-      return '<tr>' +
-        '<td><strong>' + esc(h.symbol) + '</strong><div class="muted">' + esc(h.name) + '</div></td>' +
+      return '<tr data-value="' + h.currentValueBase + '" data-gain="' + h.gainBase +
+        '" data-gainpct="' + h.gainPct + '" data-qty="' + h.qty + '" data-sym="' + esc(h.symbol) + '">' +
+        '<td><strong>' + esc(h.symbol) + '</strong> <span class="chip" title="' + term + ' · held ' + heldTxt + '">' + heldTxt + '</span>' +
+          '<div class="muted">' + esc(h.name) + '</div></td>' +
         '<td class="num">' + F.fmtNum(h.qty, h.qty % 1 ? 2 : 0) + '</td>' +
         '<td class="num">' + SD.fmtMoney(h.avgPrice, h.currency) + '</td>' +
         '<td class="num">' + SD.fmtMoney(h.currentPrice, h.currency) + delayBadge + '</td>' +
+        '<td class="num">' + SD.fmtMoney(h.currentValueBase, a.baseCurrency) + '</td>' +
         '<td class="num ' + (h.gain >= 0 ? "pos" : "neg") + '">' + SD.fmtMoney(h.gain, h.currency) +
           '<div class="muted">' + F.fmtSignedPct(h.gainPct) + '</div></td>' +
         '<td>' + sparkline + '</td>' +
@@ -1049,7 +1222,7 @@
     var soldRows = "";
     if (a.soldPositions && a.soldPositions.length > 0) {
       soldRows = a.soldPositions.map(function (h) {
-        return '<tr style="opacity:0.75">' +
+        return '<tr style="opacity:0.8">' +
           '<td><strong>' + esc(h.symbol) + '</strong> <span class="pill pill-grey">Sold</span>' +
             '<div class="muted">' + esc(h.name) + '</div></td>' +
           '<td class="num muted">' + h.qtyBought + ' → ' + h.qtySold + '</td>' +
@@ -1072,11 +1245,17 @@
       : '';
 
     return '<details class="section-collapse" open><summary><h2 class="card-section-title">Active Holdings <span class="chip">' + a.holdings.length + '</span></h2></summary>' +
-      '<div class="table-wrap"><table>' +
-      '<thead><tr><th>Stock</th><th class="num">Qty</th>' +
+      '<div class="table-wrap"><table class="sortable-table" id="holdings-table">' +
+      '<thead><tr><th class="sortable" data-sort="sym">Stock</th>' +
+      '<th class="num sortable" data-sort="qty">Qty</th>' +
       '<th class="num">Avg price</th><th class="num">Cur price</th>' +
-      '<th class="num">Gain/Loss</th><th>52-week range</th></tr></thead>' +
-      '<tbody>' + rows + '</tbody></table></div></details>' + soldSection;
+      '<th class="num sortable" data-sort="value">Value</th>' +
+      '<th class="num sortable" data-sort="gainpct">Gain/Loss</th>' +
+      '<th>52-week range</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table></div>' +
+      '<p class="muted" style="font-size:11px;margin-top:6px">Tip: click Qty, Value or Gain/Loss to sort. ' +
+        'Badge shows holding period (LT &gt; 1yr).</p>' +
+      '</details>' + soldSection;
   }
 
   // ---- Horizontal performance comparison (invested vs current per holding) ---
@@ -1181,23 +1360,23 @@
   }
 
   // ---- 52-week range sparkline -----------------------------------------------
-  function render52wSparkline(currentPrice, high52w, low52w) {
+  function render52wSparkline(currentPrice, high52w, low52w, estimated) {
     if (!high52w || !low52w || high52w <= low52w) return '<span class="muted">--</span>';
     var range = high52w - low52w;
     var position = Math.max(0, Math.min(1, (currentPrice - low52w) / range));
     var pct = (position * 100).toFixed(0);
-    // SVG sparkline: a horizontal bar with a dot showing current position
     var w = 80, h = 18, barY = 9, barH = 4, dotR = 5;
     var dotX = 4 + position * (w - 8);
-    // Color: green if near low (good buy), red if near high
     var dotColor = position < 0.3 ? 'var(--green)' : position > 0.7 ? 'var(--red)' : 'var(--amber)';
-    return '<div style="display:flex;align-items:center;gap:6px">' +
-      '<span class="muted" style="font-size:11px;min-width:36px;text-align:right">' + SD.fmtMoney(low52w, null).replace(/[$₹]/, '') + '</span>' +
+    var estMark = estimated ? '*' : '';
+    return '<div style="display:flex;align-items:center;gap:6px" title="' +
+        (estimated ? '52w low is estimated' : 'LTP at ' + pct + '% of 52-week range') + '">' +
+      '<span class="muted" style="font-size:11px;min-width:36px;text-align:right">' + Math.round(low52w) + estMark + '</span>' +
       '<svg width="' + w + '" height="' + h + '" style="flex:none">' +
         '<rect x="4" y="' + (barY - barH/2) + '" width="' + (w-8) + '" height="' + barH + '" rx="2" fill="var(--border)"/>' +
         '<circle cx="' + dotX.toFixed(1) + '" cy="' + barY + '" r="' + dotR + '" fill="' + dotColor + '"/>' +
       '</svg>' +
-      '<span class="muted" style="font-size:11px;min-width:36px">' + SD.fmtMoney(high52w, null).replace(/[$₹]/, '') + '</span>' +
+      '<span class="muted" style="font-size:11px;min-width:36px">' + Math.round(high52w) + '</span>' +
       '<span class="chip" style="font-size:10px">' + pct + '%</span>' +
     '</div>';
   }
@@ -1213,6 +1392,38 @@
     if (pdf) pdf.addEventListener("click", function () { global.Report.portfolioPDF(global.PortfolioStore.analysis); });
     var xls = container.querySelector("#btn-report-xls");
     if (xls) xls.addEventListener("click", function () { global.Report.portfolioExcel(global.PortfolioStore.analysis); });
+
+    // Sortable holdings table
+    var table = container.querySelector("#holdings-table");
+    if (table) wireSortableTable(table);
+  }
+
+  // Generic DOM-based table sorter: click a .sortable header to sort rows by its
+  // data-sort key (read from data-<key> attributes on each row).
+  function wireSortableTable(table) {
+    var headers = table.querySelectorAll("th.sortable");
+    var sortState = { key: null, dir: 1 };
+    headers.forEach(function (th) {
+      th.style.cursor = "pointer";
+      th.addEventListener("click", function () {
+        var key = th.getAttribute("data-sort");
+        if (sortState.key === key) sortState.dir = -sortState.dir;
+        else { sortState.key = key; sortState.dir = -1; } // default desc for new column
+        var tbody = table.querySelector("tbody");
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+        rows.sort(function (ra, rb) {
+          var va = ra.getAttribute("data-" + key);
+          var vb = rb.getAttribute("data-" + key);
+          var na = parseFloat(va), nb = parseFloat(vb);
+          if (!isNaN(na) && !isNaN(nb)) return (na - nb) * sortState.dir;
+          return String(va).localeCompare(String(vb)) * sortState.dir;
+        });
+        rows.forEach(function (r) { tbody.appendChild(r); });
+        // Update header indicators
+        headers.forEach(function (h) { h.classList.remove("sort-asc", "sort-desc"); });
+        th.classList.add(sortState.dir > 0 ? "sort-asc" : "sort-desc");
+      });
+    });
   }
 
   // ---- small utils ----

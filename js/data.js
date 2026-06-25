@@ -292,8 +292,9 @@
   // startup. Falls back to bundled snapshot prices in data.js if the file
   // isn't available (e.g. offline, file:// protocol, or first deploy).
   // ==========================================================================
-  var livePrices = null;   // { TICKER: { price, currency, high52w?, asOf } }
+  var livePrices = null;   // { TICKER: { price, currency, high52w?, low52w?, asOf } }
   var liveMeta = null;     // { updatedAt, source, totalTickers }
+  var benchmarks = null;   // { NIFTY50: {currency, series:[{d,c}]}, SP500: {...} }
   var priceLoadPromise = null;
 
   function loadPrices() {
@@ -312,6 +313,7 @@
             Object.keys(data.prices).forEach(function (ticker) {
               livePrices[ticker.toUpperCase()] = data.prices[ticker];
             });
+            benchmarks = data.benchmarks || null;
             liveMeta = {
               updatedAt: data.updatedAt || null,
               source: data.source || "unknown",
@@ -510,6 +512,25 @@
       if (livePrices && livePrices[t] && livePrices[t].high52w) return livePrices[t].high52w;
       var s = BY_TICKER[t];
       return s ? s.high52w : null;
+    },
+
+    /**
+     * Get 52-week low for a ticker (from live data only; null if unavailable).
+     */
+    getLow52w: function (ticker) {
+      if (!ticker) return null;
+      var t = String(ticker).toUpperCase();
+      if (livePrices && livePrices[t] && livePrices[t].low52w) return livePrices[t].low52w;
+      return null;
+    },
+
+    /**
+     * Get a benchmark index series by name ("NIFTY50" or "SP500").
+     * Returns { currency, series: [{d, c}] } or null.
+     */
+    getBenchmark: function (name) {
+      if (!benchmarks) return null;
+      return benchmarks[name] || null;
     },
 
     /**

@@ -416,3 +416,33 @@ code.inline { background: var(--bg); padding: 2px 8px; border-radius: 6px; borde
 .section-collapse[open] > summary::before { transform: rotate(90deg); }
 .section-collapse > summary:hover h2 { color: var(--accent); }
 .section-collapse .chip { vertical-align: middle; }
+
+
+/* ---------- Headline verdict card ---------- */
+.verdict-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #f0f4ff 0%, #faf0ff 100%);
+  border: 1px solid #dfe6ff;
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-card);
+}
+.verdict-icon { font-size: 34px; flex: none; }
+.verdict-text { font-size: 16px; line-height: 1.5; color: var(--text); }
+.verdict-text strong { font-weight: 700; }
+
+/* ---------- Top gainer / loser callouts ---------- */
+.callout { padding: 16px 18px; }
+.callout-title { font-size: 13px; font-weight: 700; color: var(--text-dim); margin-bottom: 8px; }
+.callout-body { display: flex; flex-direction: column; gap: 6px; }
+.callout-figures { display: flex; align-items: baseline; gap: 10px; }
+
+/* ---------- Sortable table headers ---------- */
+th.sortable { cursor: pointer; user-select: none; transition: color 0.12s; }
+th.sortable:hover { color: var(--accent); }
+th.sortable::after { content: " ⇅"; opacity: 0.35; font-size: 11px; }
+th.sortable.sort-asc::after { content: " ↑"; opacity: 1; color: var(--accent); }
+th.sortable.sort-desc::after { content: " ↓"; opacity: 1; color: var(--accent); }

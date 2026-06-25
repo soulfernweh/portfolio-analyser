@@ -627,7 +627,9 @@
           asOf: null, status: "sold", isBond: !!h.isBond,
           qtyBought: h.totalBought, qtySold: h.totalSold,
           sellDate: h.latestSellDate || h.earliestDate,  // Actual sell date for XIRR
-          sellTrades: h.sellTrades || []                 // Individual sell trades for accurate XIRR
+          sellTrades: h.sellTrades || [],                // Individual sell trades for accurate XIRR
+          trades: h.trades || [],                        // All trades for the per-stock detail view
+          xirr: perStockXirr(h.trades || [], null)       // Per-stock realized XIRR
         });
         return;
       }
@@ -652,7 +654,9 @@
         date: h.earliestDate, delayed: delayed, noQuote: noQuote,
         asOf: quote ? quote.asOf : null, status: "active", isBond: !!h.isBond,
         qtyBought: h.totalBought, qtySold: h.totalSold,
-        realizedGain: h.totalSellProceeds - (h.totalSold * avgPrice)
+        realizedGain: h.totalSellProceeds - (h.totalSold * avgPrice),
+        trades: h.trades || [],                              // All trades for the per-stock detail view
+        xirr: perStockXirr(h.trades || [], currentValue)     // Per-stock money-weighted return
       });
     });
 
@@ -798,6 +802,20 @@
   }
 
   function sum(arr, key) { return arr.reduce(function (s, x) { return s + (x[key] || 0); }, 0); }
+
+  // Per-stock money-weighted return (XIRR) from that stock's own trades.
+  // currentValueNative = remaining position value today (native currency); pass
+  // null/0 for fully-sold positions. Buys are cash out (-), sells cash in (+).
+  function perStockXirr(trades, currentValueNative) {
+    var flows = trades.map(function (t) {
+      var amt = t.qty * t.price;
+      return { amount: t.tradeType === "SELL" ? amt : -amt, date: t.date };
+    });
+    if (currentValueNative != null && currentValueNative > 0) {
+      flows.push({ amount: currentValueNative, date: new Date() });
+    }
+    return flows.length >= 2 ? F.xirr(flows) : null;
+  }
 
   function groupConc(holdings, total, keyFn, labelFn) {
     var groups = {};
@@ -1306,17 +1324,23 @@
       var yrs = F.yearsBetween(h.date, now);
       var heldTxt = yrs >= 1 ? yrs.toFixed(1) + "y" : Math.round(yrs * 12) + "m";
       var term = yrs >= 1 ? "LT" : "ST";
+      var xirrCell = h.xirr != null
+        ? '<span class="' + (h.xirr >= 0 ? "pos" : "neg") + '">' + F.fmtSignedPct(h.xirr) + '</span>'
+        : '<span class="muted">--</span>';
 
-      return '<tr data-value="' + h.currentValueBase + '" data-gain="' + h.gainBase +
-        '" data-gainpct="' + h.gainPct + '" data-qty="' + h.qty + '" data-sym="' + esc(h.symbol) + '">' +
+      return '<tr class="clickable" data-value="' + h.currentValueBase + '" data-gain="' + h.gainBase +
+        '" data-gainpct="' + h.gainPct + '" data-xirr="' + (h.xirr == null ? -999 : h.xirr) +
+        '" data-qty="' + h.qty + '" data-sym="' + esc(h.symbol) +
+        '" data-search="' + esc((h.symbol + " " + h.name).toLowerCase()) + '" title="Click for transactions &amp; analysis">' +
         '<td><strong>' + esc(h.symbol) + '</strong> <span class="chip" title="' + term + ' · held ' + heldTxt + '">' + heldTxt + '</span>' +
           '<div class="muted">' + esc(h.name) + '</div></td>' +
         '<td class="num">' + F.fmtNum(h.qty, h.qty % 1 ? 2 : 0) + '</td>' +
         '<td class="num">' + SD.fmtMoney(h.avgPrice, h.currency) + '</td>' +
         '<td class="num">' + SD.fmtMoney(h.currentPrice, h.currency) + delayBadge + '</td>' +
         '<td class="num">' + SD.fmtMoney(h.currentValueBase, a.baseCurrency) + '</td>' +
-        '<td class="num ' + (h.gain >= 0 ? "pos" : "neg") + '">' + SD.fmtMoney(h.gain, h.currency) +
-          '<div class="muted">' + F.fmtSignedPct(h.gainPct) + '</div></td>' +
+        '<td class="num ' + (h.gain >= 0 ? "pos" : "neg") + '">' + SD.fmtMoney(h.gain, h.currency) + '</td>' +
+        '<td class="num ' + (h.gainPct >= 0 ? "pos" : "neg") + '">' + F.fmtSignedPct(h.gainPct) + '</td>' +
+        '<td class="num">' + xirrCell + '</td>' +
         '<td>' + sparkline + '</td>' +
         '</tr>';
     }).join("");
@@ -1325,7 +1349,11 @@
     var soldRows = "";
     if (a.soldPositions && a.soldPositions.length > 0) {
       soldRows = a.soldPositions.map(function (h) {
-        return '<tr style="opacity:0.8">' +
+        var sx = h.xirr != null
+          ? '<span class="' + (h.xirr >= 0 ? "pos" : "neg") + '">' + F.fmtSignedPct(h.xirr) + '</span>'
+          : '<span class="muted">--</span>';
+        return '<tr class="clickable" style="opacity:0.85" data-sym="' + esc(h.symbol) +
+            '" data-search="' + esc((h.symbol + " " + h.name).toLowerCase()) + '" title="Click for transactions &amp; analysis">' +
           '<td><strong>' + esc(h.symbol) + '</strong> <span class="pill pill-grey">Sold</span>' +
             '<div class="muted">' + esc(h.name) + '</div></td>' +
           '<td class="num muted">' + h.qtyBought + ' → ' + h.qtySold + '</td>' +
@@ -1334,7 +1362,7 @@
             ' <span class="muted">(avg sell)</span></td>' +
           '<td class="num ' + (h.gain >= 0 ? "pos" : "neg") + '">' + SD.fmtMoney(h.gain, h.currency) +
             '<div class="muted">' + F.fmtSignedPct(h.gainPct) + ' realized</div></td>' +
-          '<td></td>' +
+          '<td class="num">' + sx + '</td>' +
           '</tr>';
       }).join("");
     }
@@ -1343,21 +1371,27 @@
       ? '<details class="section-collapse"><summary><h2 class="card-section-title">Sold / Redeemed Positions <span class="chip">' + a.soldPositions.length + '</span></h2></summary><div class="table-wrap"><table>' +
         '<thead><tr><th>Stock</th><th class="num">Bought → Sold</th>' +
         '<th class="num">Avg buy</th><th class="num">Avg sell</th>' +
-        '<th class="num">Realized P&amp;L</th><th></th></tr></thead>' +
+        '<th class="num">Realized P&amp;L</th><th class="num">XIRR</th></tr></thead>' +
         '<tbody>' + soldRows + '</tbody></table></div></details>'
       : '';
 
     return '<details class="section-collapse" open><summary><h2 class="card-section-title">Active Holdings <span class="chip">' + a.holdings.length + '</span></h2></summary>' +
+      '<div class="holdings-toolbar no-print">' +
+        '<input type="search" id="holdings-search" placeholder="🔍 Search holdings — try &quot;bees&quot; or &quot;*bees&quot;" autocomplete="off">' +
+        '<span class="muted" id="holdings-count" style="font-size:12px"></span>' +
+      '</div>' +
       '<div class="table-wrap"><table class="sortable-table" id="holdings-table">' +
       '<thead><tr><th class="sortable" data-sort="sym">Stock</th>' +
       '<th class="num sortable" data-sort="qty">Qty</th>' +
       '<th class="num">Avg price</th><th class="num">Cur price</th>' +
       '<th class="num sortable" data-sort="value">Value</th>' +
-      '<th class="num sortable" data-sort="gainpct">Gain/Loss</th>' +
+      '<th class="num sortable" data-sort="gain">P&amp;L</th>' +
+      '<th class="num sortable" data-sort="gainpct">% Chg</th>' +
+      '<th class="num sortable" data-sort="xirr">XIRR</th>' +
       '<th>52-week range</th></tr></thead>' +
       '<tbody>' + rows + '</tbody></table></div>' +
-      '<p class="muted" style="font-size:11px;margin-top:6px">Tip: click Qty, Value or Gain/Loss to sort. ' +
-        'Badge shows holding period (LT &gt; 1yr).</p>' +
+      '<p class="muted" style="font-size:11px;margin-top:6px">Tip: search by name/ticker, click a column header (Qty, Value, P&amp;L, % Chg, XIRR) to sort, ' +
+        'or click any row to see all its transactions &amp; analysis. Badge shows holding period (LT &gt; 1yr).</p>' +
       '</details>' + soldSection;
   }
 
@@ -1537,6 +1571,129 @@
     // Sortable holdings table
     var table = container.querySelector("#holdings-table");
     if (table) wireSortableTable(table);
+
+    // Live search across active holdings (supports "bees", "*bees", "bees*").
+    var search = container.querySelector("#holdings-search");
+    if (search) {
+      search.addEventListener("input", function () { filterHoldings(container, search.value); });
+      filterHoldings(container, "");
+    }
+
+    // Click any holding/sold row -> open per-stock transactions & analysis.
+    container.querySelectorAll("tr.clickable[data-sym]").forEach(function (tr) {
+      tr.addEventListener("click", function () {
+        openStockDetail(tr.getAttribute("data-sym"));
+      });
+    });
+  }
+
+  // Filter the active-holdings table rows by a free-text query. Asterisks are
+  // treated as "match anywhere" wildcards, so "*bees", "bees*" and "bees" all
+  // surface every holding whose ticker or name contains "bees".
+  function filterHoldings(container, query) {
+    var q = String(query || "").replace(/\*/g, "").trim().toLowerCase();
+    var table = container.querySelector("#holdings-table");
+    if (!table) return;
+    var rows = table.querySelectorAll("tbody tr");
+    var shown = 0;
+    rows.forEach(function (tr) {
+      var hay = (tr.getAttribute("data-search") || "").toLowerCase();
+      var match = !q || hay.indexOf(q) !== -1;
+      tr.style.display = match ? "" : "none";
+      if (match) shown++;
+    });
+    var counter = container.querySelector("#holdings-count");
+    if (counter) {
+      counter.textContent = q ? (shown + " match" + (shown === 1 ? "" : "es")) : "";
+    }
+  }
+
+  // Open a modal with the full transaction history + analysis for one stock.
+  function openStockDetail(sym) {
+    var a = global.PortfolioStore && global.PortfolioStore.analysis;
+    if (!a || !sym) return;
+    var h = null, isSold = false, i;
+    for (i = 0; i < a.holdings.length; i++) {
+      if (a.holdings[i].symbol === sym) { h = a.holdings[i]; break; }
+    }
+    if (!h) {
+      for (i = 0; i < a.soldPositions.length; i++) {
+        if (a.soldPositions[i].symbol === sym) { h = a.soldPositions[i]; isSold = true; break; }
+      }
+    }
+    if (!h || !global.UI) return;
+    global.UI.openModal(stockDetailHtml(h, a, isSold));
+  }
+
+  // Build the per-stock detail card: headline metrics + transaction ledger.
+  function stockDetailHtml(h, a, isSold) {
+    var now = new Date();
+    var endDate = isSold ? (h.sellDate || now) : now;
+    var yrs = F.yearsBetween(h.date, endDate);
+    var heldTxt = yrs >= 1 ? yrs.toFixed(1) + " years" : Math.max(0, Math.round(yrs * 12)) + " months";
+    var cagr = F.cagr(h.invested, h.currentValue, yrs);
+    var sign = function (v) { return v >= 0 ? "pos" : "neg"; };
+    var pctCell = function (v) { return v == null ? '<span class="muted">--</span>' :
+      '<span class="' + sign(v) + '">' + F.fmtSignedPct(v) + '</span>'; };
+    var nQty = function (q) { return F.fmtNum(q, q % 1 ? 2 : 0); };
+
+    // Metric blocks
+    var metrics =
+      metric("Invested", SD.fmtMoney(h.invested, h.currency)) +
+      metric(isSold ? "Proceeds" : "Current value", SD.fmtMoney(h.currentValue, h.currency)) +
+      metric(isSold ? "Realized P&L" : "P&L",
+        '<span class="' + sign(h.gain) + '">' + SD.fmtMoney(h.gain, h.currency) + '</span>') +
+      metric("% Change", pctCell(h.gainPct)) +
+      metric("XIRR", pctCell(h.xirr)) +
+      metric("CAGR", pctCell(cagr)) +
+      metric("Holding period", heldTxt) +
+      metric(isSold ? "Qty bought → sold" : "Quantity held",
+        isSold ? (nQty(h.qtyBought) + " → " + nQty(h.qtySold)) : nQty(h.qty)) +
+      metric(isSold ? "Avg buy / sell" : "Avg buy / current",
+        SD.fmtMoney(h.avgPrice, h.currency) + " / " + SD.fmtMoney(h.currentPrice, h.currency));
+
+    // Transaction ledger (sorted oldest first)
+    var txs = (h.trades || []).slice().sort(function (x, y) { return x.date - y.date; });
+    var txRows = txs.map(function (t) {
+      var isBuy = t.tradeType !== "SELL";
+      var val = t.qty * t.price;
+      return '<tr>' +
+        '<td>' + fmtDate(t.date) + '</td>' +
+        '<td><span class="pill ' + (isBuy ? "pill-green" : "pill-red") + '">' + (isBuy ? "BUY" : "SELL") + '</span></td>' +
+        '<td class="num">' + nQty(t.qty) + '</td>' +
+        '<td class="num">' + SD.fmtMoney(t.price, h.currency) + '</td>' +
+        '<td class="num">' + SD.fmtMoney(val, h.currency) + '</td>' +
+        '</tr>';
+    }).join("");
+
+    var buys = txs.filter(function (t) { return t.tradeType !== "SELL"; }).length;
+    var sells = txs.length - buys;
+
+    var bondChip = h.isBond ? ' <span class="pill pill-amber">Bond / Debt</span>' : '';
+    var soldChip = isSold ? ' <span class="pill pill-grey">Fully sold</span>' : '';
+    var delayChip = h.noQuote ? ' <span class="chip" title="No live quote — shown at cost basis">⏱ at cost</span>' : '';
+
+    return '<div class="detail-head">' +
+        '<div><div class="ticker">' + esc(h.symbol) + bondChip + soldChip + '</div>' +
+          '<div class="name">' + esc(h.name) + '</div>' +
+          '<div class="muted" style="font-size:12px;margin-top:4px">' + esc(h.sector || "") +
+            ' · ' + esc(h.market || "") + ' · ' + esc(h.currency) + delayChip + '</div></div>' +
+      '</div>' +
+      '<div class="detail-metrics">' + metrics + '</div>' +
+      '<h3 style="margin:18px 0 8px">Transactions <span class="chip">' + txs.length + '</span> ' +
+        '<span class="muted" style="font-weight:400;font-size:12px">' + buys + ' buy' + (buys === 1 ? "" : "s") +
+        (sells ? " · " + sells + " sell" + (sells === 1 ? "" : "s") : "") + '</span></h3>' +
+      '<div class="table-wrap" style="max-height:320px;overflow-y:auto"><table>' +
+        '<thead><tr><th>Date</th><th>Type</th><th class="num">Qty</th>' +
+        '<th class="num">Price</th><th class="num">Value</th></tr></thead>' +
+        '<tbody>' + (txRows || '<tr><td colspan="5" class="muted">No transactions</td></tr>') + '</tbody>' +
+      '</table></div>' +
+      '<p class="muted" style="font-size:11px;margin-top:10px">XIRR is money-weighted across the actual trade dates' +
+        (isSold ? '' : ' plus today\'s market value') + '. Returns are price-based and exclude dividends.</p>';
+  }
+
+  function metric(label, valueHtml) {
+    return '<div class="m"><div class="l">' + esc(label) + '</div><div class="v">' + valueHtml + '</div></div>';
   }
 
   // Generic DOM-based table sorter: click a .sortable header to sort rows by its

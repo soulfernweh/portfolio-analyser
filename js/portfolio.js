@@ -11,7 +11,11 @@
   "use strict";
 
   var SD = global.StockData, F = global.Finance, C = global.Charts;
-  var FX_INR_PER_USD = 83; // simple constant for cross-currency aggregation
+
+  // Get FX rate dynamically from PriceService (falls back to 83 if unavailable)
+  function getFxRate() {
+    return SD.PriceService.getFxRate ? SD.PriceService.getFxRate() : 83;
+  }
 
   // Shared store other modules read from.
   global.PortfolioStore = global.PortfolioStore || { analysis: null, fileName: null };
@@ -380,8 +384,9 @@
 
   function convert(value, fromCur, baseCur) {
     if (fromCur === baseCur) return value;
-    if (fromCur === "INR" && baseCur === "USD") return value / FX_INR_PER_USD;
-    if (fromCur === "USD" && baseCur === "INR") return value * FX_INR_PER_USD;
+    var fxRate = getFxRate();
+    if (fromCur === "INR" && baseCur === "USD") return value / fxRate;
+    if (fromCur === "USD" && baseCur === "INR") return value * fxRate;
     return value;
   }
 
@@ -468,6 +473,8 @@
           qty: 0, totalCost: 0, earliestDate: t.date,
           totalBought: 0, totalBoughtCost: 0,
           totalSold: 0, totalSellProceeds: 0,
+          latestSellDate: null,  // Track the most recent sell date
+          sellTrades: [],        // Track individual sell trades for accurate XIRR
           trades: []
         };
       }
@@ -487,6 +494,12 @@
         h.qty -= t.qty;
         h.totalSold += t.qty;
         h.totalSellProceeds += t.qty * t.price;
+        // Track this sell trade for accurate XIRR
+        h.sellTrades.push({ qty: t.qty, price: t.price, date: t.date });
+        // Track latest sell date
+        if (!h.latestSellDate || t.date > h.latestSellDate) {
+          h.latestSellDate = t.date;
+        }
         // Adjust cost proportionally
         if (h.qty > 0 && (h.qty + t.qty) > 0) {
           h.totalCost = h.totalCost * (h.qty / (h.qty + t.qty));
@@ -524,7 +537,9 @@
           gain: realizedGain, gainPct: realizedPct,
           date: h.earliestDate, delayed: false, noQuote: false,
           asOf: null, status: "sold",
-          qtyBought: h.totalBought, qtySold: h.totalSold
+          qtyBought: h.totalBought, qtySold: h.totalSold,
+          sellDate: h.latestSellDate || h.earliestDate,  // Actual sell date for XIRR
+          sellTrades: h.sellTrades || []                 // Individual sell trades for accurate XIRR
         });
         return;
       }
@@ -680,7 +695,7 @@
 
     var analysis = {
       holdings: holdings, soldPositions: soldPositions, warnings: warnings,
-      baseCurrency: baseCurrency, mixedCurrency: mixedCurrency, fxRate: FX_INR_PER_USD,
+      baseCurrency: baseCurrency, mixedCurrency: mixedCurrency, fxRate: getFxRate(),
       totalInvested: totalInvested, totalCurrent: totalCurrent, totalGain: totalGain,
       totalRealizedGain: totalRealizedGain,
       absReturn: absReturn, xirr: xirr, cagr: cagr, years: years, earliest: earliest,
@@ -1321,17 +1336,36 @@
       positions.forEach(function (h) { flows.push({ amount: -h.investedBase, date: h.date }); });
       if (totalCurrent > 0) flows.push({ amount: totalCurrent, date: now });
     } else {
-      // For sold positions, use buy cost and sell proceeds
+      // For sold positions, use actual buy and sell dates for accurate XIRR
       positions.forEach(function (h) {
+        // Buy flow at earliest date
         flows.push({ amount: -h.investedBase, date: h.date });
-        flows.push({ amount: h.currentValueBase, date: h.date }); // approximate sell at earliest date
+        
+        // Sell flows: use individual sell trades if available, otherwise use sellDate
+        if (h.sellTrades && h.sellTrades.length > 0) {
+          // Use actual sell trade dates for precise XIRR
+          h.sellTrades.forEach(function (st) {
+            var sellAmount = convert(st.qty * st.price, h.currency, a.baseCurrency);
+            flows.push({ amount: sellAmount, date: st.date });
+          });
+        } else {
+          // Fallback: use sellDate if available, otherwise earliest date
+          var sellDate = h.sellDate || h.date;
+          flows.push({ amount: h.currentValueBase, date: sellDate });
+        }
       });
     }
     var xirr = flows.length >= 2 ? F.xirr(flows) : null;
 
-    // CAGR
+    // CAGR - use sell date for sold positions
     var earliest = positions.reduce(function (d, h) { return h.date < d ? h.date : d; }, positions[0].date);
-    var years = F.yearsBetween(earliest, now);
+    var latest = type === "sold" 
+      ? positions.reduce(function (d, h) { 
+          var sd = h.sellDate || h.date;
+          return sd > d ? sd : d; 
+        }, positions[0].sellDate || positions[0].date)
+      : now;
+    var years = F.yearsBetween(earliest, latest);
     var cagr = years > 0 && totalInvested > 0 ? F.cagr(totalInvested, totalCurrent, years) : null;
 
     return {
@@ -1368,16 +1402,35 @@
     var w = 80, h = 18, barY = 9, barH = 4, dotR = 5;
     var dotX = 4 + position * (w - 8);
     var dotColor = position < 0.3 ? 'var(--green)' : position > 0.7 ? 'var(--red)' : 'var(--amber)';
-    var estMark = estimated ? '*' : '';
-    return '<div style="display:flex;align-items:center;gap:6px" title="' +
-        (estimated ? '52w low is estimated' : 'LTP at ' + pct + '% of 52-week range') + '">' +
-      '<span class="muted" style="font-size:11px;min-width:36px;text-align:right">' + Math.round(low52w) + estMark + '</span>' +
+    
+    // Build tooltip text
+    var tooltipText = estimated 
+      ? '52w low is estimated (~60% of high). Actual low may differ. Position: ' + pct + '% of range.'
+      : 'Current price at ' + pct + '% of 52-week range (Low: ' + Math.round(low52w) + ', High: ' + Math.round(high52w) + ')';
+    
+    // Estimated indicator: show a dashed bar and "est" badge instead of just asterisk
+    var barStyle = estimated 
+      ? 'stroke="var(--border)" stroke-width="2" stroke-dasharray="4,2" fill="none"'
+      : 'fill="var(--border)"';
+    
+    var lowDisplay = estimated
+      ? '<span class="muted" style="font-size:11px;min-width:36px;text-align:right;opacity:0.7" title="Estimated: ~60% of 52w high">' + 
+          '~' + Math.round(low52w) + '</span>'
+      : '<span class="muted" style="font-size:11px;min-width:36px;text-align:right">' + Math.round(low52w) + '</span>';
+    
+    var estBadge = estimated 
+      ? '<span class="chip chip-est" title="52w low is estimated, not actual data">est</span>' 
+      : '';
+    
+    return '<div class="sparkline-52w" style="display:flex;align-items:center;gap:6px" title="' + esc(tooltipText) + '">' +
+      lowDisplay +
       '<svg width="' + w + '" height="' + h + '" style="flex:none">' +
-        '<rect x="4" y="' + (barY - barH/2) + '" width="' + (w-8) + '" height="' + barH + '" rx="2" fill="var(--border)"/>' +
+        '<rect x="4" y="' + (barY - barH/2) + '" width="' + (w-8) + '" height="' + barH + '" rx="2" ' + barStyle + '/>' +
         '<circle cx="' + dotX.toFixed(1) + '" cy="' + barY + '" r="' + dotR + '" fill="' + dotColor + '"/>' +
       '</svg>' +
       '<span class="muted" style="font-size:11px;min-width:36px">' + Math.round(high52w) + '</span>' +
       '<span class="chip" style="font-size:10px">' + pct + '%</span>' +
+      estBadge +
     '</div>';
   }
 

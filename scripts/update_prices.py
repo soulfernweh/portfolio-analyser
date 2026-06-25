@@ -366,6 +366,37 @@ def fetch_52w_range(yf_symbols: list, batch_size: int = 200) -> dict:
     return ranges
 
 
+def fetch_fx_rate():
+    """
+    Fetch current USD/INR exchange rate.
+    Returns the rate as a float (INR per 1 USD), or None if fetch fails.
+    """
+    print("\n--- Fetching USD/INR exchange rate ---")
+    try:
+        data = yf.download(
+            tickers="USDINR=X",
+            period="5d",
+            interval="1d",
+            auto_adjust=True,
+            progress=False,
+            threads=True,
+        )
+        if data.empty:
+            print("    WARNING: no FX data returned")
+            return None
+        closes = data["Close"].dropna()
+        if hasattr(closes, "columns"):
+            closes = closes.iloc[:, 0].dropna()
+        if closes.empty:
+            return None
+        rate = round(float(closes.iloc[-1]), 2)
+        print(f"    USD/INR = {rate}")
+        return rate
+    except Exception as e:
+        print(f"    WARNING: FX fetch failed: {e}")
+        return None
+
+
 def fetch_benchmark_series():
     """
     Fetch ~5 years of weekly closes for Nifty 50 (^NSEI) and S&P 500 (^GSPC).
@@ -456,11 +487,16 @@ def main():
     # Fetch benchmark index series for portfolio comparison
     benchmarks = fetch_benchmark_series()
 
+    # Fetch current USD/INR exchange rate
+    fx_rate = fetch_fx_rate()
+
     print(f"\n--- Results ---")
     print(f"  Total prices assembled: {len(prices)}")
     print(f"  Indian stocks: {sum(1 for p in prices.values() if p['currency'] == 'INR')}")
     print(f"  US stocks: {sum(1 for p in prices.values() if p['currency'] == 'USD')}")
     print(f"  Benchmarks: {list(benchmarks.keys())}")
+    if fx_rate:
+        print(f"  USD/INR rate: {fx_rate}")
 
     # Failed tickers
     fetched_yf = set(raw_prices.keys())
@@ -473,6 +509,7 @@ def main():
         "source": "yfinance",
         "totalTickers": len(prices),
         "indices": ["NIFTY500", "SP500"],
+        "fxRate": fx_rate,  # USD/INR exchange rate
         "benchmarks": benchmarks,
         "prices": prices,
     }

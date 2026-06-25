@@ -446,3 +446,287 @@ th.sortable:hover { color: var(--accent); }
 th.sortable::after { content: " ⇅"; opacity: 0.35; font-size: 11px; }
 th.sortable.sort-asc::after { content: " ↑"; opacity: 1; color: var(--accent); }
 th.sortable.sort-desc::after { content: " ↓"; opacity: 1; color: var(--accent); }
+
+
+
+/* ---------- 52-week sparkline estimation indicator ---------- */
+.sparkline-52w { white-space: nowrap; }
+.chip-est {
+  background: var(--amber-light);
+  color: #92400e;
+  font-size: 9px !important;
+  padding: 2px 5px;
+  margin-left: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  cursor: help;
+}
+
+
+
+/* ==========================================================================
+   DARK MODE
+   Automatically activates when user's system preference is set to dark mode.
+   All colors are adjusted for comfortable viewing in low-light conditions.
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d0d0f;
+    --bg-elev: #1c1c1e;
+    --bg-card: #1c1c1e;
+    --bg-card-2: #2c2c2e;
+    --border: #38383a;
+    --border-light: #2c2c2e;
+    --text: #f5f5f7;
+    --text-dim: #a1a1a6;
+    --text-faint: #6e6e73;
+    --accent: #0a84ff;
+    --accent-2: #409cff;
+    --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --green: #30d158;
+    --green-bg: rgba(48, 209, 88, 0.15);
+    --green-light: rgba(48, 209, 88, 0.2);
+    --amber: #ff9f0a;
+    --amber-bg: rgba(255, 159, 10, 0.15);
+    --amber-light: rgba(255, 159, 10, 0.2);
+    --red: #ff453a;
+    --red-bg: rgba(255, 69, 58, 0.15);
+    --red-light: rgba(255, 69, 58, 0.2);
+    --purple: #bf5af2;
+    --purple-bg: rgba(191, 90, 242, 0.15);
+    --blue-light: rgba(10, 132, 255, 0.15);
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Header adjustments for dark mode */
+  .app-header {
+    background: rgba(28, 28, 30, 0.85);
+    border-bottom-color: var(--border);
+  }
+
+  /* Brand mark keeps its gradient */
+  .brand-mark {
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  /* Pills need adjusted colors for dark backgrounds */
+  .pill-green { background: var(--green-light); color: #30d158; }
+  .pill-amber { background: var(--amber-light); color: #ff9f0a; }
+  .pill-red { background: var(--red-light); color: #ff453a; }
+  .pill-blue { background: var(--blue-light); color: var(--accent); }
+  .pill-grey { background: var(--bg-card-2); color: var(--text-dim); }
+
+  /* Chips */
+  .chip {
+    background: var(--bg-card-2);
+    border-color: var(--border);
+  }
+
+  /* Estimation chip for 52w sparkline */
+  .chip-est {
+    background: var(--amber-light);
+    color: #ff9f0a;
+  }
+
+  /* Alerts */
+  .alert-error { background: var(--red-light); border-color: rgba(255, 69, 58, 0.3); color: #ff6961; }
+  .alert-warn { background: var(--amber-light); border-color: rgba(255, 159, 10, 0.3); color: #ffb340; }
+  .alert-info { background: var(--blue-light); border-color: rgba(10, 132, 255, 0.3); color: #64b5f6; }
+  .alert-ok { background: var(--green-light); border-color: rgba(48, 209, 88, 0.3); color: #4ade80; }
+
+  /* Disclaimer bar */
+  .disclaimer-bar {
+    background: linear-gradient(90deg, rgba(255, 159, 10, 0.15) 0%, rgba(255, 159, 10, 0.1) 100%);
+    border-bottom-color: rgba(255, 159, 10, 0.3);
+    color: #ffb340;
+  }
+
+  /* Dropzone */
+  .dropzone {
+    border-color: var(--border);
+    background: var(--bg-card);
+  }
+  .dropzone.drag {
+    border-color: var(--accent);
+    background: var(--blue-light);
+  }
+
+  /* Tables */
+  thead th {
+    background: var(--bg-card-2);
+    color: var(--text-dim);
+    border-bottom-color: var(--border);
+  }
+  tbody td {
+    border-bottom-color: var(--border-light);
+  }
+  tbody tr.clickable:hover {
+    background: var(--blue-light);
+  }
+  tbody tr.complement {
+    background: rgba(10, 132, 255, 0.08);
+  }
+
+  /* Insight list severity colors */
+  .insight-list li.sev-high { border-left-color: var(--red); }
+  .insight-list li.sev-med { border-left-color: var(--amber); }
+  .insight-list li.sev-low { border-left-color: var(--green); }
+
+  /* Criteria list checkmarks */
+  .criteria-list .ck.pass { background: var(--green-light); color: var(--green); }
+  .criteria-list .ck.fail { background: var(--red-light); color: var(--red); }
+
+  /* Score bar segments */
+  .score-bar .seg { background: var(--border); }
+  .score-bar .seg.on-green { background: var(--green); }
+  .score-bar .seg.on-amber { background: var(--amber); }
+  .score-bar .seg.on-red { background: var(--red); }
+
+  /* Modal */
+  .modal-backdrop {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  .modal-panel {
+    background: var(--bg-card);
+    border-color: var(--border);
+  }
+  .modal-close {
+    background: var(--bg-card-2);
+    color: var(--text-dim);
+  }
+  .modal-close:hover {
+    background: var(--border);
+    color: var(--text);
+  }
+
+  /* Toast */
+  .toast {
+    background: var(--bg-card);
+    border-color: var(--border);
+  }
+
+  /* Buttons */
+  .btn {
+    background: var(--bg-card);
+    border-color: var(--border);
+    color: var(--text);
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--accent-2);
+    border-color: var(--accent-2);
+  }
+  .btn-ghost {
+    background: transparent;
+    border-color: transparent;
+  }
+  .btn-ghost:hover {
+    background: var(--bg-card-2);
+  }
+
+  /* Form inputs */
+  select, input[type="text"], input[type="number"], input[type="search"] {
+    background: var(--bg-card);
+    border-color: var(--border);
+    color: var(--text);
+  }
+  select:focus, input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
+  }
+
+  /* Filters panel */
+  .filters {
+    background: var(--bg-card);
+    border-color: var(--border);
+  }
+
+  /* Code blocks */
+  code.inline {
+    background: var(--bg-card-2);
+    border-color: var(--border);
+  }
+
+  /* Help block */
+  .help-block {
+    background: var(--bg-card);
+    border-color: var(--border);
+  }
+
+  /* Verdict card */
+  .verdict-card {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+    border-color: rgba(102, 126, 234, 0.3);
+  }
+
+  /* Tool cards on home page */
+  .tool-card:hover {
+    border-color: var(--accent);
+  }
+
+  /* Metric blocks */
+  .m {
+    background: var(--bg-card-2);
+    border-color: var(--border-light);
+  }
+  .detail-metrics .m {
+    background: var(--bg-card-2);
+    border-color: var(--border-light);
+  }
+
+  /* Charts - SVG text should be light */
+  svg.chart text {
+    fill: var(--text);
+  }
+
+  /* Sortable table header hover */
+  th.sortable:hover {
+    color: var(--accent);
+  }
+  th.sortable.sort-asc::after,
+  th.sortable.sort-desc::after {
+    color: var(--accent);
+  }
+
+  /* Scrollbar styling for dark mode (WebKit browsers) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-faint);
+  }
+}
+
+/* Dark mode print override - always print in light mode for readability */
+@media print {
+  :root {
+    --bg: #fff;
+    --bg-elev: #fff;
+    --bg-card: #fff;
+    --bg-card-2: #f4f6f8;
+    --border: #ddd;
+    --text: #111;
+    --text-dim: #555;
+    --text-faint: #888;
+  }
+}

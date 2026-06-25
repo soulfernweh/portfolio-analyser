@@ -293,8 +293,9 @@
   // isn't available (e.g. offline, file:// protocol, or first deploy).
   // ==========================================================================
   var livePrices = null;   // { TICKER: { price, currency, high52w?, low52w?, asOf } }
-  var liveMeta = null;     // { updatedAt, source, totalTickers }
+  var liveMeta = null;     // { updatedAt, source, totalTickers, fxRate }
   var benchmarks = null;   // { NIFTY50: {currency, series:[{d,c}]}, SP500: {...} }
+  var liveFxRate = null;   // USD/INR exchange rate from prices.json
   var priceLoadPromise = null;
 
   function loadPrices() {
@@ -314,14 +315,17 @@
               livePrices[ticker.toUpperCase()] = data.prices[ticker];
             });
             benchmarks = data.benchmarks || null;
+            liveFxRate = data.fxRate || null;
             liveMeta = {
               updatedAt: data.updatedAt || null,
               source: data.source || "unknown",
-              totalTickers: data.totalTickers || Object.keys(livePrices).length
+              totalTickers: data.totalTickers || Object.keys(livePrices).length,
+              fxRate: liveFxRate
             };
             PriceService.isLive = true;
             console.log("[PriceService] Loaded " + liveMeta.totalTickers +
-              " live prices (updated " + (liveMeta.updatedAt || "unknown") + ")");
+              " live prices (updated " + (liveMeta.updatedAt || "unknown") + ")" +
+              (liveFxRate ? ", FX rate: " + liveFxRate : ""));
             resolve(true);
           } else {
             resolve(false);
@@ -542,8 +546,14 @@
     /** True if prices.json was successfully loaded. */
     isLive: false,
 
-    /** Metadata about the loaded prices (updatedAt, source, totalTickers). */
-    getMeta: function () { return liveMeta; }
+    /** Metadata about the loaded prices (updatedAt, source, totalTickers, fxRate). */
+    getMeta: function () { return liveMeta; },
+
+    /**
+     * Get the USD/INR exchange rate.
+     * Returns live rate from prices.json if available, otherwise default 83.
+     */
+    getFxRate: function () { return liveFxRate || 83; }
   };
 
   // Auto-load prices on script init (non-blocking).

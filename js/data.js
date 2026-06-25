@@ -296,6 +296,7 @@
   var liveMeta = null;     // { updatedAt, source, totalTickers, fxRate }
   var benchmarks = null;   // { NIFTY50: {currency, series:[{d,c}]}, SP500: {...} }
   var liveFxRate = null;   // USD/INR exchange rate from prices.json
+  var fxSeries = null;     // historical [{d, c}] INR-per-USD for cross-currency benchmark adjustment
   var priceLoadPromise = null;
 
   function loadPrices() {
@@ -316,6 +317,7 @@
             });
             benchmarks = data.benchmarks || null;
             liveFxRate = data.fxRate || null;
+            fxSeries = (data.fxSeries && data.fxSeries.length) ? data.fxSeries : null;
             liveMeta = {
               updatedAt: data.updatedAt || null,
               source: data.source || "unknown",
@@ -541,6 +543,13 @@
      * Get the full benchmarks map: { NAME: { currency, series, label? } } or null.
      */
     getBenchmarks: function () { return benchmarks || null; },
+
+    /**
+     * Get the historical USD/INR series ([{d, c}], c = INR per USD) used to
+     * convert cross-currency benchmarks (e.g. S&P 500) into the base currency.
+     * Returns null if not present in prices.json.
+     */
+    getFxSeries: function () { return fxSeries || null; },
 
     /**
      * Load/refresh prices from prices.json. Returns a promise that resolves

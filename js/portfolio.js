@@ -866,16 +866,32 @@
     return chosen ? chosen.c : null;
   }
 
+  // Conversion factor to translate a return earned in `indexCur` back into
+  // `baseCur`, given the trade date — using the historical INR-per-USD series.
+  // Returns 1 when currencies match or no FX data is available.
+  function fxConvFactor(indexCur, baseCur, fxSeries, date) {
+    if (indexCur === baseCur || !fxSeries || !fxSeries.length) return 1;
+    var fxToday = fxSeries[fxSeries.length - 1].c;
+    var fxThen = indexCloseAt(fxSeries, date); // INR per USD at the trade date
+    if (!fxThen || !fxToday) return 1;
+    // fxSeries is denominated as INR per 1 USD.
+    if (indexCur === "USD" && baseCur === "INR") return fxToday / fxThen;
+    if (indexCur === "INR" && baseCur === "USD") return fxThen / fxToday;
+    return 1; // unsupported currency pair — leave unadjusted
+  }
+
   // Mirror ALL of the portfolio's cash flows (buys/sells, converted to base
   // currency) into ONE index series and return its money-weighted XIRR — i.e.
   // "what if I'd invested the exact same amounts on the same dates into this
-  // index instead?". Growth multiples are unitless so the FX conversion of the
-  // flow amount is all that's needed.
-  function computeIndexXirr(holdingsMap, hasTradeType, baseCurrency, series, now) {
+  // index instead?". For a cross-currency index (e.g. S&P 500 for an INR
+  // investor) the growth is also adjusted by the USD/INR move over the holding
+  // period, so the comparison is honest in the base currency.
+  function computeIndexXirr(holdingsMap, hasTradeType, baseCurrency, series, now, indexCur, fxSeries) {
     if (!series || !series.length) return null;
     var latest = series[series.length - 1].c;
     if (!latest) return null;
     var flows = [], terminal = 0, totalBuys = 0, matched = false;
+    var fxAdjusted = (indexCur && indexCur !== baseCurrency && fxSeries && fxSeries.length);
 
     Object.keys(holdingsMap).forEach(function (sym) {
       var h = holdingsMap[sym];
@@ -883,7 +899,7 @@
         var amountBase = convert(t.qty * t.price, currencyForMarket(h.market), baseCurrency);
         var closeAt = indexCloseAt(series, t.date);
         if (!closeAt) return;
-        var growth = latest / closeAt;
+        var growth = (latest / closeAt) * fxConvFactor(indexCur, baseCurrency, fxSeries, t.date);
         matched = true;
         if (!hasTradeType || t.tradeType === "BUY") {
           flows.push({ amount: -amountBase, date: t.date });
@@ -901,7 +917,8 @@
     return {
       xirr: F.xirr(flows),
       terminalValue: round2(terminal),
-      invested: round2(totalBuys)
+      invested: round2(totalBuys),
+      fxAdjusted: !!fxAdjusted
     };
   }
 
@@ -933,18 +950,22 @@
     var keys = Object.keys(all);
     if (!keys.length) return null;
 
+    var fxSeries = SD.PriceService.getFxSeries ? SD.PriceService.getFxSeries() : null;
+
     var results = [];
     keys.forEach(function (name) {
       var bench = all[name];
       if (!bench || !bench.series || !bench.series.length) return;
-      var r = computeIndexXirr(holdingsMap, hasTradeType, baseCurrency, bench.series, now);
+      var r = computeIndexXirr(holdingsMap, hasTradeType, baseCurrency, bench.series, now,
+        bench.currency, fxSeries);
       if (!r || r.xirr == null) return;
       results.push({
         key: name,
         label: bench.label || BENCH_LABELS[name] || name,
         xirr: r.xirr,
         terminalValue: r.terminalValue,
-        invested: r.invested
+        invested: r.invested,
+        fxAdjusted: r.fxAdjusted
       });
     });
     if (!results.length) return null;
@@ -1200,7 +1221,8 @@
         var verdictPill = edge == null ? ''
           : (edge >= 0 ? '<span class="pill pill-green">Beating</span>'
                        : '<span class="pill pill-red">Trailing</span>');
-        return '<tr><td><strong>' + esc(b.label) + '</strong></td>' +
+        var fxChip = b.fxAdjusted ? ' <span class="chip" title="Converted to ₹ using historical USD/INR rates">₹-adjusted</span>' : '';
+        return '<tr><td><strong>' + esc(b.label) + '</strong>' + fxChip + '</td>' +
           '<td class="num">' + coloredPct(b.xirr) + '</td>' +
           '<td class="num">' + edgeCell + '</td>' +
           '<td>' + verdictPill + '</td></tr>';
@@ -1220,8 +1242,9 @@
               '<td class="num muted">—</td><td></td></tr>' +
             benchRows +
           '</tbody></table></div>' +
-        '<p class="muted" style="font-size:11px;margin-top:8px">Index returns are price-based and ignore USD/INR moves ' +
-          '(growth multiples are unitless). Sub-index series may use a tracking ETF as a proxy.</p>' +
+        '<p class="muted" style="font-size:11px;margin-top:8px">Index returns are price-based. ' +
+          'Cross-currency indices (e.g. S&amp;P 500) are converted to ₹ using historical USD/INR rates when available. ' +
+          'Sub-index series may use a tracking ETF as a proxy.</p>' +
         '</div>';
     }
 

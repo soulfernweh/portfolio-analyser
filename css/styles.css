@@ -392,3 +392,27 @@ code.inline { background: var(--bg); padding: 2px 8px; border-radius: 6px; borde
 .m .l { font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: 600; letter-spacing: 0.3px; }
 .m .v { font-size: 17px; font-weight: 700; margin-top: 2px; }
 .grid-1 { grid-template-columns: 1fr; }
+
+
+/* ---------- Collapsible sections ---------- */
+.section-collapse { margin: 0; }
+.section-collapse > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.section-collapse > summary::-webkit-details-marker { display: none; }
+.section-collapse > summary h2 { margin-bottom: 8px; }
+.section-collapse > summary::before {
+  content: "▸";
+  color: var(--text-faint);
+  font-size: 14px;
+  transition: transform 0.15s;
+  margin-top: 18px;
+}
+.section-collapse[open] > summary::before { transform: rotate(90deg); }
+.section-collapse > summary:hover h2 { color: var(--accent); }
+.section-collapse .chip { vertical-align: middle; }

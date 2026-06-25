@@ -431,12 +431,8 @@
         price = price * mr.priceRatio;
         symbol = mr.newTicker;
       }
-
-      // Skip known non-equity instruments (SGBs, bonds, matured securities)
-      if (/^(OFSPL|AFPL|SGB|SGBM)/.test(symbol) || /^\d+AFPL/.test(symbol) || /^\d{3}AFPL/.test(symbol)) {
-        warnings.push("Row " + rowNo + " (" + symbol + "): non-equity instrument (bond/SGB) — skipped.");
-        return;
-      }
+      // Note: non-equity instruments (SGBs, bonds) are NO LONGER skipped — they
+      // are included in the total portfolio at cost basis if no live price exists.
 
       // Determine trade type (BUY or SELL)
       var tradeType = "BUY";
@@ -622,6 +618,20 @@
     var hasNeg = flows.some(function (f) { return f.amount < 0; });
     var hasPos = flows.some(function (f) { return f.amount > 0; });
     var xirr = (flows.length >= 2 && hasNeg && hasPos) ? F.xirr(flows) : null;
+
+    // Fallback: if trade-level XIRR fails, use a simple 2-flow approximation
+    // (total invested at the earliest date, total current value today).
+    if (xirr == null && totalInvested > 0 && totalCurrent > 0) {
+      var earliestBuy = holdings.concat(soldPositions).reduce(function (d, h) {
+        return h.date < d ? h.date : d;
+      }, (holdings[0] || soldPositions[0]).date);
+      if (earliestBuy.getTime() < now.getTime()) {
+        xirr = F.xirr([
+          { amount: -totalInvested, date: earliestBuy },
+          { amount: totalCurrent, date: now }
+        ]);
+      }
+    }
 
     // CAGR from earliest purchase to today.
     var allPositions = holdings.concat(soldPositions);
@@ -1004,11 +1014,11 @@
         '<thead><tr><th>' + title.replace("By ", "") + '</th><th class="num">Value</th><th class="num">Weight</th></tr></thead>' +
         '<tbody>' + rows + '</tbody></table></div></div>';
     }
-    return '<h2 class="card-section-title">Concentration &amp; risk exposure</h2>' +
+    return '<details class="section-collapse" open><summary><h2 class="card-section-title">Concentration &amp; risk exposure</h2></summary>' +
       '<div class="grid grid-2">' +
         tbl("By sector", a.bySector, false) +
         tbl("By market", a.byMarket, false) +
-      '</div>';
+      '</div></details>';
   }
 
   function renderHoldingsTable(a) {
@@ -1054,18 +1064,19 @@
     }
 
     var soldSection = soldRows
-      ? '<h2 class="card-section-title">Sold / Redeemed Positions</h2><div class="table-wrap"><table>' +
+      ? '<details class="section-collapse"><summary><h2 class="card-section-title">Sold / Redeemed Positions <span class="chip">' + a.soldPositions.length + '</span></h2></summary><div class="table-wrap"><table>' +
         '<thead><tr><th>Stock</th><th class="num">Bought → Sold</th>' +
         '<th class="num">Avg buy</th><th class="num">Avg sell</th>' +
         '<th class="num">Realized P&amp;L</th><th></th></tr></thead>' +
-        '<tbody>' + soldRows + '</tbody></table></div>'
+        '<tbody>' + soldRows + '</tbody></table></div></details>'
       : '';
 
-    return '<h2 class="card-section-title">Active Holdings</h2><div class="table-wrap"><table>' +
+    return '<details class="section-collapse" open><summary><h2 class="card-section-title">Active Holdings <span class="chip">' + a.holdings.length + '</span></h2></summary>' +
+      '<div class="table-wrap"><table>' +
       '<thead><tr><th>Stock</th><th class="num">Qty</th>' +
       '<th class="num">Avg price</th><th class="num">Cur price</th>' +
       '<th class="num">Gain/Loss</th><th>52-week range</th></tr></thead>' +
-      '<tbody>' + rows + '</tbody></table></div>' + soldSection;
+      '<tbody>' + rows + '</tbody></table></div></details>' + soldSection;
   }
 
   // ---- Horizontal performance comparison (invested vs current per holding) ---

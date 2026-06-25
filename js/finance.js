@@ -51,6 +51,9 @@
 
     var sorted = flows.slice().sort(function (a, b) { return a.date - b.date; });
     var t0 = sorted[0].date;
+    var tLast = sorted[sorted.length - 1].date;
+    // If all flows are on the same day, XIRR is undefined.
+    if (tLast.getTime() === t0.getTime()) return null;
 
     // 1) Newton-Raphson from a sensible guess.
     var rate = 0.1;
@@ -61,23 +64,41 @@
       var next = rate - f / d;
       if (!isFinite(next)) break;
       if (next <= -0.999999) next = -0.999999; // keep (1+rate) > 0
-      if (Math.abs(next - rate) < 1e-7) return next;
+      if (Math.abs(next - rate) < 1e-7) return clampRate(next);
       rate = next;
     }
 
-    // 2) Bisection fallback over a wide bracket.
-    var lo = -0.9999, hi = 10.0;
-    var flo = xnpv(lo, sorted, t0);
-    var fhi = xnpv(hi, sorted, t0);
-    if (!isFinite(flo) || !isFinite(fhi) || flo * fhi > 0) return null;
-    for (var k = 0; k < 200; k++) {
-      var mid = (lo + hi) / 2;
-      var fm = xnpv(mid, sorted, t0);
-      if (Math.abs(fm) < 1e-7) return mid;
-      if (flo * fm < 0) { hi = mid; fhi = fm; }
-      else { lo = mid; flo = fm; }
+    // 2) Bracket search: scan a wide range of rates for a sign change, then bisect.
+    // Range: -99.9% to +100000% annualized (handles extreme short-term swings).
+    var candidates = [-0.999, -0.99, -0.95, -0.9, -0.75, -0.5, -0.25, -0.1, -0.05,
+                      0, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10, 50, 100, 1000];
+    var prevRate = candidates[0];
+    var prevVal = xnpv(prevRate, sorted, t0);
+    for (var c = 1; c < candidates.length; c++) {
+      var curRate = candidates[c];
+      var curVal = xnpv(curRate, sorted, t0);
+      if (isFinite(prevVal) && isFinite(curVal) && prevVal * curVal < 0) {
+        // Sign change found between prevRate and curRate — bisect here.
+        var lo = prevRate, hi = curRate, flo = prevVal;
+        for (var k = 0; k < 200; k++) {
+          var mid = (lo + hi) / 2;
+          var fm = xnpv(mid, sorted, t0);
+          if (Math.abs(fm) < 1e-7) return clampRate(mid);
+          if (flo * fm < 0) { hi = mid; } else { lo = mid; flo = fm; }
+        }
+        return clampRate((lo + hi) / 2);
+      }
+      prevRate = curRate; prevVal = curVal;
     }
-    return (lo + hi) / 2;
+    return null;
+  }
+
+  // Clamp absurd rates to a sane display range (-99.99% to +9999%).
+  function clampRate(r) {
+    if (r == null || !isFinite(r)) return null;
+    if (r < -0.9999) return -0.9999;
+    if (r > 99) return 99;
+    return r;
   }
 
   /**

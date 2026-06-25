@@ -399,40 +399,61 @@ def fetch_fx_rate():
 
 def fetch_benchmark_series():
     """
-    Fetch ~5 years of weekly closes for Nifty 50 (^NSEI) and S&P 500 (^GSPC).
-    Used for money-weighted benchmark comparison against the user's portfolio.
-    Returns: { "NIFTY50": {currency, series:[{d, c}]}, "SP500": {...} }
+    Fetch ~5 years of weekly closes for several comparison indices:
+      Nifty 50, Nifty Next 50, Nifty Midcap 150, Nifty Smallcap 250, S&P 500.
+
+    For the broad indices we use the official index symbol (^NSEI, ^GSPC). NSE
+    sub-indices are poorly covered on Yahoo, so we fall back to a liquid index
+    ETF as a proxy (its NAV tracks the index closely). For each benchmark we try
+    a list of candidate symbols and keep the first that returns data.
+
+    Returns: { "NIFTY50": {currency, label, series:[{d, c}]}, ... }
     """
     benchmarks = {}
     index_map = {
-        "NIFTY50": {"symbol": "^NSEI", "currency": "INR"},
-        "SP500": {"symbol": "^GSPC", "currency": "USD"},
+        "NIFTY50":          {"candidates": ["^NSEI"],                      "currency": "INR", "label": "Nifty 50"},
+        "NIFTYNEXT50":      {"candidates": ["^NSEMDCP50", "JUNIORBEES.NS"], "currency": "INR", "label": "Nifty Next 50"},
+        "NIFTYMIDCAP150":   {"candidates": ["NIFTY_MIDCAP_150.NS", "MID150BEES.NS"], "currency": "INR", "label": "Nifty Midcap 150"},
+        "NIFTYSMALLCAP250": {"candidates": ["NIFTYSMLCAP250.NS", "HDFCSML250.NS"],   "currency": "INR", "label": "Nifty Smallcap 250"},
+        "SP500":            {"candidates": ["^GSPC"],                      "currency": "USD", "label": "S&P 500"},
     }
     print("\n--- Fetching benchmark index series (5y weekly) ---")
     for name, info in index_map.items():
-        try:
-            data = yf.download(
-                tickers=info["symbol"],
-                period="5y",
-                interval="1wk",
-                auto_adjust=True,
-                progress=False,
-                threads=True,
-            )
-            if data.empty:
-                print(f"    WARNING: no data for {name} ({info['symbol']})")
-                continue
-            closes = data["Close"].dropna()
-            # Handle multi-column (shouldn't happen for single ticker, but be safe)
-            if hasattr(closes, "columns"):
-                closes = closes.iloc[:, 0].dropna()
-            series = []
-            for idx, val in closes.items():
-                series.append({"d": idx.strftime("%Y-%m-%d"), "c": round(float(val), 2)})
-            benchmarks[name] = {"currency": info["currency"], "series": series}
-            print(f"    {name}: {len(series)} weekly points")
-        except Exception as e:
-            print(f"    WARNING: {name} fetch failed: {e}")
+        got = False
+        for symbol in info["candidates"]:
+            try:
+                data = yf.download(
+                    tickers=symbol,
+                    period="5y",
+                    interval="1wk",
+                    auto_adjust=True,
+                    progress=False,
+                    threads=True,
+                )
+                if data.empty:
+                    continue
+                closes = data["Close"].dropna()
+                # Handle multi-column (shouldn't happen for single ticker, but be safe)
+                if hasattr(closes, "columns"):
+                    closes = closes.iloc[:, 0].dropna()
+                if closes.empty:
+                    continue
+                series = []
+                for idx, val in closes.items():
+                    series.append({"d": idx.strftime("%Y-%m-%d"), "c": round(float(val), 2)})
+                proxy = "" if symbol == info["candidates"][0] else (" (via %s)" % symbol)
+                benchmarks[name] = {
+                    "currency": info["currency"],
+                    "label": info["label"] + proxy,
+                    "series": series,
+                }
+                print(f"    {name}: {len(series)} weekly points from {symbol}")
+                got = True
+                break
+            except Exception as e:
+                print(f"    WARNING: {name} via {symbol} failed: {e}")
+        if not got:
+            print(f"    WARNING: no data for {name} (tried {info['candidates']})")
     return benchmarks
 
 

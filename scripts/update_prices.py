@@ -397,6 +397,39 @@ def fetch_fx_rate():
         return None
 
 
+def fetch_fx_series():
+    """
+    Fetch ~5 years of weekly USD/INR closes (INR per 1 USD). Used to convert
+    cross-currency benchmarks (e.g. S&P 500) into INR over the holding period,
+    so the comparison is honest for an INR investor.
+    Returns a list of {d, c} or [] on failure.
+    """
+    print("\n--- Fetching USD/INR series (5y weekly) ---")
+    try:
+        data = yf.download(
+            tickers="USDINR=X",
+            period="5y",
+            interval="1wk",
+            auto_adjust=True,
+            progress=False,
+            threads=True,
+        )
+        if data.empty:
+            print("    WARNING: no USD/INR series returned")
+            return []
+        closes = data["Close"].dropna()
+        if hasattr(closes, "columns"):
+            closes = closes.iloc[:, 0].dropna()
+        series = []
+        for idx, val in closes.items():
+            series.append({"d": idx.strftime("%Y-%m-%d"), "c": round(float(val), 4)})
+        print(f"    USD/INR: {len(series)} weekly points")
+        return series
+    except Exception as e:
+        print(f"    WARNING: USD/INR series fetch failed: {e}")
+        return []
+
+
 def fetch_benchmark_series():
     """
     Fetch ~5 years of weekly closes for several comparison indices:
@@ -508,8 +541,9 @@ def main():
     # Fetch benchmark index series for portfolio comparison
     benchmarks = fetch_benchmark_series()
 
-    # Fetch current USD/INR exchange rate
+    # Fetch current USD/INR exchange rate + historical series
     fx_rate = fetch_fx_rate()
+    fx_series = fetch_fx_series()
 
     print(f"\n--- Results ---")
     print(f"  Total prices assembled: {len(prices)}")
@@ -530,7 +564,8 @@ def main():
         "source": "yfinance",
         "totalTickers": len(prices),
         "indices": ["NIFTY500", "SP500"],
-        "fxRate": fx_rate,  # USD/INR exchange rate
+        "fxRate": fx_rate,  # USD/INR exchange rate (latest)
+        "fxSeries": fx_series,  # USD/INR weekly history for cross-currency benchmark adjustment
         "benchmarks": benchmarks,
         "prices": prices,
     }

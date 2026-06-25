@@ -1,122 +1,148 @@
 # Investment Research & Portfolio Analysis Platform
 
-A **locally-hosted, zero-dependency** web app with two integrated tools:
+A **locally-hosted, zero-dependency** web app for Indian and US stock investors.
 
-1. **Portfolio Analysis** — upload your trading history (CSV) to see performance
-   (absolute return, XIRR, CAGR), concentration risk, diversification, insights,
-   charts, and downloadable PDF / Excel reports.
-2. **Stock Discovery** — browse 41 curated *discounted* US & India stocks scored
-   on a transparent **8-point rulebook**, filter them, open detail cards, and
-   shortlist to your **Watchlist** / **Research** lists.
+**Live:** [soulfernweh.github.io/portfolio-analyser](https://soulfernweh.github.io/portfolio-analyser/)
 
-Everything runs in your browser. No build step, no `npm install`, no external
-services — all data and logic are bundled locally.
+---
+
+## What it does
+
+### Portfolio Analysis
+Upload your broker's trade history (CSV) and instantly see:
+- **Performance:** P&L, XIRR, CAGR — separately for active holdings and sold positions
+- **52-week sparkline:** visual indicator showing where each stock sits in its yearly range
+- **Risk:** concentration by stock/sector/market, diversification score
+- **Insights:** over-concentration alerts, long-term vs short-term split
+- **Charts:** sector donut, performance bar, capital timeline (all SVG, no libs)
+- **Reports:** downloadable PDF + Excel
+
+Works with **any broker CSV** — Zerodha, Groww, Angel One, US brokers, or custom formats.
+Smart column detection figures out your file automatically (no rigid format required).
+
+### Stock Discovery
+Browse **S&P 500 + Nifty 500** stocks that are trading at meaningful discounts:
+- **Curated list (41 stocks):** full 8-point quality + value scoring
+- **Dynamic list (~200 stocks):** auto-scored from live prices based on discount depth
+- Filter by market, sector, score, discount %
+- Click any stock for a detailed breakdown
+- Portfolio integration: highlights stocks that complement your underweight sectors
 
 ---
 
 ## Run it
 
-You only need a static file server. Pick any one:
-
 ```bash
-# Python 3 (preinstalled on most systems)
 python3 -m http.server 8000
+# Open http://localhost:8000
 ```
 
-```bash
-# Node.js (if you have it)
-npx --yes serve -l 8000 .
-```
-
-Then open <http://localhost:8000> in your browser.
-
-> You can also just open `index.html` directly (`file://`). The bundled sample
-> portfolio still works via an inline fallback, though a local server is
-> recommended so the `sample-portfolio.csv` file loads normally.
+Or just visit the GitHub Pages deployment — no setup needed.
 
 ---
 
-## Try it in 30 seconds
+## How prices stay fresh
 
-1. Open **Stock Discovery** and explore the list. Click a row for the 8-point
-   breakdown. Mark a couple of stocks as **Watchlist** / **Research**.
-2. Open **Portfolio Analysis** and click **Load sample portfolio** (or upload
-   `sample-portfolio.csv`).
-3. Review returns, concentration tables, insights and charts. Click
-   **⬇ PDF report** or **⬇ Excel (CSV)**.
-4. Go back to **Stock Discovery** — opportunities in sectors where you're
-   *underweight* are now highlighted, and stocks you already own are flagged.
+A GitHub Actions workflow runs **every weekday** at Indian and US market close:
+- Fetches live prices for ~1000 tickers (S&P 500 + Nifty 500 + ETFs)
+- Commits updated `prices.json` to the repo
+- GitHub Pages auto-deploys within 1 minute
+
+Your XIRR and gain/loss calculations use **yesterday's close** at worst.
 
 ---
 
 ## CSV format
 
-Required columns (header names are flexible — common Zerodha-style aliases like
-`Tradingsymbol`, `Qty`, `Avg. Cost`, `Exchange` are recognized):
+The app **auto-detects columns** — you don't need exact header names. It handles:
 
-| Column     | Example     | Notes                                       |
-|------------|-------------|---------------------------------------------|
-| Symbol     | `INFY`      | Ticker                                      |
-| Name       | `Infosys`   | Company name                                |
-| Quantity   | `80`        | Numeric, > 0                                |
-| Avg Price  | `1320`      | Average buy price, numeric                  |
-| Market     | `NSE`       | `NSE`/`BSE` → India, `NYSE`/`NASDAQ` → US   |
-| Date       | `2022-06-15`| `YYYY-MM-DD` or `DD/MM/YYYY`                |
+| Your broker calls it... | We recognize it as... |
+|---|---|
+| Symbol, Ticker, Tradingsymbol, Scrip Code | **Symbol** |
+| Quantity, Qty, Shares, Units | **Quantity** |
+| Price, Avg Price, Trade Price, Cost, Rate | **Price** |
+| Trade Date, Date, Order Date, Execution Date | **Date** |
+| Exchange, Market, Exch | **Market** (optional) |
+| Trade Type, Side, Buy/Sell | **Trade Type** (optional) |
 
-Rows with invalid quantity/price are skipped with a warning; mixed US+India
-portfolios are aggregated into a single base currency (₹83/$1) for totals.
-
----
-
-## The 8-point rulebook
-
-Each stock earns 1 point per check it passes (score 0–8):
-
-1. **Below intrinsic value** · 2. **Meaningful discount** (≥20% off 52-week high)
-· 3. **Positive free cash flow** · 4. **Healthy balance sheet** · 5. **Revenue
-growth** · 6. **Profitable** · 7. **Reasonable valuation** · 8. **Durable moat**
-
-| Tier              | Score | Color |
-|-------------------|-------|-------|
-| Strong Candidate  | 6–8   | 🟢    |
-| Watchlist         | 4–5   | 🟠    |
-| Trap              | 0–3   | 🔴    |
+If your CSV has BUY and SELL trades, they're automatically aggregated into net holdings.
+Fully sold positions show **realized P&L** (not skipped).
 
 ---
 
-## Using live prices (optional)
+## Scoring systems
 
-The sandbox/offline build ships a **reference price snapshot**. To plug in a live
-feed, edit **one place** — `PriceService.getQuote(ticker)` (and `refreshAll`) in
-[`js/data.js`](js/data.js). Replace the lookup with a `fetch()` to your data
-source (e.g. a small local proxy around yfinance, or a broker API). Nothing else
-in the app needs to change; holdings without a live quote automatically fall back
-to the last-known price with a **"delayed"** indicator.
+### 8-point rulebook (41 curated stocks)
+
+| # | Criterion |
+|---|-----------|
+| 1 | Below intrinsic value |
+| 2 | ≥ 20% below 52-week high |
+| 3 | Positive free cash flow |
+| 4 | Healthy balance sheet |
+| 5 | Revenue growth |
+| 6 | Profitable |
+| 7 | Reasonable valuation |
+| 8 | Durable moat |
+
+### 5-point dynamic scoring (broader universe)
+
+| # | Criterion |
+|---|-----------|
+| 1 | ≥ 20% discount from 52w high |
+| 2 | ≥ 30% discount (deep value) |
+| 3 | ≥ 40% discount (extreme) |
+| 4 | Not at rock bottom (showing recovery) |
+| 5 | Decent market value (not penny stock) |
+
+### Tiers
+
+| Tier | Curated | Dynamic | Color |
+|------|---------|---------|-------|
+| Strong Candidate | 6-8 | 4-5 | Green |
+| Watchlist | 4-5 | 2-3 | Amber |
+| Trap | 0-3 | 0-1 | Red |
 
 ---
 
 ## Project structure
 
 ```
-index.html              App shell (nav, disclaimer, modal/toast hosts)
-css/styles.css          Dark theme + print styles
-sample-portfolio.csv    Demo holdings (US + India)
+index.html              App shell
+css/styles.css          Apple-style vibrant design
+prices.json             Auto-updated daily (~800 tickers)
+sample-portfolio.csv    Demo portfolio
 js/
-  data.js               Bundled dataset + 8-point rulebook + PriceService (swap point)
-  finance.js            XIRR, CAGR, returns, date parsing
-  charts.js             Dependency-free SVG pie / bar / line
+  data.js               Dataset + PriceService + dynamic discovery engine
+  finance.js            XIRR (Newton-Raphson), CAGR, date parsing
+  charts.js             SVG pie / bar / line (zero deps)
   tracking.js           Watchlist + Research (localStorage)
-  report.js             PDF (print) + Excel/CSV export
-  discovery.js          Stock Discovery tool + detail card + guide
-  portfolio.js          Portfolio Analysis tool
-  app.js                Router, UI helpers, Home + tracking views
+  report.js             PDF + Excel export
+  discovery.js          Stock Discovery (full S&P 500 + Nifty 500)
+  portfolio.js          Portfolio Analysis (smart parsing + 52w sparkline)
+  app.js                Router, UI, views
+scripts/
+  update_prices.py      Price fetcher (yfinance, ~1100 tickers)
+.github/workflows/
+  update-prices.yml     Daily scheduled price refresh
 ```
+
+---
+
+## Tech choices
+
+- **Zero dependencies** — no npm, no build, no CDN
+- **Pure vanilla JS** — runs in any browser, no framework
+- **SVG charts** — hand-rolled, no Chart.js / D3
+- **GitHub Actions** — daily price refresh via yfinance
+- **GitHub Pages** — free hosting, auto-deploy on push
+- **localStorage** — watchlist/research persistence (no server)
 
 ---
 
 ## Disclaimer
 
 Educational and informational use only. **Not** investment advice and **not**
-SEBI-registered research. Prices are from a bundled reference dataset and may be
-delayed or out of date. Always do your own research and consult a registered
-advisor before investing.
+SEBI-registered research. Prices are from a daily-refreshed dataset and may be
+delayed by up to one trading day. Always do your own research and consult a
+registered advisor before investing.

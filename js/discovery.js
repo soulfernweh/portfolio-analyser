@@ -89,7 +89,7 @@
   // ---- List view -----------------------------------------------------------
   function render(container) {
     var ctx = portfolioContext();
-    var all = SD.getAll();
+    var all = SD.getDiscoveryAll ? SD.getDiscoveryAll() : SD.getAll();
     var filtered = sortList(applyFilters(all), ctx);
 
     var sectorOpts = ['<option value="">All sectors</option>'].concat(
@@ -105,7 +105,7 @@
       return '<option value="' + n + '"' + (filters.minScore === n ? " selected" : "") + '>' +
         (n === 0 ? "Any" : n + "+") + '</option>';
     }).join("");
-    var discOpts = [0,10,20,30,40,50].map(function (n) {
+    var discOpts = [0,10,15,20,30,40,50].map(function (n) {
       return '<option value="' + n + '"' + (filters.minDiscount === n ? " selected" : "") + '>' +
         (n === 0 ? "Any" : n + "%+") + '</option>';
     }).join("");
@@ -121,8 +121,8 @@
     var html =
       '<div class="row-between"><div><h1 class="page-title">Stock Discovery &amp; Opportunity</h1>' +
         '<p class="page-sub">' + filtered.length + ' of ' + all.length +
-        ' curated discounted stocks (S&amp;P 500 + India Nifty) scored on an 8-point rulebook.</p></div>' +
-        '<div class="btn-row no-print"><a class="btn" href="#/discovery/guide">How to use &amp; 8-point guide</a></div></div>' +
+        ' discounted stocks from S&amp;P 500 + Nifty 500 scored on value and discount depth.</p></div>' +
+        '<div class="btn-row no-print"><a class="btn" href="#/discovery/guide">How to use &amp; scoring guide</a></div></div>' +
       ctxBanner +
       '<div class="filters no-print">' +
         '<label class="field">Market<select id="f-market">' + marketOpts + '</select></label>' +
@@ -178,7 +178,8 @@
       // Re-render only the table to keep input focus.
       var ctx = portfolioContext();
       var wrap = c.querySelector(".table-wrap"); var empty = c.querySelector(".empty-state");
-      var list = sortList(applyFilters(SD.getAll()), ctx);
+      var allStocks = SD.getDiscoveryAll ? SD.getDiscoveryAll() : SD.getAll();
+      var list = sortList(applyFilters(allStocks), ctx);
       var newTable = renderTable(list, ctx);
       var holder = wrap || empty;
       if (holder) {

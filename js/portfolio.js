@@ -871,13 +871,25 @@
         stat("Current value", money(a.totalCurrent)) +
         stat("Total gain/loss", '<span class="' + sign(a.totalGain) + '">' + money(a.totalGain) + '</span>',
           F.fmtSignedPct(a.absReturn)) +
-        stat("Holdings", String(a.holdings.length), a.bySector.length + " sectors · " + a.byMarket.length + " market(s)") +
+        stat("Holdings", String(a.holdings.length) + ' active' +
+          (a.soldPositions.length ? ' + ' + a.soldPositions.length + ' sold' : ''),
+          a.bySector.length + " sectors · " + a.byMarket.length + " market(s)") +
       '</div>' +
       '<div class="grid grid-4 section-gap">' +
         stat("Absolute return", F.fmtSignedPct(a.absReturn)) +
         stat("XIRR (annualized)", a.xirr == null ? "--" : F.fmtSignedPct(a.xirr)) +
         stat("CAGR", a.cagr == null ? "--" : F.fmtSignedPct(a.cagr), a.years > 0 ? "over " + a.years.toFixed(1) + " yrs" : "") +
         stat("Diversification", a.divScore + "/100", "~" + a.effectiveStocks.toFixed(1) + " effective holdings") +
+      '</div>';
+
+    // Separate P&L stats for active holdings vs redeemed/sold
+    var activeStats = computeSegmentStats(a.holdings, a, "active");
+    var soldStats = a.soldPositions.length ? computeSegmentStats(a.soldPositions, a, "sold") : null;
+
+    var segmentHtml = '<h2 class="card-section-title">Performance breakdown</h2>' +
+      '<div class="grid ' + (soldStats ? 'grid-2' : 'grid-1') + '">' +
+        renderSegmentCard("Active Holdings", activeStats, base) +
+        (soldStats ? renderSegmentCard("Redeemed / Sold", soldStats, base) : '') +
       '</div>';
 
     var insightsHtml = a.insights.length
@@ -906,6 +918,7 @@
           a.warnings.map(esc).join("<br>") + '</div>' : "") +
       statCards +
       '<h2 class="card-section-title">Insights</h2>' + insightsHtml +
+      segmentHtml +
       '<div class="grid grid-2 section-gap">' +
         '<div class="card"><h3>Sector allocation</h3>' +
           C.pie(a.bySector.map(function (g) { return { label: g.key, value: g.value }; }), { donut: true, centerLabel: a.bySector.length + "", centerSub: "sectors" }) +
@@ -955,17 +968,23 @@
     var rows = a.holdings.map(function (h) {
       var delayBadge = h.delayed ? ' <span class="chip" title="Reference / delayed price' +
         (h.asOf ? " as of " + h.asOf : "") + '">⏱ delayed</span>' : '';
+      // 52-week range
+      var high52w = SD.PriceService.getHigh52w ? SD.PriceService.getHigh52w(h.symbol) : null;
+      // Estimate 52w low as ~60-80% of high if not available (conservative)
+      var low52w = high52w ? high52w * 0.6 : null;
+      // If we have livePrices data with more info, use it
+      var sparkline = (high52w && h.currentPrice)
+        ? render52wSparkline(h.currentPrice, high52w, low52w)
+        : '<span class="muted">--</span>';
+
       return '<tr>' +
         '<td><strong>' + esc(h.symbol) + '</strong><div class="muted">' + esc(h.name) + '</div></td>' +
-        '<td><span class="chip">' + esc(h.market) + '</span></td>' +
-        '<td>' + esc(h.sector) + '</td>' +
         '<td class="num">' + F.fmtNum(h.qty, h.qty % 1 ? 2 : 0) + '</td>' +
         '<td class="num">' + SD.fmtMoney(h.avgPrice, h.currency) + '</td>' +
         '<td class="num">' + SD.fmtMoney(h.currentPrice, h.currency) + delayBadge + '</td>' +
-        '<td class="num">' + SD.fmtMoney(h.invested, h.currency) + '</td>' +
-        '<td class="num">' + SD.fmtMoney(h.currentValue, h.currency) + '</td>' +
         '<td class="num ' + (h.gain >= 0 ? "pos" : "neg") + '">' + SD.fmtMoney(h.gain, h.currency) +
           '<div class="muted">' + F.fmtSignedPct(h.gainPct) + '</div></td>' +
+        '<td>' + sparkline + '</td>' +
         '</tr>';
     }).join("");
 
@@ -976,33 +995,105 @@
         return '<tr style="opacity:0.75">' +
           '<td><strong>' + esc(h.symbol) + '</strong> <span class="pill pill-grey">Sold</span>' +
             '<div class="muted">' + esc(h.name) + '</div></td>' +
-          '<td><span class="chip">' + esc(h.market) + '</span></td>' +
-          '<td>' + esc(h.sector) + '</td>' +
           '<td class="num muted">' + h.qtyBought + ' → ' + h.qtySold + '</td>' +
           '<td class="num">' + SD.fmtMoney(h.avgPrice, h.currency) + '</td>' +
           '<td class="num">' + SD.fmtMoney(h.currentPrice, h.currency) +
             ' <span class="muted">(avg sell)</span></td>' +
-          '<td class="num">' + SD.fmtMoney(h.invested, h.currency) + '</td>' +
-          '<td class="num">' + SD.fmtMoney(h.currentValue, h.currency) + '</td>' +
           '<td class="num ' + (h.gain >= 0 ? "pos" : "neg") + '">' + SD.fmtMoney(h.gain, h.currency) +
             '<div class="muted">' + F.fmtSignedPct(h.gainPct) + ' realized</div></td>' +
+          '<td></td>' +
           '</tr>';
       }).join("");
     }
 
     var soldSection = soldRows
-      ? '<h2 class="card-section-title">Sold Positions (Realized P&amp;L)</h2><div class="table-wrap"><table>' +
-        '<thead><tr><th>Stock</th><th>Market</th><th>Sector</th><th class="num">Bought → Sold</th>' +
-        '<th class="num">Avg buy</th><th class="num">Avg sell</th><th class="num">Total cost</th>' +
-        '<th class="num">Proceeds</th><th class="num">Realized P&amp;L</th></tr></thead>' +
+      ? '<h2 class="card-section-title">Sold / Redeemed Positions</h2><div class="table-wrap"><table>' +
+        '<thead><tr><th>Stock</th><th class="num">Bought → Sold</th>' +
+        '<th class="num">Avg buy</th><th class="num">Avg sell</th>' +
+        '<th class="num">Realized P&amp;L</th><th></th></tr></thead>' +
         '<tbody>' + soldRows + '</tbody></table></div>'
       : '';
 
     return '<h2 class="card-section-title">Active Holdings</h2><div class="table-wrap"><table>' +
-      '<thead><tr><th>Stock</th><th>Market</th><th>Sector</th><th class="num">Qty</th>' +
-      '<th class="num">Avg price</th><th class="num">Cur price</th><th class="num">Invested</th>' +
-      '<th class="num">Cur value</th><th class="num">Gain/Loss</th></tr></thead>' +
+      '<thead><tr><th>Stock</th><th class="num">Qty</th>' +
+      '<th class="num">Avg price</th><th class="num">Cur price</th>' +
+      '<th class="num">Gain/Loss</th><th>52-week range</th></tr></thead>' +
       '<tbody>' + rows + '</tbody></table></div>' + soldSection;
+  }
+
+  // ---- Segment stats (Active / Sold) ----------------------------------------
+  function computeSegmentStats(positions, a, type) {
+    if (!positions.length) return null;
+    var totalInvested = positions.reduce(function (s, h) { return s + (h.investedBase || 0); }, 0);
+    var totalCurrent = positions.reduce(function (s, h) { return s + (h.currentValueBase || 0); }, 0);
+    var totalGain = totalCurrent - totalInvested;
+    var absReturn = totalInvested > 0 ? totalGain / totalInvested : null;
+
+    // XIRR for this segment
+    var now = new Date();
+    var flows = [];
+    if (type === "active") {
+      positions.forEach(function (h) { flows.push({ amount: -h.investedBase, date: h.date }); });
+      if (totalCurrent > 0) flows.push({ amount: totalCurrent, date: now });
+    } else {
+      // For sold positions, use buy cost and sell proceeds
+      positions.forEach(function (h) {
+        flows.push({ amount: -h.investedBase, date: h.date });
+        flows.push({ amount: h.currentValueBase, date: h.date }); // approximate sell at earliest date
+      });
+    }
+    var xirr = flows.length >= 2 ? F.xirr(flows) : null;
+
+    // CAGR
+    var earliest = positions.reduce(function (d, h) { return h.date < d ? h.date : d; }, positions[0].date);
+    var years = F.yearsBetween(earliest, now);
+    var cagr = years > 0 && totalInvested > 0 ? F.cagr(totalInvested, totalCurrent, years) : null;
+
+    return {
+      count: positions.length, totalInvested: totalInvested,
+      totalCurrent: totalCurrent, totalGain: totalGain,
+      absReturn: absReturn, xirr: xirr, cagr: cagr, years: years
+    };
+  }
+
+  function renderSegmentCard(title, stats, base) {
+    if (!stats) return '';
+    var money = function (v) { return SD.fmtMoney(v, base); };
+    var sign = function (v) { return v >= 0 ? "pos" : "neg"; };
+    return '<div class="card"><h3>' + esc(title) + ' <span class="chip">' + stats.count + '</span></h3>' +
+      '<div class="grid grid-3" style="gap:10px;margin-top:12px">' +
+        '<div class="m"><div class="l">P&L</div><div class="v ' + sign(stats.totalGain) + '">' + money(stats.totalGain) + '</div></div>' +
+        '<div class="m"><div class="l">Return</div><div class="v ' + sign(stats.absReturn || 0) + '">' + F.fmtSignedPct(stats.absReturn) + '</div></div>' +
+        '<div class="m"><div class="l">XIRR</div><div class="v">' + (stats.xirr != null ? F.fmtSignedPct(stats.xirr) : '--') + '</div></div>' +
+      '</div>' +
+      '<div class="grid grid-3" style="gap:10px;margin-top:8px">' +
+        '<div class="m"><div class="l">Invested</div><div class="v">' + money(stats.totalInvested) + '</div></div>' +
+        '<div class="m"><div class="l">' + (title.indexOf("Sold") >= 0 ? "Proceeds" : "Cur value") + '</div><div class="v">' + money(stats.totalCurrent) + '</div></div>' +
+        '<div class="m"><div class="l">CAGR</div><div class="v">' + (stats.cagr != null ? F.fmtSignedPct(stats.cagr) : '--') +
+          (stats.years > 0 ? '<br><span class="muted" style="font-size:11px">' + stats.years.toFixed(1) + ' yrs</span>' : '') + '</div></div>' +
+      '</div></div>';
+  }
+
+  // ---- 52-week range sparkline -----------------------------------------------
+  function render52wSparkline(currentPrice, high52w, low52w) {
+    if (!high52w || !low52w || high52w <= low52w) return '<span class="muted">--</span>';
+    var range = high52w - low52w;
+    var position = Math.max(0, Math.min(1, (currentPrice - low52w) / range));
+    var pct = (position * 100).toFixed(0);
+    // SVG sparkline: a horizontal bar with a dot showing current position
+    var w = 80, h = 18, barY = 9, barH = 4, dotR = 5;
+    var dotX = 4 + position * (w - 8);
+    // Color: green if near low (good buy), red if near high
+    var dotColor = position < 0.3 ? 'var(--green)' : position > 0.7 ? 'var(--red)' : 'var(--amber)';
+    return '<div style="display:flex;align-items:center;gap:6px">' +
+      '<span class="muted" style="font-size:11px;min-width:36px;text-align:right">' + SD.fmtMoney(low52w, null).replace(/[$₹]/, '') + '</span>' +
+      '<svg width="' + w + '" height="' + h + '" style="flex:none">' +
+        '<rect x="4" y="' + (barY - barH/2) + '" width="' + (w-8) + '" height="' + barH + '" rx="2" fill="var(--border)"/>' +
+        '<circle cx="' + dotX.toFixed(1) + '" cy="' + barY + '" r="' + dotR + '" fill="' + dotColor + '"/>' +
+      '</svg>' +
+      '<span class="muted" style="font-size:11px;min-width:36px">' + SD.fmtMoney(high52w, null).replace(/[$₹]/, '') + '</span>' +
+      '<span class="chip" style="font-size:10px">' + pct + '%</span>' +
+    '</div>';
   }
 
   function wireDashboard(container) {

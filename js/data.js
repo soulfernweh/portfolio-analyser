@@ -548,12 +548,120 @@
     });
   });
 
+  // ---- Dynamic Discovery: expand beyond the 41 curated stocks ---------------
+  // Uses prices.json data to score ALL stocks with 52w high data.
+  // Simplified 5-point scoring for non-curated stocks:
+  //   1. Discount ≥ 20% from 52w high
+  //   2. Discount ≥ 30% (deep value)
+  //   3. Discount ≥ 40% (extreme discount)
+  //   4. Not at absolute bottom (LTP > 10% above 52w low estimate) — avoids distress
+  //   5. Decent market value (price > $5 / ₹50) — filters penny stocks
+  function buildDynamicDiscovery() {
+    if (!livePrices) return [];
+    var dynamic = [];
+    var existingTickers = {};
+    STOCKS.forEach(function (s) { existingTickers[s.ticker.toUpperCase()] = true; });
+
+    Object.keys(livePrices).forEach(function (ticker) {
+      if (existingTickers[ticker]) return; // already in curated list
+      var lp = livePrices[ticker];
+      if (!lp.price || !lp.high52w || lp.high52w <= 0) return;
+
+      var price = lp.price;
+      var high52w = lp.high52w;
+      var currency = lp.currency || "USD";
+      var market = currency === "INR" ? "India" : "US";
+
+      // Estimate 52w low as ~55% of high (conservative heuristic)
+      var low52w = high52w * 0.55;
+      var discountPct = ((high52w - price) / high52w) * 100;
+
+      // Filter: only include stocks with meaningful discount (≥15%)
+      if (discountPct < 15) return;
+
+      // Filter: minimum price threshold (avoid penny stocks)
+      var minPrice = currency === "INR" ? 50 : 5;
+      if (price < minPrice) return;
+
+      // Simplified scoring (0-5)
+      var score = 0;
+      if (discountPct >= 20) score++; // meaningful discount
+      if (discountPct >= 30) score++; // deep value
+      if (discountPct >= 40) score++; // extreme discount
+      if (price > low52w * 1.1) score++; // not at absolute rock bottom (some recovery)
+      if (price >= minPrice * 2) score++; // decent market value
+
+      var tier = score >= 4 ? "Strong Candidate" : score >= 2 ? "Watchlist" : "Trap";
+
+      dynamic.push({
+        ticker: ticker,
+        name: ticker, // No company name available for dynamic stocks
+        market: market,
+        sector: "—", // Sector unknown for dynamic
+        currency: currency,
+        lastPrice: price,
+        high52w: high52w,
+        whyDown: "Trading " + round(discountPct, 0) + "% below its 52-week high.",
+        catalyst: "Potential recovery to prior levels if fundamentals hold.",
+        asOf: lp.asOf || "",
+        crit: {
+          undervalued: discountPct >= 25,
+          discount: discountPct >= 20,
+          fcf: false, lowDebt: false, growth: false,
+          profitable: price > low52w * 1.1, // proxy: recovering = probably profitable
+          valuation: discountPct >= 30,
+          moat: false
+        },
+        discountPct: round(discountPct, 1),
+        score: score,
+        tier: tier,
+        tierClass: tierClass(tier),
+        isDynamic: true
+      });
+    });
+
+    // Sort by discount (deepest first), limit to top 200 to keep UI responsive
+    dynamic.sort(function (a, b) { return b.discountPct - a.discountPct; });
+    return dynamic.slice(0, 200);
+  }
+
   global.StockData = {
     RULEBOOK: RULEBOOK,
     stocks: STOCKS,
     getAll: function () { return STOCKS.slice(); },
-    getByTicker: function (t) { return t ? BY_TICKER[String(t).toUpperCase()] || null : null; },
-    sectors: function () { return uniqueSorted(STOCKS.map(function (s) { return s.sector; })); },
+    getDiscoveryAll: function () {
+      // Returns curated 41 + dynamically scored stocks from prices.json
+      var dynamic = buildDynamicDiscovery();
+      return STOCKS.slice().concat(dynamic);
+    },
+    getByTicker: function (t) {
+      if (!t) return null;
+      var u = String(t).toUpperCase();
+      if (BY_TICKER[u]) return BY_TICKER[u];
+      // Check dynamic/live prices
+      if (livePrices && livePrices[u] && livePrices[u].high52w) {
+        var lp = livePrices[u];
+        var discountPct = lp.high52w > 0 ? ((lp.high52w - lp.price) / lp.high52w) * 100 : 0;
+        return {
+          ticker: u, name: u, market: lp.currency === "INR" ? "India" : "US",
+          sector: "—", currency: lp.currency || "USD",
+          lastPrice: lp.price, high52w: lp.high52w,
+          whyDown: "Trading " + round(discountPct, 0) + "% below 52-week high.",
+          catalyst: "Potential recovery.", asOf: lp.asOf || "",
+          crit: { undervalued: discountPct >= 25, discount: discountPct >= 20,
+            fcf: false, lowDebt: false, growth: false, profitable: true, valuation: discountPct >= 30, moat: false },
+          discountPct: round(discountPct, 1), score: discountPct >= 40 ? 4 : discountPct >= 20 ? 3 : 1,
+          tier: discountPct >= 40 ? "Strong Candidate" : discountPct >= 20 ? "Watchlist" : "Trap",
+          tierClass: tierClass(discountPct >= 40 ? "Strong Candidate" : discountPct >= 20 ? "Watchlist" : "Trap"),
+          isDynamic: true
+        };
+      }
+      return null;
+    },
+    sectors: function () {
+      var all = STOCKS.slice().concat(buildDynamicDiscovery());
+      return uniqueSorted(all.map(function (s) { return s.sector; }).filter(function(s){ return s !== "—"; }));
+    },
     markets: function () { return uniqueSorted(STOCKS.map(function (s) { return s.market; })); },
     tierForScore: tierForScore,
     tierClass: tierClass,

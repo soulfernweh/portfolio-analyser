@@ -385,3 +385,10 @@ code.inline { background: var(--bg); padding: 2px 8px; border-radius: 6px; borde
   .pos { color: #15803d; } .neg { color: #dc2626; }
   .app-header { position: static; backdrop-filter: none; }
 }
+
+
+/* ---------- Segment metric blocks ---------- */
+.m { background: var(--bg-card-2); border-radius: var(--radius-sm); padding: 10px 12px; border: 1px solid var(--border-light); }
+.m .l { font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: 600; letter-spacing: 0.3px; }
+.m .v { font-size: 17px; font-weight: 700; margin-top: 2px; }
+.grid-1 { grid-template-columns: 1fr; }
